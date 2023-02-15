@@ -1,11 +1,15 @@
 import {Inter} from '@next/font/google'
+import {AppBar, IconButton, Toolbar, Typography} from "@mui/material";
+import NavBar from "@/components/navBar";
+import SignIn from "@/components/signIn";
 
 const inter = Inter({subsets: ['latin']})
 
 export default function Home() {
     return (
         <>
-            <h1>Jobpilot frontend pog</h1>
+            <NavBar></NavBar>
+            <SignIn></SignIn>
         </>
     )
 }
