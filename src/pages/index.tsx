@@ -9,6 +9,7 @@ export default function Home() {
     return (
         <>
             <NavBar></NavBar>
+            <h1>Amplify works poggies</h1>
             <SignIn></SignIn>
         </>
     )
