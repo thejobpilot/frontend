@@ -97,12 +97,12 @@ export default function SignIn() {
                             </Grid>
                             <Grid item xs>
                                 <Link href="/recruiter/signup" variant="body2">
-                                    {"Recruiter Sign Up"}
+                                    Recruiter Sign Up
                                 </Link>
                             </Grid>
                             <Grid item xs>
                                 <Link href="/applicant/signup" variant="body2">
-                                    {"Applicant Sign Up"}
+                                    Applicant Sign Up
                                 </Link>
                             </Grid>
                         </Grid>
