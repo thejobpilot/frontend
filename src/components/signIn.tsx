@@ -95,9 +95,14 @@ export default function SignIn() {
                                     Forgot password?
                                 </Link>
                             </Grid>
-                            <Grid item>
-                                <Link href="#" variant="body2">
-                                    {"Don't have an account? Sign Up"}
+                            <Grid item xs>
+                                <Link href="/recruiter/signup" variant="body2">
+                                    Recruiter Sign Up
+                                </Link>
+                            </Grid>
+                            <Grid item xs>
+                                <Link href="/applicant/signup" variant="body2">
+                                    Applicant Sign Up
                                 </Link>
                             </Grid>
                         </Grid>
