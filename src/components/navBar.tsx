@@ -39,7 +39,7 @@ function ResponsiveAppBar() {
         <AppBar position="fixed">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <img src="/images/JobPilot.png" alt="Logo" style={{ width: '45px', height: '45px', marginRight: '22px'}}/>
+                    <img src="/images/pngb.png" alt="Logo" style={{ width: '45px', height: '45px', marginRight: '22px'}}/>
                     <Typography
                         variant="h6"
                         noWrap
