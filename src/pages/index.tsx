@@ -1,16 +1,24 @@
 import {Inter} from '@next/font/google'
-import {AppBar, IconButton, Toolbar, Typography} from "@mui/material";
-import NavBar from "@/components/navBar";
-import SignIn from "@/components/signIn";
+import { Button } from '@mui/material';
 import ResponsiveAppBar from "@/components/navBar";
+import { display } from '@mui/system';
 
 const inter = Inter({subsets: ['latin']})
 
 export default function Home() {
-    return (
-        <>
-            <ResponsiveAppBar></ResponsiveAppBar>
-            <SignIn></SignIn>
-        </>
-    )
+  return (
+    <>
+      <ResponsiveAppBar></ResponsiveAppBar>
+      <div style={{display: "block"}}>
+        <Button
+          type="submit"
+          variant="contained"
+          sx={{ mt: 30, mb: 2, mx: "45%" }}
+          href="/login"
+        >
+          Get started
+        </Button>
+      </div>
+    </>
+  );
 }
