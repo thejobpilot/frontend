@@ -15,7 +15,7 @@ export default function Profile() {
   return (
     user && (
       <div>
-        <img src={user.picture} alt={user.name} />
+        {user.picture && user.name && (<img src={user.picture} alt={user.name} />)}
         <h2>{user.name}</h2>
         <p>{user.email}</p>
         <Button
