@@ -39,7 +39,7 @@ function ResponsiveAppBar() {
         <AppBar position="fixed">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <img src="/images/pngb.png" alt="Logo" style={{ width: '65px', height: '45px', marginRight: '22px'}}/>
+                    <img src="/images/transpb_crop.png" alt="Logo" style={{ width: '75px', marginRight: '22px'}}/>
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
