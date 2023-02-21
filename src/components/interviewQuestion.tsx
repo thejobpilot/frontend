@@ -6,12 +6,8 @@ import Typography from '@mui/material/Typography';
 import { spacing } from '@mui/system';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import dayjs, { Dayjs } from 'dayjs';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import Button from '@mui/material/Button';
 
 
 
@@ -49,14 +45,26 @@ export default function QuestionContainter() {
         <TextField
           required
           id="time"
-          label="Time Alloted: mm:ss"
+          label="Answer Time Alloted: mm:ss"
           fullWidth
           margin="normal"
           variant="outlined"
         />
 
         {/* should i add a switch? */}
-        
+
+        <TextField
+          required
+          id="time"
+          label="Prep Time Alloted: mm:ss"
+          fullWidth
+          margin="normal"
+          variant="outlined"
+        />
+
+
+        {/* should i add a switch? */}
+
         <TextField
           required
           id="retrys"
@@ -65,7 +73,13 @@ export default function QuestionContainter() {
           margin="normal"
           variant="outlined"
         />
-
+        
+        {/* MAKE THIS SHIT SMALLER???, the above one is taking precedence idk how to unprecedence or override  */}
+        <Button variant="outlined" 
+        sx= {{width: '20ch'}} 
+        >
+        Save
+        </Button>
       
         
 
