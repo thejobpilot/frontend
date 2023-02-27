@@ -20,8 +20,9 @@ export default function QuestionContainter() {
       <Box 
       component="form"
       sx={{
-        '& > :not(style)': { m: 1, width: '50ch' },
-        height: '35vh',
+        //'& > :not(style)': { m: 1, width: '50ch' },
+        width: '100ch',
+        height: '50vh',
         mt: 10,
         bgcolor: '#cfe8fc'
 
@@ -30,26 +31,29 @@ export default function QuestionContainter() {
       autoComplete="off"
       > 
         <Typography variant="h3">Question X</Typography>
-
+        <div>
+        <Typography variant="h4">Prompt:</Typography>
         <TextField
           required
           id="prompt"
           label="Insert Question Prompt Here"
-        
           multiline
           fullWidth
           margin="normal"
           variant="outlined"
         />
+        </div>
 
+        <div>
         <TextField
           required
           id="time"
           label="Answer Time Alloted: mm:ss"
-          fullWidth
+          style = {{width: 500}}
           margin="normal"
           variant="outlined"
         />
+        </div>
 
         {/* should i add a switch? */}
 
