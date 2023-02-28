@@ -30,11 +30,15 @@ const names = [
   "Shirley",
 ];
 
-export default function positionTest() {
+export default function positionItemTest(props:any) {
   const out = [];
   for (let i = 0; i < 10; i++) {
     const randi = Math.floor(Math.random() * names.length);
-    const item = positionItem({ name: names[randi], id: i });
+    const item = positionItem({
+      name: names[randi],
+      key: i,
+      onClick: props.onClick,
+    });
     out.push(item);
   }
   return out;
