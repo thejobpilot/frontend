@@ -13,6 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
+const pages = ['Products', 'Pricing', 'About Us'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
@@ -35,8 +36,8 @@ function ResponsiveAppBar() {
     };
 
     return (
-        <AppBar position="fixed" sx={{ backgroundColor: '#111E31' }}>
-        <Container maxWidth="xl">
+        <AppBar position="fixed" sx={{ backgroundColor: '#123456' }}>
+            <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Typography
                         variant="h6"
@@ -56,7 +57,6 @@ function ResponsiveAppBar() {
                         JobPilot
                     </Typography>
 
-                    <img src="/images/transpb_crop.png" alt="Logo" style={{ width: '75px', marginRight: '22px'}}/>
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
@@ -106,6 +106,9 @@ function ResponsiveAppBar() {
                     >
                         JopPilot
                     </Typography>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+
+                    </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
