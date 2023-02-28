@@ -17,7 +17,7 @@ function InterviewList() {
         { id: 4, title: 'Interview 4' },
     ];
 
-    const handleInterviewClick = (interview) => {
+    const handleInterviewClick = (interview: any) => {
         setSelectedInterview(interview);
     };
 
@@ -45,11 +45,9 @@ function InterviewList() {
                     <ListItem
                         key={interview.id}
                         button
-                        selected={selectedInterview?.id === interview.id}
                         onClick={() => handleInterviewClick(interview)}
                         sx={{
                             borderBottom: '1px solid #E0E0E0',
-                            bgcolor: selectedInterview?.id === interview.id ? '#F5F5F5' : 'inherit',
                         }}
                     >
                         <ListItemText primary={interview.title} />
