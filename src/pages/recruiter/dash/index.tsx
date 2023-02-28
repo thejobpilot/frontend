@@ -30,6 +30,19 @@ export default function Profile() {
         >
           Sign Out
         </Button>
+
+        <div style={{ margin: "100px" }}></div>
+        <div style={{ margin: "auto" }}>
+          <Button fullWidth variant="contained" href="../../manage-interviews">
+            Manage Interviews
+          </Button>
+        </div>
+        <div style={{ margin: "100px" }}></div>
+        <div style={{ margin: "auto" }}>
+          <Button fullWidth variant="contained" href="../../review-applicants">
+            Review Applicants
+          </Button>
+        </div>
       </div>
     )
   );
