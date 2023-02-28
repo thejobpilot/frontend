@@ -13,7 +13,6 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
-const pages = ['Products', 'Pricing', 'About Us'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
@@ -36,10 +35,9 @@ function ResponsiveAppBar() {
     };
 
     return (
-        <AppBar position="fixed">
-            <Container maxWidth="xl">
+        <AppBar position="fixed" sx={{ backgroundColor: '#111E31' }}>
+        <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <img src="/images/pngb.png" alt="Logo" style={{ width: '45px', height: '45px', marginRight: '22px'}}/>
                     <Typography
                         variant="h6"
                         noWrap
@@ -87,11 +85,6 @@ function ResponsiveAppBar() {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
-                                </MenuItem>
-                            ))}
                         </Menu>
                     </Box>
                         <Typography
@@ -112,17 +105,6 @@ function ResponsiveAppBar() {
                     >
                         JopPilot
                     </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                {page}
-                            </Button>
-                        ))}
-                    </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
