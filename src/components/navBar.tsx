@@ -36,10 +36,27 @@ function ResponsiveAppBar() {
     };
 
     return (
-        <AppBar position="fixed">
+        <AppBar position="fixed" sx={{ backgroundColor: '#111E31' }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <img src="/images/transpb_crop.png" alt="Logo" style={{ width: '75px', marginRight: '22px'}}/>
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component="a"
+                        href="/"
+                        sx={{
+                            mr: 2,
+                            display: { xs: 'none', md: 'flex' },
+                            fontFamily: 'monospace',
+                            fontWeight: 700,
+                            letterSpacing: '.3rem',
+                            color: 'inherit',
+                            textDecoration: 'none',
+                        }}
+                    >
+                        JobPilot
+                    </Typography>
+
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
@@ -69,11 +86,6 @@ function ResponsiveAppBar() {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
-                                </MenuItem>
-                            ))}
                         </Menu>
                     </Box>
                         <Typography
@@ -95,15 +107,7 @@ function ResponsiveAppBar() {
                         JopPilot
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                {page}
-                            </Button>
-                        ))}
+
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
