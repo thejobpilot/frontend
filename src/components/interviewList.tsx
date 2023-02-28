@@ -6,9 +6,11 @@ import {
     ListItem,
     ListItemText,
 } from '@mui/material';
+import interviewItemTest from './applicant-dash/interviewItemTest';
 
 function InterviewList() {
     const [selectedInterview, setSelectedInterview] = useState(null);
+    const items = interviewItemTest({interviewOnClick: setSelectedInterview});
 
     const interviews = [
         { id: 1, title: 'Interview 1' },
@@ -41,7 +43,7 @@ function InterviewList() {
                 Interviews
             </Typography>
             <List>
-                {interviews.map((interview) => (
+                {/* {interviews.map((interview) => (
                     <ListItem
                         key={interview.id}
                         button
@@ -52,7 +54,8 @@ function InterviewList() {
                     >
                         <ListItemText primary={interview.title} />
                     </ListItem>
-                ))}
+                ))} */}
+                {items.map(i => i)}
             </List>
         </Box>
     );

@@ -1,3 +1,4 @@
+import { PropaneSharp } from "@mui/icons-material";
 import interviewItem from "./interviewItem";
 
 const names = [
@@ -30,11 +31,15 @@ const names = [
   "Shirley",
 ];
 
-export default function interviewTest() {
+export default function interviewTest(props: any) {
     const out = []
     for (let i = 0; i < 10; i++) {
         const randi = Math.floor(Math.random() * names.length);
-        const item = interviewItem({name:names[randi], id:i});
+        const item = interviewItem({
+          title: names[randi],
+          id: i,
+          interviewOnClick: props.interviewOnClick,
+        });
         out.push(item);
     }
     return out;
