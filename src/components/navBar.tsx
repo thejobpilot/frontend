@@ -56,6 +56,7 @@ function ResponsiveAppBar() {
                         JobPilot
                     </Typography>
 
+                    <img src="/images/transpb_crop.png" alt="Logo" style={{ width: '75px', marginRight: '22px'}}/>
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"

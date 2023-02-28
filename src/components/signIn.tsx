@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-function Copyright(props: any) {
+export function Copyright(props: any) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
@@ -54,7 +54,7 @@ export default function SignIn() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Welcome motherFuckers
+              Welcome to JobPilot
             </Typography>
             <Box
               component="form"
@@ -70,15 +70,6 @@ export default function SignIn() {
                 href="/api/auth/login"
               >
                 Sign In
-              </Button>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                href="/api/auth/logout"
-              >
-                Sign Out
               </Button>
             </Box>
           </Box>
