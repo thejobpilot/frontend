@@ -4,8 +4,7 @@ import Button from "@mui/material/Button";
 import React, { Component } from "react";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 
-import interviewTest from "../../../components/interviewTest";
-import interviewItem from "../../../components/interviewItem";
+import interviewItemTest from "@/components/applicant-dash/interviewItemTest";
 
 export default function Profile() {
   const { user, error, isLoading } = useUser();
@@ -13,7 +12,7 @@ export default function Profile() {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
 
-  const items = interviewTest();
+  const items = interviewItemTest();
   return (
     user && (
       <div>
