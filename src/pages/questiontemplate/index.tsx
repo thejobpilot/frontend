@@ -10,8 +10,10 @@ export default function questiontemplate() {
   return (
     <>
     <ResponsiveAppBar></ResponsiveAppBar>
-    <Question></Question>
-    
+
+    <Question num="1"></Question>
+    <Question num="2"></Question>
+    <Question num="3"></Question>
 
 
 
