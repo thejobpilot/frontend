@@ -6,7 +6,7 @@ import {
     ListItem,
     ListItemText,
 } from '@mui/material';
-import interviewItemTest from './applicant-dash/interviewItemTest';
+import interviewItemTest from './interviewItemTest';
 
 function InterviewList() {
     const [selectedInterview, setSelectedInterview] = useState(null);

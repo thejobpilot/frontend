@@ -3,7 +3,7 @@ import ResponsiveAppBar from "@/components/navBar";
 import React, { Component } from "react";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import AccountDetails from "@/components/accountDetails";
-import InterviewList from "@/components/interviewList";
+import InterviewList from "@/components/applicant-dash/interviewList";
 
 
 export default function Dash() {
