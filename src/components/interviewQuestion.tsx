@@ -18,6 +18,10 @@ import MenuItem from '@mui/material/MenuItem';
 
 export default function QuestionContainter(props: { num: any; }) {
   const { num } = props;
+  const divStyle = {
+    justifyContent: 'center',
+    alignItems: 'center'
+  };
   return (
     <React.Fragment>
       <CssBaseline />
@@ -36,9 +40,14 @@ export default function QuestionContainter(props: { num: any; }) {
       noValidate
       autoComplete="off"
       >  */}
+       <div style={divStyle}>
         <Typography variant="h3">Question {num} </Typography>
-        <div>
-        <Grid container direction="row" alignItems="center" spacing={3}>
+      </div>
+        
+      <div style={divStyle}>
+        
+
+        <Grid container direction="row" alignItems="center" spacing={3} justifyContent="center">
           <Grid item>
             <Typography variant="h4">Prompt:</Typography> 
           </Grid>
@@ -56,10 +65,10 @@ export default function QuestionContainter(props: { num: any; }) {
         
         </div>
         
-        <div>
+        <div style={divStyle}>
         
         {/* should i add a switch? */}
-        <Grid container direction="row" alignItems="center" spacing={3}>
+        <Grid container direction="row" alignItems="center" spacing={3} justifyContent="center">
           <Grid item>
             <Typography variant="h4">Prep Time:</Typography> 
           </Grid>
@@ -77,7 +86,7 @@ export default function QuestionContainter(props: { num: any; }) {
         </div>
 
         <div>
-        <Grid container direction="row" alignItems="center" spacing={3}>
+        <Grid container direction="row" alignItems="center" spacing={3} justifyContent="center">
           <Grid item>
             <Typography variant="h4">Answer Time:</Typography> 
           </Grid>
@@ -96,7 +105,7 @@ export default function QuestionContainter(props: { num: any; }) {
 
         <div>
         {/* should i add a switch? */}
-        <Grid container direction="row" alignItems="center" spacing={3}>
+        <Grid container direction="row" alignItems="center" spacing={3} justifyContent="center">
           <Grid item>
             <Typography variant="h4">Retrys Allowed:</Typography> 
           </Grid>
