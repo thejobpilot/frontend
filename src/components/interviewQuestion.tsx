@@ -41,13 +41,16 @@ export default function QuestionContainter(props: { num: any; }) {
       autoComplete="off"
       >  */}
        <div style={divStyle}>
-        <Typography variant="h3">Question {num} </Typography>
+        <Typography variant="h3" align="left" marginLeft="100px">Question {num} </Typography>
       </div>
         
       <div style={divStyle}>
         
 
         <Grid container direction="row" alignItems="center" spacing={3} justifyContent="center">
+          {/* <Grid item xs={12} > 
+            <Typography variant="h3">Question {num} </Typography>
+          </Grid> */}
           <Grid item>
             <Typography variant="h4">Prompt:</Typography> 
           </Grid>
