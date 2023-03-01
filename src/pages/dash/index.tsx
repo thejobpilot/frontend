@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 export default function Profile() {
   const router = useRouter();
 
+  
   useEffect(() => {
     router.push("/applicant/dash");
   }, []);
