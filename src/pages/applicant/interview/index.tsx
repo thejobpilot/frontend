@@ -8,10 +8,10 @@ const inter = Inter({subsets: ['latin']})
 
 export default function RecruiterSignUp() {
     return (
-        <>
+        <div style={{ backgroundColor: "#EFEFEF" }}>
             <ResponsiveAppBar></ResponsiveAppBar>
             <SignUp name = "Applicant"></SignUp>
-        </>
+        </div>
     )
 }
 

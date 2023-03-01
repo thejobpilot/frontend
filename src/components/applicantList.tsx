@@ -30,6 +30,8 @@ function ApplicantList() {
 
     // @ts-ignore
     // @ts-ignore
+    // @ts-ignore
+    // @ts-ignore
     return (
         <Box
             sx={{
@@ -40,7 +42,7 @@ function ApplicantList() {
                 top: 55,
                 right: 0,
                 height: '100%',
-                width: '40%',
+                width: '30%',
             }}
         >
             <Typography

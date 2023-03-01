@@ -13,7 +13,7 @@ export default function Profile() {
 
     return (
         user && (
-            <div>
+            <div style={{ backgroundColor: "#EFEFEF" }}>
                 <ResponsiveAppBar></ResponsiveAppBar>
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
                     <Button style={{ backgroundColor: '#111E31', color: 'white', margin: '25px', padding: '25px 50px' , borderRadius: 16}} variant="contained">Manage Interviews</Button>

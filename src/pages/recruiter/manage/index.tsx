@@ -16,7 +16,7 @@ export default function Profile() {
 
   return (
     user && (
-      <div>
+      <div style={{ backgroundColor: "#EFEFEF" }}>
           <ResponsiveAppBar></ResponsiveAppBar>
           <PositionList></PositionList>
           <ApplicantList></ApplicantList>

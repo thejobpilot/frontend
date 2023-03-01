@@ -14,7 +14,7 @@ export default function Profile() {
 
   return (
     user && (
-      <div>
+      <div style={{ backgroundColor: "#EFEFEF" }}>
         {user.picture && user.name && (
           <img src={user.picture} alt={user.name} />
         )}

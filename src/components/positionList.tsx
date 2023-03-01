@@ -40,7 +40,7 @@ function PositionList() {
                 top: 55,
                 left: 0,
                 height: '100%',
-                width: '40%',
+                width: '30%',
             }}
         >
             <Typography
