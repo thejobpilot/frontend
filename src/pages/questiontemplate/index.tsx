@@ -11,7 +11,7 @@ const inter = Inter({subsets: ['latin']})
 export default function questiontemplate() {
   const divStyle = {
   
-    marginTop: '100px',
+    marginTop: '77px',
     justifyContent: 'center',
     alignItems: 'center'
  
@@ -34,6 +34,7 @@ export default function questiontemplate() {
       <Grid item xs={12}> <Question num="3"></Question> </Grid>
     
       </Grid>
+      
     </div>
 
     </>
