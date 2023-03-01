@@ -5,10 +5,8 @@ function AccountDetails() {
     const [username, setUsername] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [company, setCompany] = React.useState('');
-    const [lastName, setLastName] = React.useState('');
-    const [graduationDate, setGraduationDate] = React.useState('');
-    const [gpa, setGpa] = React.useState('');
-    const [resumeLink, setResumeLink] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    
 
     const handleSave = () => {
         // Handle saving account details here
@@ -50,8 +48,8 @@ function AccountDetails() {
                     }}
                 />
                 <TextField
-                    id="outlined-first-name"
-                    label="First name"
+                    id="outlined-company-name"
+                    label="Company Name"
                     variant="outlined"
                     value={company}
                     onChange={(event) => {
@@ -59,41 +57,17 @@ function AccountDetails() {
                     }}
                 />
                 <TextField
-                    id="outlined-last-name"
-                    label="Last name"
+                    id="outlined-password"
+                    label="Password"
                     variant="outlined"
-                    value={lastName}
+                    value={password}
                     onChange={(event) => {
-                        setLastName(event.target.value);
+                        setPassword(event.target.value);
                     }}
                 />
-                <TextField
-                    id="outlined-graduation-date"
-                    label="Graduation date"
-                    variant="outlined"
-                    value={graduationDate}
-                    onChange={(event) => {
-                        setGraduationDate(event.target.value);
-                    }}
-                />
-                <TextField
-                    id="outlined-gpa"
-                    label="GPA"
-                    variant="outlined"
-                    value={gpa}
-                    onChange={(event) => {
-                        setGpa(event.target.value);
-                    }}
-                />
-                <TextField
-                    id="outlined-resume-link"
-                    label="Resume link"
-                    variant="outlined"
-                    value={resumeLink}
-                    onChange={(event) => {
-                        setResumeLink(event.target.value);
-                    }}
-                />
+          
+            
+                
                 <Button variant="contained" sx={{ bgcolor: '#111E31', color: 'white' }}>
                     Save
                 </Button>
