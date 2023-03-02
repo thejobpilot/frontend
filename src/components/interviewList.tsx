@@ -6,56 +6,71 @@ import {
     ListItem,
     ListItemText,
 } from '@mui/material';
+import getDetails from './getDetails';
 
-function InterviewList() {
-    const [selectedInterview, setSelectedInterview] = useState(null);
+function InterviewList(props: { user: { email: string } }) {
+  const [selectedInterview, setSelectedInterview] = useState(0);
 
-    const interviews = [
-        { id: 1, title: 'Interview 1' },
-        { id: 2, title: 'Interview 2' },
-        { id: 3, title: 'Interview 3' },
-        { id: 4, title: 'Interview 4' },
-    ];
+  const { data, isLoading, isError, mutate } = getDetails(props.user.email);
 
-    const handleInterviewClick = (interview: any) => {
-        setSelectedInterview(interview);
-    };
+  const handleInterviewClick = (interview: any) => {
+    setSelectedInterview(interview);
+  };
 
-    return (
-        <Box
+  if (isError) return <div>failed to load</div>;
+  if (isLoading) return <div>loading...</div>;
+
+  return (
+    <Box
+      sx={{
+        p: 3,
+        bgcolor: "white",
+        color: "black",
+        position: "absolute",
+        top: 55,
+        left: 0,
+        height: "100%",
+        width: "40%", // Set the width to 70% of the available space
+      }}
+    >
+      <Typography
+        variant="h5"
+        sx={{ bgcolor: "#111E31", color: "white", p: 2, textAlign: "center" }}
+      >
+        Interviews
+      </Typography>
+      <List>
+        {data.interview ? (
+          <ListItem
+            key={data.interview.id}
+            button
+            onClick={() => handleInterviewClick(data.interview.id)}
             sx={{
-                p: 3,
-                bgcolor: 'white',
-                color: 'black',
-                position: 'absolute',
-                top: 55,
-                left: 0,
-                height: '100%',
-                width: '40%', // Set the width to 70% of the available space
+              borderBottom: "1px solid #E0E0E0",
             }}
-        >
-            <Typography
-                variant="h5"
-                sx={{ bgcolor: '#111E31', color: 'white', p: 2, textAlign: 'center' }}
-            >
-                Interviews
-            </Typography>
-            <List>
-                {interviews.map((interview) => (
-                    <ListItem
-                        key={interview.id}
-                        button
-                        onClick={() => handleInterviewClick(interview)}
-                        sx={{
-                            borderBottom: '1px solid #E0E0E0',
-                        }}
-                    >
-                        <ListItemText primary={interview.title} />
-                    </ListItem>
-                ))}
-            </List>
-        </Box>
-    );
+          >
+            <ListItemText
+              primary={`Interview: ${data.interview.name}`}
+              secondary={`Time: ${data.interview.prepTime} mins`}
+            />
+          </ListItem>
+        ) : (
+          <ListItem
+            key={data.interview.id}
+            button
+            disabled
+            sx={{
+              borderBottom: "1px solid #E0E0E0",
+            }}
+          >
+            <ListItemText primary="No interviews available" />
+          </ListItem>
+        )}
+        {/* {data.interviews.map((interview) => ( */}
+        {/* ))} */}
+      </List>
+    </Box>
+  );
 }
 
 export default InterviewList;

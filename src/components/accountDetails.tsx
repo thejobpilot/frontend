@@ -1,18 +1,43 @@
 import * as React from 'react';
 import { Box, Typography, TextField, Button, FormGroup, Checkbox, FormControlLabel } from '@mui/material';
+import { useEffect, useState } from 'react';
 
-function AccountDetails() {
-    const [username, setUsername] = React.useState('');
-    const [email, setEmail] = React.useState('');
-    const [firstName, setFirstName] = React.useState('');
-    const [lastName, setLastName] = React.useState('');
-    const [graduationDate, setGraduationDate] = React.useState('');
-    const [gpa, setGpa] = React.useState('');
-    const [resumeLink, setResumeLink] = React.useState('');
+import getDetails from './getDetails';
+import updateDetails from './updateDetails';
+import { User, UserUserTypeEnum } from 'gen/api';
 
-    const handleSave = () => {
-        // Handle saving account details here
-    };
+
+function AccountDetails(props: { user: { email: String; }; }) {
+    const [details, setDetails] = useState<User>({
+      username: "",
+      email: props.user.email as string,
+      fullName: "",
+      graduationDate: "",
+      gpa: 0,
+      resumeLink: "",
+      userType: UserUserTypeEnum.Applicant,
+      retakes: true,
+    });
+
+    function formHandler(e: { target: { name: any; value: any } }) {
+      const { name, value } = e.target;
+      setDetails((prev) => {
+        return { ...prev, [name]: value };
+      });
+    }
+
+    const { data, isLoading, isError, mutate } = getDetails(props.user.email);
+
+    const onSubmit = async (event: any) => {
+        event.preventDefault();
+        console.log("hi")
+        const { data: newData } = await updateDetails(props.user.email, details);
+
+    }
+
+    if (isError) return <div>failed to load</div>;
+    if (isLoading) return <div>loading...</div>;
+
 
     return (
         <Box
@@ -35,64 +60,48 @@ function AccountDetails() {
                     id="outlined-username"
                     label="Username"
                     variant="outlined"
-                    value={username}
-                    onChange={(event) => {
-                        setUsername(event.target.value);
-                    }}
+                    name="username"
+                    defaultValue={data.username}
+                    onChange={(e) => formHandler(e)}
                 />
                 <TextField
                     id="outlined-email"
                     label="Email"
                     variant="outlined"
-                    value={email}
-                    onChange={(event) => {
-                        setEmail(event.target.value);
-                    }}
+                    defaultValue={data.email}
+                    disabled
                 />
                 <TextField
                     id="outlined-first-name"
-                    label="First name"
+                    label="Full name"
+                    name="fullName"
                     variant="outlined"
-                    value={firstName}
-                    onChange={(event) => {
-                        setFirstName(event.target.value);
-                    }}
-                />
-                <TextField
-                    id="outlined-last-name"
-                    label="Last name"
-                    variant="outlined"
-                    value={lastName}
-                    onChange={(event) => {
-                        setLastName(event.target.value);
-                    }}
+                    defaultValue={data.fullName}
+                    onChange={(e) => formHandler(e)}
                 />
                 <TextField
                     id="outlined-graduation-date"
                     label="Graduation date"
                     variant="outlined"
-                    value={graduationDate}
-                    onChange={(event) => {
-                        setGraduationDate(event.target.value);
-                    }}
+                    name="graduationDate"
+                    defaultValue={data.graduationDate}
+                    onChange={(e) => formHandler(e)}
                 />
                 <TextField
                     id="outlined-gpa"
                     label="GPA"
                     variant="outlined"
-                    value={gpa}
-                    onChange={(event) => {
-                        setGpa(event.target.value);
-                    }}
+                    name="gpa"
+                    defaultValue={data.gpa}
+                    onChange={(e) => formHandler(e)}
                 />
                 <TextField
                     id="outlined-resume-link"
                     label="Resume link"
                     variant="outlined"
-                    value={resumeLink}
-                    onChange={(event) => {
-                        setResumeLink(event.target.value);
-                    }}
+                    name="resumeLink"
+                    defaultValue={data.resumeLink}
+                    onChange={(e) => formHandler(e)}
                 />
                 <Typography>Set Preferred Industry</Typography>
                 <FormGroup>
@@ -103,7 +112,7 @@ function AccountDetails() {
                     <FormControlLabel control={<Checkbox />} label="Finance" />
                     <FormControlLabel control={<Checkbox />} label="Consumer" />
                 </FormGroup>
-                <Button variant="contained" sx={{ bgcolor: '#111E31', color: 'white' }}>
+                <Button onSubmit={(e) => onSubmit(e)} variant="contained" sx={{ bgcolor: '#111E31', color: 'white' }}>
                     Save
                 </Button>
             </Box>

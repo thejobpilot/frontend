@@ -17,15 +17,31 @@ const fetcher = (url: RequestInfo | URL) =>
   fetch(url).then((res) => res.json());
 
 export default function Profile() {
-  //const { user, error, isLoading } = useUser();
+  const { user } = useUser();
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-
-  const { data, error, isLoading } = useSWR("/api/get-user?email=john@google.com", fetcher);
+  function updateUser(email, username) {
+    const { data, error, isLoading } = useSWR(`/api/update-user?email=${email}&username=${username}`, fetcher);
+    setData(data);
+    setError(error);
+    setIsLoading(isLoading);
+  }
 
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
-  return <div>hello {data.graduationDate}!</div>;
 
+  return (
+    user && (
+        <div>
+            <ResponsiveAppBar></ResponsiveAppBar>
+            <InterviewList user={user}></InterviewList>
+            <AccountDetails user={user}></AccountDetails>
+            <h1>{user.email}</h1>
+        </div>
+    )
+  );
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
