@@ -6,13 +6,13 @@ import {
     ListItem,
     ListItemText,
 } from '@mui/material';
-import useUser from '../db/useUser';
+import useUserDB from '../db/useUserDB';
 import { UserProfile } from '@auth0/nextjs-auth0/client';
 
 function InterviewList(props: { user: UserProfile }) {
   const [selectedInterview, setSelectedInterview] = useState(0);
 
-  const { data, isLoading, isError, mutate } = useUser(props.user.email!);
+  const { data, isLoading, isError, mutate } = useUserDB(props.user.email!);
 
   const handleInterviewClick = (interview: any) => {
     setSelectedInterview(interview);

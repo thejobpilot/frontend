@@ -21,10 +21,20 @@ export default async function getUser(
   let axiosResponse = await api
     .getOneBaseUserControllerUser(email)
     .catch((error: AxiosError) => {
-      console.log(error.response?.data);
-    })
-    .then((r) => {
-      if (!r) return;
-      res.status(200).json(r.data);
+      if (error.response?.status === 404) {
+        res.status(404).send("User not found");
+      } else {
+        console.log(error.response?.data);
+        res.status(500).send("Internal Server Error");
+      }
     });
+
+  if (axiosResponse) {
+    res.status(200).json(axiosResponse.data);
+  }
 }
+
+
+
+
+
