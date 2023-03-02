@@ -7,6 +7,7 @@ import accountDetails from "@/components/accountDetails";
 import AccountDetails from "@/components/accountDetails";
 import InterviewList from "@/components/interviewList";
 
+
 import interviewItemTest from "@/components/applicant-dash/interviewItemTest";
 
 export default function Profile() {
@@ -22,6 +23,7 @@ export default function Profile() {
             <ResponsiveAppBar></ResponsiveAppBar>
             <InterviewList></InterviewList>
             <AccountDetails></AccountDetails>
+           
         </div>
     )
   );

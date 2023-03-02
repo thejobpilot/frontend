@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Typography, TextField, Button } from '@mui/material';
+import { Box, Typography, TextField, Button, FormGroup, Checkbox, FormControlLabel } from '@mui/material';
 
 function AccountDetails() {
     const [username, setUsername] = React.useState('');
@@ -94,6 +94,15 @@ function AccountDetails() {
                         setResumeLink(event.target.value);
                     }}
                 />
+                <Typography>Set Preferred Industry</Typography>
+                <FormGroup>
+                    <FormControlLabel control={<Checkbox />} label="Tech" />
+                    <FormControlLabel control={<Checkbox />} label="Agriculture" />
+                    <FormControlLabel control={<Checkbox />} label="Healthcare" />
+                    <FormControlLabel control={<Checkbox />} label="BioPharm" />
+                    <FormControlLabel control={<Checkbox />} label="Finance" />
+                    <FormControlLabel control={<Checkbox />} label="Consumer" />
+                </FormGroup>
                 <Button variant="contained" sx={{ bgcolor: '#111E31', color: 'white' }}>
                     Save
                 </Button>

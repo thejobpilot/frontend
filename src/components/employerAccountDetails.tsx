@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Typography, TextField, Button } from '@mui/material';
+import { Box, Typography, TextField, Button, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 
 function AccountDetails() {
     const [username, setUsername] = React.useState('');
@@ -66,7 +66,10 @@ function AccountDetails() {
                     }}
                 />
           
-            
+                <FormGroup>
+                    <FormControlLabel control={<Checkbox defaultChecked />} label="Label" />
+                    <FormControlLabel disabled control={<Checkbox />} label="Disabled" />
+                </FormGroup>
                 
                 <Button variant="contained" sx={{ bgcolor: '#111E31', color: 'white' }}>
                     Save
