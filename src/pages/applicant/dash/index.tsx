@@ -6,7 +6,7 @@ import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import accountDetails from "@/components/accountDetails";
 import AccountDetails from "@/components/accountDetails";
 import InterviewList from "@/components/interviewList";
-import JobPreferences from "@/components/jobPreference";
+
 
 import interviewItemTest from "@/components/applicant-dash/interviewItemTest";
 
@@ -23,7 +23,7 @@ export default function Profile() {
             <ResponsiveAppBar></ResponsiveAppBar>
             <InterviewList></InterviewList>
             <AccountDetails></AccountDetails>
-            <JobPreferences></JobPreferences>
+           
         </div>
     )
   );
