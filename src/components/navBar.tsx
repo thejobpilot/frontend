@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import {useRouter} from "next/router";
 
 const pages = ['Products', 'Pricing', 'About Us'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -19,7 +20,7 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-
+    let router = useRouter();
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
     };
@@ -34,6 +35,12 @@ function ResponsiveAppBar() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    const pressUserMenuButton = async (buttonPressed: string) => {
+        if(buttonPressed == 'Logout') {
+            await router.push("/api/auth/logout");
+        }
+    }
 
     return (
         <AppBar position="fixed" sx={{ backgroundColor: '#111E31' }}>
@@ -133,7 +140,7 @@ function ResponsiveAppBar() {
                             onClose={handleCloseUserMenu}
                         >
                             {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                <MenuItem key={setting} onClick={e => pressUserMenuButton(setting)}>
                                     <Typography textAlign="center">{setting}</Typography>
                                 </MenuItem>
                             ))}
