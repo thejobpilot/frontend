@@ -16,6 +16,9 @@ function AccountDetails(props: { user: UserProfile; }) {
       resumeLink: "",
       userType: UserUserTypeEnum.Applicant,
       retakes: true,
+      jobPreference: "",
+      locationPreference: "",
+      rolePreference: "",
     });
 
     const { data, isLoading, isError, mutate } = useUser(props.user.email!);
@@ -103,15 +106,30 @@ function AccountDetails(props: { user: UserProfile; }) {
                     defaultValue={data.resumeLink}
                     onChange={(e) => updateField(e)}
                 />
-                <Typography>Set Preferred Industry</Typography>
-                <FormGroup>
-                    <FormControlLabel control={<Checkbox />} label="Tech" />
-                    <FormControlLabel control={<Checkbox />} label="Agriculture" />
-                    <FormControlLabel control={<Checkbox />} label="Healthcare" />
-                    <FormControlLabel control={<Checkbox />} label="BioPharm" />
-                    <FormControlLabel control={<Checkbox />} label="Finance" />
-                    <FormControlLabel control={<Checkbox />} label="Consumer" />
-                </FormGroup>
+                <TextField
+                    id="outlined-job-preference"
+                    label="Job preference"
+                    variant="outlined"
+                    name="jobPreference"
+                    defaultValue={data.jobPreference}
+                    onChange={(e) => updateField(e)}
+                />
+                <TextField
+                    id="outlined-location-preference"
+                    label="Location preference"
+                    variant="outlined"
+                    name="locationPreference"
+                    defaultValue={data.locationPreference}
+                    onChange={(e) => updateField(e)}
+                />
+                <TextField
+                    id="outlined-role-preference"
+                    label="Role preference"
+                    variant="outlined"
+                    name="rolePreference"
+                    defaultValue={data.rolePreference}
+                    onChange={(e) => updateField(e)}
+                />
                 <Button onClick={(e) => handleSubmit(e)} variant="contained" sx={{ bgcolor: '#111E31', color: 'white' }}>
                     Save
                 </Button>
