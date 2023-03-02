@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "api": "rm -rf gen/api && npx @openapitools/openapi-generator-cli generate -i https://7kaz5avhmv.us-east-2.awsapprunner.com/api-json --generator-name typescript-axios -o gen/api --config api.json && cd gen/api && npm install && npm run build"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.0.0",
@@ -26,6 +27,10 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "styled-components": "^5.3.6",
-    "typescript": "4.9.5"
+    "typescript": "4.9.5",
+    "jobpilot-backend": "file:gen/api"
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.5.2"
   }
 }
