@@ -2,10 +2,9 @@ import { Box, Typography, TextField, Button, FormGroup, Checkbox, FormControlLab
 import { useEffect, useState } from 'react';
 
 import useUser from '../dbHooks/useUser';
-// import updateDetails from './updateDetails';
+import requestSetUser from '../dbHooks/requestSetUser';
 import { User, UserUserTypeEnum } from 'gen/api';
 import { UserProfile } from '@auth0/nextjs-auth0/client';
-
 
 function AccountDetails(props: { user: UserProfile; }) {
     const [details, setDetails] = useState<User>({
@@ -21,26 +20,25 @@ function AccountDetails(props: { user: UserProfile; }) {
 
     const { data, isLoading, isError, mutate } = useUser(props.user.email!);
 
-    function formHandler(e: { target: { name: any; value: any } }) {
+    useEffect(() => {
+        if (data) setDetails(data as User);
+    }, [data])
+
+    const handleSubmit = (e: any) => {
+      e.preventDefault();
+      requestSetUser(details.email, details)
+      mutate(details);
+    };
+
+    function updateField(e: any) {
       const { name, value } = e.target;
-      console.log(e.target.value);
-      //   setDetails((prev) => {
-      //     return { ...prev, [name]: value };
-      //   });
+      setDetails((prev) => {
+        return { ...prev, [name]: value };
+      });
     }
-
-
-    // const onSubmit = async (event: any) => {
-    //     event.preventDefault();
-    //     console.log("hi")
-    //     const { data: newData } = await updateDetails(props.user.email, details);
-
-    // }
 
     if (isError) return <div>failed to load</div>;
     if (isLoading) return <div>loading...</div>;
-
-
     return (
         <Box
             sx={{
@@ -64,7 +62,7 @@ function AccountDetails(props: { user: UserProfile; }) {
                     variant="outlined"
                     name="username"
                     defaultValue={data.username}
-                    onChange={(e) => formHandler(e)}
+                    onChange={(e) => updateField(e)}
                 />
                 <TextField
                     id="outlined-email"
@@ -79,7 +77,7 @@ function AccountDetails(props: { user: UserProfile; }) {
                     name="fullName"
                     variant="outlined"
                     defaultValue={data.fullName}
-                    onChange={(e) => formHandler(e)}
+                    onChange={(e) => updateField(e)}
                 />
                 <TextField
                     id="outlined-graduation-date"
@@ -87,7 +85,7 @@ function AccountDetails(props: { user: UserProfile; }) {
                     variant="outlined"
                     name="graduationDate"
                     defaultValue={data.graduationDate}
-                    onChange={(e) => formHandler(e)}
+                    onChange={(e) => updateField(e)}
                 />
                 <TextField
                     id="outlined-gpa"
@@ -95,7 +93,7 @@ function AccountDetails(props: { user: UserProfile; }) {
                     variant="outlined"
                     name="gpa"
                     defaultValue={data.gpa}
-                    onChange={(e) => formHandler(e)}
+                    onChange={(e) => updateField(e)}
                 />
                 <TextField
                     id="outlined-resume-link"
@@ -103,7 +101,7 @@ function AccountDetails(props: { user: UserProfile; }) {
                     variant="outlined"
                     name="resumeLink"
                     defaultValue={data.resumeLink}
-                    onChange={(e) => formHandler(e)}
+                    onChange={(e) => updateField(e)}
                 />
                 <Typography>Set Preferred Industry</Typography>
                 <FormGroup>
@@ -114,7 +112,7 @@ function AccountDetails(props: { user: UserProfile; }) {
                     <FormControlLabel control={<Checkbox />} label="Finance" />
                     <FormControlLabel control={<Checkbox />} label="Consumer" />
                 </FormGroup>
-                <Button variant="contained" sx={{ bgcolor: '#111E31', color: 'white' }}>
+                <Button onClick={(e) => handleSubmit(e)} variant="contained" sx={{ bgcolor: '#111E31', color: 'white' }}>
                     Save
                 </Button>
             </Box>
