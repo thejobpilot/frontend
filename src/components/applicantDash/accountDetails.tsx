@@ -1,13 +1,13 @@
-import * as React from 'react';
 import { Box, Typography, TextField, Button, FormGroup, Checkbox, FormControlLabel } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-import getDetails from './getDetails';
-import updateDetails from './updateDetails';
+import useUser from '../dbHooks/useUser';
+// import updateDetails from './updateDetails';
 import { User, UserUserTypeEnum } from 'gen/api';
+import { UserProfile } from '@auth0/nextjs-auth0/client';
 
 
-function AccountDetails(props: { user: { email: String; }; }) {
+function AccountDetails(props: { user: UserProfile; }) {
     const [details, setDetails] = useState<User>({
       username: "",
       email: props.user.email as string,
@@ -19,21 +19,23 @@ function AccountDetails(props: { user: { email: String; }; }) {
       retakes: true,
     });
 
+    const { data, isLoading, isError, mutate } = useUser(props.user.email!);
+
     function formHandler(e: { target: { name: any; value: any } }) {
       const { name, value } = e.target;
-      setDetails((prev) => {
-        return { ...prev, [name]: value };
-      });
+      console.log(e.target.value);
+      //   setDetails((prev) => {
+      //     return { ...prev, [name]: value };
+      //   });
     }
 
-    const { data, isLoading, isError, mutate } = getDetails(props.user.email);
 
-    const onSubmit = async (event: any) => {
-        event.preventDefault();
-        console.log("hi")
-        const { data: newData } = await updateDetails(props.user.email, details);
+    // const onSubmit = async (event: any) => {
+    //     event.preventDefault();
+    //     console.log("hi")
+    //     const { data: newData } = await updateDetails(props.user.email, details);
 
-    }
+    // }
 
     if (isError) return <div>failed to load</div>;
     if (isLoading) return <div>loading...</div>;
@@ -112,7 +114,7 @@ function AccountDetails(props: { user: { email: String; }; }) {
                     <FormControlLabel control={<Checkbox />} label="Finance" />
                     <FormControlLabel control={<Checkbox />} label="Consumer" />
                 </FormGroup>
-                <Button onSubmit={(e) => onSubmit(e)} variant="contained" sx={{ bgcolor: '#111E31', color: 'white' }}>
+                <Button variant="contained" sx={{ bgcolor: '#111E31', color: 'white' }}>
                     Save
                 </Button>
             </Box>

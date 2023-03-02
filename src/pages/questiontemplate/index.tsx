@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {Inter} from '@next/font/google'
 import ResponsiveAppBar from "@/components/navBar";
-import Question from "@/components/interviewQuestion";
+import Question from "@/components/manage-interviews/interviewQuestion";
 import Grid from '@mui/material/Grid';
 import { margin } from '@mui/system';
 import { Box, Button, Typography } from '@mui/material';

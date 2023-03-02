@@ -6,20 +6,20 @@ import {
     ListItem,
     ListItemText,
 } from '@mui/material';
-import getDetails from './getDetails';
+import useUser from '../dbHooks/useUser';
+import { UserProfile } from '@auth0/nextjs-auth0/client';
 
-function InterviewList(props: { user: { email: string } }) {
+function InterviewList(props: { user: UserProfile }) {
   const [selectedInterview, setSelectedInterview] = useState(0);
 
-  const { data, isLoading, isError, mutate } = getDetails(props.user.email);
+  const { data, isLoading, isError, mutate } = useUser(props.user.email!);
 
   const handleInterviewClick = (interview: any) => {
     setSelectedInterview(interview);
   };
 
-  if (isError) return <div>failed to load</div>;
-  if (isLoading) return <div>loading...</div>;
-
+  if (isError) return <div>Failed to load</div>;
+  if (isLoading) return <div>Loading...</div>;
   return (
     <Box
       sx={{
@@ -40,9 +40,9 @@ function InterviewList(props: { user: { email: string } }) {
         Interviews
       </Typography>
       <List>
-        {data.interview ? (
+        {data.interviews.length > 0 ? (
           <ListItem
-            key={data.interview.id}
+            key={data.interviews.id}
             button
             onClick={() => handleInterviewClick(data.interview.id)}
             sx={{
@@ -50,13 +50,13 @@ function InterviewList(props: { user: { email: string } }) {
             }}
           >
             <ListItemText
-              primary={`Interview: ${data.interview.name}`}
-              secondary={`Time: ${data.interview.prepTime} mins`}
+            //   primary={`Interview: ${data.interview.name}`}
+            //   secondary={`Time: ${data.interview.prepTime} mins`}
             />
           </ListItem>
         ) : (
           <ListItem
-            key={data.interview.id}
+            // key={data.interview.id}
             button
             disabled
             sx={{
