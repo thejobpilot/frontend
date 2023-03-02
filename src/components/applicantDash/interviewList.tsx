@@ -6,7 +6,7 @@ import {
     ListItem,
     ListItemText,
 } from '@mui/material';
-import useUser from '../dbHooks/useUser';
+import useUser from '../db/useUser';
 import { UserProfile } from '@auth0/nextjs-auth0/client';
 
 function InterviewList(props: { user: UserProfile }) {

@@ -1,8 +1,8 @@
 import { Box, Typography, TextField, Button, FormGroup, Checkbox, FormControlLabel } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-import useUser from '../dbHooks/useUser';
-import requestSetUser from '../dbHooks/requestSetUser';
+import useUser from '../db/useUser';
+import requestSetUser from '../db/requestSetUser';
 import { User, UserUserTypeEnum } from 'gen/api';
 import { UserProfile } from '@auth0/nextjs-auth0/client';
 
