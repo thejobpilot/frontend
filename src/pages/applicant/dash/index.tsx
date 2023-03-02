@@ -1,29 +1,21 @@
 import { useUser } from "@auth0/nextjs-auth0/client";
 import ResponsiveAppBar from "@/components/navBar";
-import Button from "@mui/material/Button";
-import React, { Component } from "react";
+import React from "react";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
-import accountDetails from "@/components/accountDetails";
-import AccountDetails from "@/components/accountDetails";
-import InterviewList from "@/components/interviewList";
-
-
-import interviewItemTest from "@/components/applicant-dash/interviewItemTest";
+import AccountDetails from "@/components/applicantDash/accountDetails";
+import InterviewList from "@/components/applicantDash/interviewList";
 
 export default function Profile() {
-  const { user, error, isLoading } = useUser();
-
+  const { user, isLoading, error } = useUser();
+  if (error) return <div>Failed to load</div>;
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
 
-  const items = interviewItemTest();
   return (
     user && (
         <div>
             <ResponsiveAppBar></ResponsiveAppBar>
-            <InterviewList></InterviewList>
-            <AccountDetails></AccountDetails>
-           
+            <InterviewList user={user}></InterviewList>
+            <AccountDetails user={user}></AccountDetails>
         </div>
     )
   );
