@@ -8,7 +8,7 @@ import { UserProfile } from '@auth0/nextjs-auth0/client';
 
 function AccountDetails(props: { user: UserProfile; }) {
     const [details, setDetails] = useState<User>({
-      username: "",
+      username: props.user.email as string,
       email: props.user.email as string,
       fullName: "",
       graduationDate: "",

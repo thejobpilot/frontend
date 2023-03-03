@@ -7,13 +7,13 @@ export default async function requestNewUser(
 ) {
   const newUser: UserDB = {
     email: user.email!,
-    fullName: user.name!,
+    fullName: user.name ? user.name : user.email!,
     gpa: 0.0,
     graduationDate: "2023-03-02",
     resumeLink: "",
     retakes: false,
     userType: user.userType!,
-    username: user.name!,
+    username: user.name ? user.name : user.email!,
     jobPreference: "",
     rolePreference: "",
     locationPreference: "",

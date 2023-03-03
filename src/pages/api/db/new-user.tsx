@@ -7,6 +7,7 @@ export default async function newUser(
   res: NextApiResponse
 ) {
   const user: User = JSON.parse(req.body);
+  if (user.username == "") user.username = user.email;
 
   const usersApi = new UsersApi(
     new Configuration({
