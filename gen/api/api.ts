@@ -236,6 +236,25 @@ export interface Interview {
 /**
  * 
  * @export
+ * @interface InvitationEmailDTO
+ */
+export interface InvitationEmailDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof InvitationEmailDTO
+     */
+    'to': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InvitationEmailDTO
+     */
+    'fullName': string;
+}
+/**
+ * 
+ * @export
  * @interface Position
  */
 export interface Position {
@@ -394,6 +413,109 @@ export const UserUserTypeEnum = {
 } as const;
 
 export type UserUserTypeEnum = typeof UserUserTypeEnum[keyof typeof UserUserTypeEnum];
+
+
+/**
+ * EmailApi - axios parameter creator
+ * @export
+ */
+export const EmailApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {InvitationEmailDTO} invitationEmailDTO 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        invitationEmailControllerSendEmail: async (invitationEmailDTO: InvitationEmailDTO, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'invitationEmailDTO' is not null or undefined
+            assertParamExists('invitationEmailControllerSendEmail', 'invitationEmailDTO', invitationEmailDTO)
+            const localVarPath = `/emails/invitation`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(invitationEmailDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * EmailApi - functional programming interface
+ * @export
+ */
+export const EmailApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = EmailApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {InvitationEmailDTO} invitationEmailDTO 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async invitationEmailControllerSendEmail(invitationEmailDTO: InvitationEmailDTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.invitationEmailControllerSendEmail(invitationEmailDTO, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * EmailApi - factory interface
+ * @export
+ */
+export const EmailApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = EmailApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {InvitationEmailDTO} invitationEmailDTO 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        invitationEmailControllerSendEmail(invitationEmailDTO: InvitationEmailDTO, options?: any): AxiosPromise<object> {
+            return localVarFp.invitationEmailControllerSendEmail(invitationEmailDTO, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * EmailApi - object-oriented interface
+ * @export
+ * @class EmailApi
+ * @extends {BaseAPI}
+ */
+export class EmailApi extends BaseAPI {
+    /**
+     * 
+     * @param {InvitationEmailDTO} invitationEmailDTO 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EmailApi
+     */
+    public invitationEmailControllerSendEmail(invitationEmailDTO: InvitationEmailDTO, options?: AxiosRequestConfig) {
+        return EmailApiFp(this.configuration).invitationEmailControllerSendEmail(invitationEmailDTO, options).then((request) => request(this.axios, this.basePath));
+    }
+}
 
 
 /**
@@ -1715,6 +1837,45 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {string} email 
+         * @param {AssignInterviewDTO} assignInterviewDTO 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        userControllerRemoveInterview: async (email: string, assignInterviewDTO: AssignInterviewDTO, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'email' is not null or undefined
+            assertParamExists('userControllerRemoveInterview', 'email', email)
+            // verify required parameter 'assignInterviewDTO' is not null or undefined
+            assertParamExists('userControllerRemoveInterview', 'assignInterviewDTO', assignInterviewDTO)
+            const localVarPath = `/user/{email}/remove-interview`
+                .replace(`{${"email"}}`, encodeURIComponent(String(email)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(assignInterviewDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -1784,6 +1945,17 @@ export const UsersApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.userControllerAssignInterview(email, assignInterviewDTO, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
+        /**
+         * 
+         * @param {string} email 
+         * @param {AssignInterviewDTO} assignInterviewDTO 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async userControllerRemoveInterview(email: string, assignInterviewDTO: AssignInterviewDTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.userControllerRemoveInterview(email, assignInterviewDTO, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
     }
 };
 
@@ -1847,6 +2019,16 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
          */
         userControllerAssignInterview(email: string, assignInterviewDTO: AssignInterviewDTO, options?: any): AxiosPromise<User> {
             return localVarFp.userControllerAssignInterview(email, assignInterviewDTO, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} email 
+         * @param {AssignInterviewDTO} assignInterviewDTO 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        userControllerRemoveInterview(email: string, assignInterviewDTO: AssignInterviewDTO, options?: any): AxiosPromise<User> {
+            return localVarFp.userControllerRemoveInterview(email, assignInterviewDTO, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1920,6 +2102,18 @@ export class UsersApi extends BaseAPI {
      */
     public userControllerAssignInterview(email: string, assignInterviewDTO: AssignInterviewDTO, options?: AxiosRequestConfig) {
         return UsersApiFp(this.configuration).userControllerAssignInterview(email, assignInterviewDTO, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} email 
+     * @param {AssignInterviewDTO} assignInterviewDTO 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public userControllerRemoveInterview(email: string, assignInterviewDTO: AssignInterviewDTO, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).userControllerRemoveInterview(email, assignInterviewDTO, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

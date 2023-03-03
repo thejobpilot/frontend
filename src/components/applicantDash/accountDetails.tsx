@@ -1,14 +1,14 @@
 import { Box, Typography, TextField, Button, FormGroup, Checkbox, FormControlLabel } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-import useUser from '../db/useUser';
+import useUserDB from '../db/useUserDB';
 import requestSetUser from '../db/requestSetUser';
-import { User, UserUserTypeEnum } from 'gen/api';
+import { User, UserUserTypeEnum } from 'jobpilot-backend';
 import { UserProfile } from '@auth0/nextjs-auth0/client';
 
 function AccountDetails(props: { user: UserProfile; }) {
     const [details, setDetails] = useState<User>({
-      username: "",
+      username: props.user.email as string,
       email: props.user.email as string,
       fullName: "",
       graduationDate: "",
@@ -17,11 +17,11 @@ function AccountDetails(props: { user: UserProfile; }) {
       userType: UserUserTypeEnum.Applicant,
       retakes: true,
       jobPreference: "",
-      locationPreference: "",
       rolePreference: "",
+      locationPreference: ""
     });
 
-    const { data, isLoading, isError, mutate } = useUser(props.user.email!);
+    const { data, isLoading, isError, mutate } = useUserDB(props.user.email!);
 
     useEffect(() => {
         if (data) setDetails(data as User);

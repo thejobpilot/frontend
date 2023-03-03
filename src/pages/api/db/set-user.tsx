@@ -1,5 +1,5 @@
 import { Configuration, User, UsersApi } from "jobpilot-backend";
-import { UserUserTypeEnum } from "gen/api";
+import { UserUserTypeEnum } from "jobpilot-backend";
 import { AxiosError } from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -42,5 +42,3 @@ export default async function updateUser(
       res.status(200).json(r.data);
     });
 }
-
-    // updateOneBaseUserControllerUser(email: string, user: User, options?: AxiosRequestConfig): Promise<import("axios").AxiosResponse<User, any>>;
