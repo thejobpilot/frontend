@@ -213,6 +213,12 @@ export interface Interview {
      * @type {number}
      * @memberof Interview
      */
+    'retakes': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Interview
+     */
     'positionId'?: number;
     /**
      * 

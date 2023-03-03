@@ -6,6 +6,7 @@ import PositionList from "@/components/recruiterDash/positionList";
 import ApplicantList from "@/components/recruiterDash/applicantList";
 import InterviewEditor from "@/components/recruiterDash/interviewEditor";
 import { Interview, Position } from "jobpilot-backend";
+import useUserDB from "@/components/db/useUserDB";
 
 export default function InterviewManager() {
   const [selected, setSelected] = useState({
@@ -26,6 +27,7 @@ export default function InterviewManager() {
   }
 
   const { user, error, isLoading } = useUser();
+
   useEffect(() => {
     document.body.style.backgroundColor = "#EFEFEF";
   }, []);
