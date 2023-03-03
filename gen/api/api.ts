@@ -216,6 +216,12 @@ export interface Interview {
     'positionId'?: number;
     /**
      * 
+     * @type {Array<User>}
+     * @memberof Interview
+     */
+    'applicants'?: Array<User>;
+    /**
+     * 
      * @type {Position}
      * @memberof Interview
      */
@@ -309,16 +315,10 @@ export interface User {
     'graduationDate': string;
     /**
      * 
-     * @type {number}
+     * @type {Array<Interview>}
      * @memberof User
      */
-    'interviewId'?: number;
-    /**
-     * 
-     * @type {Interview}
-     * @memberof User
-     */
-    'interview'?: Interview;
+    'interviews'?: Array<Interview>;
     /**
      * 
      * @type {Array<Position>}
@@ -367,6 +367,24 @@ export interface User {
      * @memberof User
      */
     'retakes': boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    'jobPreference': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    'rolePreference': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    'locationPreference': string;
 }
 
 export const UserUserTypeEnum = {

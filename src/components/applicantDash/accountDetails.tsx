@@ -16,6 +16,9 @@ function AccountDetails(props: { user: UserProfile; }) {
       resumeLink: "",
       userType: UserUserTypeEnum.Applicant,
       retakes: true,
+      jobPreference: "",
+      rolePreference: "",
+      locationPreference: ""
     });
 
     const { data, isLoading, isError, mutate } = useUserDB(props.user.email!);
