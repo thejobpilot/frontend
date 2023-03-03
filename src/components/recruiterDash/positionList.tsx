@@ -1,25 +1,25 @@
 import { useState } from "react";
 import { Box, Typography, List, ListItem, ListItemText } from "@mui/material";
+import { Interview, Position, User } from "jobpilot-backend";
 
-export default function PositionList() {
-  const [selectedInterview, setSelectedInterview] = useState(null);
-  const [showPositions, setShowPositions] = useState(false);
+function getInterviewByID(user: User, id: number) {
+  if (!user.interviews) return null;
+  for(let i=0; i<user.interviews.length; i++) {
+    if (user.interviews[i].id === id) return user.interviews[i];
+  }
+}
 
-  const interviews = [
-    { id: 1, title: "Position 1", positions: ["Interview 1", "Interview 2"] },
-    { id: 2, title: "Position 2", positions: ["Interview 3", "Interview 4"] },
-    { id: 3, title: "Position 3", positions: ["Interview 5", "Interview 6"] },
-    { id: 4, title: "Position 4", positions: ["Interview 7", "Interview 8"] },
-  ];
+function getPosByID(user: User, id: number) {
+  if (!user.positions) return null;
+  for(let i=0; i<user.positions.length; i++) {
+    if (user.positions[i].id === id) return user.positions[i];
+  }
+}
 
-  const handleInterviewClick = (interview: any) => {
-    setSelectedInterview(interview);
-    setShowPositions(true);
-  };
-
+export default function PositionList(props: any) {
   const handleBackClick = () => {
-    setSelectedInterview(null);
-    setShowPositions(false);
+    props.interviewSelector(null);
+    props.positionSelector(null);
   };
 
   // @ts-ignore
@@ -41,7 +41,7 @@ export default function PositionList() {
         variant="h5"
         sx={{ bgcolor: "#111E31", color: "white", p: 2, textAlign: "center" }}
       >
-        {showPositions ? (
+        {props.selected.position != -1 ? (
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Typography
               variant="h5"
@@ -50,24 +50,28 @@ export default function PositionList() {
             >
               {"<"}
             </Typography>
-            <Typography variant="h5">{selectedInterview.title}</Typography>
+            <Typography variant="h5">
+              {getPosByID(props.user, props.selected.position)
+                ? getPosByID(props.user, props.selected.position)!.name
+                : "Position"}
+            </Typography>
           </Box>
         ) : (
           "Positions"
         )}
       </Typography>
       <List>
-        {showPositions
-          ? selectedInterview?.positions.map((position) => (
+        {props.selected.interview != -1
+          ? props.user.positions.map((position: Position) => (
               <ListItem
-                key={position}
+                key={position.id}
                 button
                 sx={{ borderBottom: "1px solid #E0E0E0" }}
               >
-                <ListItemText primary={position} />
+                <ListItemText primary={position.name} />
               </ListItem>
             ))
-          : interviews.map((interview) => (
+          : props.selected.position.interviews?.map((interview: Interview) => (
               <ListItem
                 key={interview.id}
                 button

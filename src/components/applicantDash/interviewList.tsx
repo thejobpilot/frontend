@@ -7,9 +7,6 @@ function InterviewList(props: { user: UserProfile }) {
     const [selectedInterview, setSelectedInterview] = useState(0);
 
     const {data, isLoading, isError, mutate} = useUserDB(props.user.email!);
-    if (data !== undefined) {
-        console.log(data)
-    }
     const handleInterviewClick = (interview: any) => {
         setSelectedInterview(interview);
     };

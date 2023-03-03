@@ -1,31 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Typography, List, ListItem, ListItemText } from "@mui/material";
+import useUserDB from "../db/useUserDB";
+import useAllUsers from "../db/useAllUsers";
+import { User } from "jobpilot-backend";
+import requestAssignInterview from "../db/requestAssignInterview";
 
-export default function ApplicantList() {
-  const [selectedInterview, setSelectedInterview] = useState(null);
-  const [showPositions, setShowPositions] = useState(false);
+// function searchInterviewForEmail(user: User, email: string) {
+//   for (const pos of user.positions || []) {
+//     const intersection = pos.interviews?.filter((element) =>
+//       user.interviews?.includes(element)
+//     );
+//     if (intersection) {
+//       console.log("intersection", intersection);
+//       return intersection[0].id;
+//     }
+//   }
+// }
 
-  const interviews = [
-    { id: 1, title: "Position 1", positions: ["Applicant 1", "Applicant 2"] },
-    { id: 2, title: "Position 2", positions: ["Applicant 3", "Applicant 4"] },
-    { id: 3, title: "Position 3", positions: ["Applicant 5", "Applicant 6"] },
-    { id: 4, title: "Position 4", positions: ["Applicant 7", "Applicant 8"] },
-  ];
+export default function ApplicantList(props: any) {
+  const users = useAllUsers();
 
-  const handleInterviewClick = (interview: any) => {
-    setSelectedInterview(interview);
-    setShowPositions(true);
-  };
+  if (!users) return <div>Failed to load</div>;
 
-  const handleBackClick = () => {
-    setSelectedInterview(null);
-    setShowPositions(false);
-  };
+  const addToInterview = (e: any) => {
+    if (props.selected.interview !== -1) {
+      requestAssignInterview(props.user.email, props.selected.interview)
+    } else {
+      console.log("failed")
+    }
+  }
 
-  // @ts-ignore
-  // @ts-ignore
-  // @ts-ignore
-  // @ts-ignore
+  // const checkIfSent = (email: any) => {
+  //   return searchInterviewForEmail(props.user, email)
+  // }
+
   return (
     <Box
       sx={{
@@ -43,43 +51,83 @@ export default function ApplicantList() {
         variant="h5"
         sx={{ bgcolor: "#111E31", color: "white", p: 2, textAlign: "center" }}
       >
-        {showPositions ? (
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Typography
-              variant="h5"
-              sx={{ mr: 2, cursor: "pointer" }}
-              onClick={handleBackClick}
-            >
-              {"<"}
-            </Typography>
-            <Typography variant="h5">{"not found"}</Typography>
-          </Box>
-        ) : (
-          "Positions"
-        )}
+        Applicant List
       </Typography>
       <List>
-        {showPositions
-          ? selectedInterview?.positions.map((position) => (
-              <ListItem
-                key={position}
-                button
-                sx={{ borderBottom: "1px solid #E0E0E0" }}
-              >
-                <ListItemText primary={position} />
-              </ListItem>
-            ))
-          : interviews.map((interview) => (
-              <ListItem
-                key={interview.id}
-                button
-                onClick={() => handleInterviewClick(interview)}
-                sx={{ borderBottom: "1px solid #E0E0E0" }}
-              >
-                <ListItemText primary={interview.title} />
-              </ListItem>
-            ))}
+        {users.length > 0 ? (
+          users.map((email) => (
+            <ListItem
+              key={email}
+              button
+              onClick={addToInterview}
+              sx={{ borderBottom: `1px solid #E0E0E0` }}
+            >
+              <ListItemText primary={email} />
+            </ListItem>
+          ))
+        ) : (
+          <ListItem disabled sx={{ borderBottom: "1px solid #E0E0E0" }}>
+            <ListItemText primary={"No applicants found"} />
+          </ListItem>
+        )}
       </List>
     </Box>
   );
 }
+
+// export default function ApplicantList(props:any) {
+//   const [apps, setApps] = useState([]);
+//   const users = useAllUsers();
+
+//   // const handleInterviewClick = (interview: any) => {
+//   //   setSelectedInterview(interview);
+//   //   setShowPositions(true);
+//   // };
+
+//   // const handleBackClick = () => {
+//   //   setSelectedInterview(null);
+//   //   setShowPositions(false);
+//   // };
+
+//   if (!users) return <div>Failed to load</div>;
+//   // if (isLoading) return <div>Loading...</div>;
+//   return (
+//     <Box
+//       sx={{
+//         p: 3,
+//         bgcolor: "white",
+//         color: "black",
+//         position: "absolute",
+//         top: 55,
+//         right: 0,
+//         height: "100%",
+//         width: "30%",
+//       }}
+//     >
+//       <Typography
+//         variant="h5"
+//         sx={{ bgcolor: "#111E31", color: "white", p: 2, textAlign: "center" }}
+//       / >
+//       <List>
+//         {users.length > 0
+//           ? users.map((data) => (
+//               <ListItem
+//                 key={data.email}
+//                 disabled
+//                 sx={{ borderBottom: "1px solid #E0E0E0" }}
+//               >
+//                 <ListItemText primary={data.fullName} />
+//               </ListItem>
+//             ))
+//           : (
+//               <ListItem
+//                 disabled
+//                 sx={{ borderBottom: "1px solid #E0E0E0" }}
+//               >
+//                 <ListItemText primary={"No applicants found"} />
+//               </ListItem>
+//             ))}
+//       </List>
+//     </Box>
+//   );
+// }
