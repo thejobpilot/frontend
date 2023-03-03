@@ -22,9 +22,11 @@ export default function ApplicantList(props: any) {
 
   if (!users) return <div>Failed to load</div>;
 
-  const addToInterview = (e: any) => {
+  const addToInterview = (selectedEmail: string) => {
+      console.log("adding to interview")
+      console.log(props)
     if (props.selected.interview !== -1) {
-      requestAssignInterview(props.user.email, props.selected.interview)
+      requestAssignInterview(selectedEmail, props.selected.interview.id)
     } else {
       console.log("failed")
     }
@@ -59,7 +61,7 @@ export default function ApplicantList(props: any) {
             <ListItem
               key={email}
               button
-              onClick={addToInterview}
+              onClick={e => addToInterview(email)}
               sx={{ borderBottom: `1px solid #E0E0E0` }}
             >
               <ListItemText primary={email} />
