@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import {useRouter} from "next/router";
 
 const settings = [
   { label: "Account", path: "/dash" },
@@ -22,7 +23,7 @@ const settings = [
 function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-
+    let router = useRouter();
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
     };
@@ -38,6 +39,12 @@ function ResponsiveAppBar() {
         console.log(e.target.key)
         setAnchorElUser(null);
     };
+
+    const pressUserMenuButton = async (buttonPressed: string) => {
+        if(buttonPressed == 'Logout') {
+            await router.push("/api/auth/logout");
+        }
+    }
 
     return (
       <AppBar position="fixed" sx={{ backgroundColor: "#111E31" }}>

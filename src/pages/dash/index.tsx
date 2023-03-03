@@ -47,8 +47,6 @@ export default function Profile() {
     mutate(newUser);
   }
 
-
-
   useEffect(() => {
     if (user && user.email) setEmail(user.email);
     if (email != "" && isError) {
@@ -62,7 +60,7 @@ export default function Profile() {
       setCaptureState(CaptureStates.USER_NOT_FOUND);
       return;
     }
-  }, [user, isError]);
+  }, [data, isLoading, user, isError]);
 
   if (captureState == CaptureStates.USER_NOT_ONBOARDED) {
     return (
