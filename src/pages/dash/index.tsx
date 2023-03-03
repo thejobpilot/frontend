@@ -17,21 +17,25 @@ export default function Profile() {
   );
   const [email, setEmail] = useState("");
   const { user, error, isLoading } = useUser();
-  const { data, isError, isLoading: loading } = useUserDB(email);
+  const { data, isError, isLoading: loadingDB } = useUserDB(email);
 
   useEffect(() => {
     if (user && user.email) setEmail(user.email);
 
+    console.log("Email: " + email + " IsError: " + isError?.status);
     if (email != "" && isError) {
       setCaptureState(CaptureStates.USER_NOT_ONBOARDED);
+      return;
     }
 
-    if (email != "" && !loading && !isError && !isLoading) {
+    if (email != "" && !loadingDB && !isError && !isLoading) {
       setCaptureState(CaptureStates.USER_READY);
+      return;
     } else {
       setCaptureState(CaptureStates.USER_NOT_FOUND);
+      return;
     }
-  }, [data, user, isLoading, email, isError]);
+  }, [user, isError]);
 
   if (captureState == CaptureStates.USER_NOT_ONBOARDED) {
     return <h1>NEED TO BE ONBOARDED</h1>;
@@ -42,7 +46,7 @@ export default function Profile() {
   }
 
   if (isLoading) return <div>Loading Auth0...</div>;
-  if (loading) return <div>Loading DB...</div>;
+  if (loadingDB) return <div>Loading DB...</div>;
 
   if (isError) return <h1>404 Error {captureState}</h1>
   if (error) return <div>Error: {error.message}</div>;
