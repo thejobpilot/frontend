@@ -40,6 +40,10 @@ function AccountDetails(props: { user: UserProfile; }) {
       });
     }
 
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     if (isError) return <div>failed to load</div>;
     if (isLoading) return <div>loading...</div>;
     return (
@@ -55,10 +59,10 @@ function AccountDetails(props: { user: UserProfile; }) {
                 width: '60%', // Set the width to 70% of the available space
             }}
         >
-            <Typography variant="h5" sx={{ mb: 2, bgcolor: '#111E31', color: 'white', p: 2, textAlign: 'center' }}>
-                Account details
+            <Typography variant="h5" sx={{mb: 2, bgcolor: '#111E31', color: 'white', p: 2, textAlign: 'center'}}>
+                Account details ({capitalizeFirstLetter(data.userType)})
             </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Box sx={{display: 'flex', flexDirection: 'column', gap: 2}}>
                 <TextField
                     id="outlined-username"
                     label="Username"
@@ -130,7 +134,7 @@ function AccountDetails(props: { user: UserProfile; }) {
                     defaultValue={data.rolePreference}
                     onChange={(e) => updateField(e)}
                 />
-                <Button onClick={(e) => handleSubmit(e)} variant="contained" sx={{ bgcolor: '#111E31', color: 'white' }}>
+                <Button onClick={(e) => handleSubmit(e)} variant="contained" sx={{bgcolor: '#111E31', color: 'white'}}>
                     Save
                 </Button>
             </Box>
