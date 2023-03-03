@@ -22,7 +22,7 @@ export default function Onboarding(props: any) {
           Welcome to JobPilot
         </Typography>
         <Typography variant="h5" gutterBottom>
-          Let's get you onboarded!
+          {"Let's get you onboarded!"}
         </Typography>
         <Typography component="p" marginTop={"30px"} gutterBottom>
           Which role suits you best?

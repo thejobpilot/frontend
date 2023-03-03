@@ -59,7 +59,7 @@ export default function Profile() {
       setCaptureState(CaptureStates.USER_NOT_FOUND);
       return;
     }
-  }, [data, isLoading, user, isError]);
+  }, [data, email, loading, isLoading, user, isError]);
 
   if (captureState == CaptureStates.USER_NOT_ONBOARDED) {
     return (
