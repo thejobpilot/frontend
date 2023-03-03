@@ -1,103 +1,116 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import {
-  Box,
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-  Button,
-  TextField,
+    Box,
+    Typography,
+    List,
+    ListItem,
+    ListItemText,
+    Button,
+    TextField,
 } from "@mui/material";
-import { Interview, User, UserUserTypeEnum } from "jobpilot-backend";
+import {Interview, Position, User, UserUserTypeEnum} from "jobpilot-backend";
 import requestSetInterview from "../db/requestSetInterview";
+import useUserDB from "@/components/db/useUserDB";
 
 export default function InterviewEditor(props: any) {
-  const [interview, setInterview] = useState<Interview>(
-    props.selected.interview
-  );
-
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    requestSetInterview(
-      props.selected.interview.id,
-      props.selected.position.id,
-      interview
+    const {
+        data,
+        isLoading: isLoadingDB,
+        isError,
+        mutate,
+    } = useUserDB(props.user.email!);
+    let selectedInterview;
+    if (props.selected.position && props.selected.interview) {
+        selectedInterview = data.positions.find((position: Position) => position.id === props.selected.position.id)
+            .interviews.find((interview: Interview) => interview.id === props.selected.interview.id);
+    }
+    const newInterview: Interview = {name: selectedInterview.name, prepTime: selectedInterview.prepTime, retakes: selectedInterview.retakes}
+    const [interview, setInterview] = useState<Interview>(
+        newInterview
     );
-  };
 
-  function updateField(e: any) {
-    const { name, value } = e.target;
-    setInterview((prev) => {
-      console.log("upate")
-      return { ...prev, [name]: value };
-    });
-  }
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
+        requestSetInterview(
+            props.selected.interview.id,
+            props.selected.position.id,
+            interview
+        );
+    };
 
-  return (
-    <Box
-      sx={{
-        p: 3,
-        bgcolor: "white",
-        color: "black",
-        position: "absolute",
-        top: 55,
-        right: "35%",
-        height: "100%",
-        width: "30%",
-      }}
-    >
-      <Typography
-        variant="h5"
-        sx={{ bgcolor: "#111E31", color: "white", p: 2, textAlign: "center" }}
-      >
-        Interview Editor
-      </Typography>
+    function updateField(e: any) {
+        const {name, value} = e.target;
+        setInterview((prev) => {
+            console.log("upate")
+            return {...prev, [name]: value};
+        });
+    }
 
-      {interview && (
-        <form
-          onSubmit={(e) => {
-            handleSubmit(e);
-          }}
-        >
-          <Box
+    return (
+        <Box
             sx={{
-              p: 3,
-              bgcolor: "white",
-              color: "black",
-              top: 55,
-              right: 0,
-              height: "100%",
-              width: "100%",
+                p: 3,
+                bgcolor: "white",
+                color: "black",
+                position: "absolute",
+                top: 55,
+                right: "35%",
+                height: "100%",
+                width: "30%",
             }}
-          >
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              <TextField
-                label="Preparation Time"
-                variant="outlined"
-                name="prepTime"
-                defaultValue={interview.prepTime}
-                onChange={(e) => updateField(e)}
-                inputProps={{ type: "number" }}
-              />
-              <TextField
-                label="# Retakes"
-                variant="outlined"
-                name="retakes"
-                defaultValue={interview.retakes}
-                onChange={(e) => updateField(e)}
-                inputProps={{ type: "number" }}
-              />
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{ bgcolor: "#111E31", color: "white" }}
-              >
-                Save
-              </Button>
-            </Box>
-          </Box>
-        </form>
-      )}
-    </Box>
-  );
+        >
+            <Typography
+                variant="h5"
+                sx={{bgcolor: "#111E31", color: "white", p: 2, textAlign: "center"}}
+            >
+                Interview Editor
+            </Typography>
+
+            {interview && (
+                <form
+                    onSubmit={(e) => {
+                        handleSubmit(e);
+                    }}
+                >
+                    <Box
+                        sx={{
+                            p: 3,
+                            bgcolor: "white",
+                            color: "black",
+                            top: 55,
+                            right: 0,
+                            height: "100%",
+                            width: "100%",
+                        }}
+                    >
+                        <Box sx={{display: "flex", flexDirection: "column", gap: 2}}>
+                            <TextField
+                                label="Preparation Time"
+                                variant="outlined"
+                                name="prepTime"
+                                defaultValue={interview.prepTime}
+                                onChange={(e) => updateField(e)}
+                                inputProps={{type: "number"}}
+                            />
+                            <TextField
+                                label="# Retakes"
+                                variant="outlined"
+                                name="retakes"
+                                defaultValue={interview.retakes}
+                                onChange={(e) => updateField(e)}
+                                inputProps={{type: "number"}}
+                            />
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                sx={{bgcolor: "#111E31", color: "white"}}
+                            >
+                                Save
+                            </Button>
+                        </Box>
+                    </Box>
+                </form>
+            )}
+        </Box>
+    );
 }
