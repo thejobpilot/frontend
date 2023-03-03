@@ -21,6 +21,7 @@ export default function InterviewEditor(props: any) {
         sx={{ bgcolor: "#111E31", color: "white", p: 2, textAlign: "center" }}
       >
         Interview Editor
+        {props.selected.interview && (<h1>{props.selected.interview.name}</h1>)}
       </Typography>
     </Box>
   );

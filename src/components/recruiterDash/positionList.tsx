@@ -84,7 +84,7 @@ export default function PositionList(props: any) {
               <ListItem
                 key={interview.id}
                 button
-                // onClick={() => handleInterviewClick(interview)}
+                onClick={() => {props.interviewSelector(interview)}}
                 sx={{ borderBottom: "1px solid #E0E0E0" }}
               >
                 <ListItemText primary={interview.name} />
