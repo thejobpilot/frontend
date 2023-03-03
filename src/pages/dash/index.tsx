@@ -22,6 +22,7 @@ export default function Profile() {
   const [email, setEmail] = useState("");
   const [selectedType, setSelectedType] = useState(UserUserTypeEnum.Applicant);
   const { user, error, isLoading } = useUser();
+<<<<<<< HEAD
   const { data, isError, isLoading: loading, mutate } = useUserDB(email);
 
   const handleTypeChange = (event: any) => {
@@ -48,18 +49,31 @@ export default function Profile() {
 
   useEffect(() => {
     if (user && user.email) setEmail(user.email);
+=======
+  const { data, isError, isLoading: loadingDB } = useUserDB(email);
+
+  useEffect(() => {
+    if (user && user.email) setEmail(user.email);
+
+    console.log("Email: " + email + " IsError: " + isError?.status);
+>>>>>>> 568889640f91ad80074daeea2f06d1a36eb10f67
     if (email != "" && isError) {
       setCaptureState(CaptureStates.USER_NOT_ONBOARDED);
       return;
     }
+<<<<<<< HEAD
     if (email != "" && !loading && !isError && !isLoading) {
+=======
+
+    if (email != "" && !loadingDB && !isError && !isLoading) {
+>>>>>>> 568889640f91ad80074daeea2f06d1a36eb10f67
       setCaptureState(CaptureStates.USER_READY);
       return;
     } else {
       setCaptureState(CaptureStates.USER_NOT_FOUND);
       return;
     }
-  }, [data, user, isLoading, email, isError]);
+  }, [user, isError]);
 
   if (captureState == CaptureStates.USER_NOT_ONBOARDED) {
     return (
@@ -77,7 +91,7 @@ export default function Profile() {
 
   // Extra error handling (Shouldn't reach here much)
   if (isLoading) return <div>Loading Auth0...</div>;
-  if (loading) return <div>Loading DB...</div>;
+  if (loadingDB) return <div>Loading DB...</div>;
 
   if (isError) return <h1>404 Error </h1>;
   if (error) return <div>Error: {error.message}</div>;
