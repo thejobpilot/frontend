@@ -23,10 +23,9 @@ export default function ApplicantList(props: any) {
   if (!users) return <div>Failed to load</div>;
 
   const addToInterview = (selectedEmail: string) => {
-      console.log("adding to interview")
-      console.log(props)
     if (props.selected.interview !== -1) {
-      requestAssignInterview(selectedEmail, props.selected.interview.id)
+      requestAssignInterview(selectedEmail, props.selected.interview.id);
+      window.alert("Successfully assigned interview!");
     } else {
       console.log("failed")
     }
