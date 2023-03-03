@@ -77,6 +77,7 @@ export default function AccountDetails(props: any) {
             label="Username"
             variant="outlined"
             name="username"
+            required
             defaultValue={data.username}
             onChange={(e) => updateField(e)}
             inputProps={{ minLength: 3, maxLength: 20 }}
@@ -88,6 +89,7 @@ export default function AccountDetails(props: any) {
             defaultValue={data.email}
             name="email"
             disabled
+            required
             inputProps={{ type: "email" }}
           />
           <TextField
@@ -95,6 +97,7 @@ export default function AccountDetails(props: any) {
             label="Fullname"
             variant="outlined"
             name="fullName"
+            required
             defaultValue={data.fullName}
             onChange={(e) => updateField(e)}
           />
@@ -103,6 +106,7 @@ export default function AccountDetails(props: any) {
             label="Company"
             variant="outlined"
             name="rolePreference"
+            required
             defaultValue={data.rolePreference}
             onChange={(e) => updateField(e)}
           />
