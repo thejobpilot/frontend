@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import useUserDB from '../db/useUserDB';
 import requestSetUser from '../db/requestSetUser';
-import { User, UserUserTypeEnum } from 'gen/api';
+import { User, UserUserTypeEnum } from 'jobpilot-backend';
 import { UserProfile } from '@auth0/nextjs-auth0/client';
 
 function AccountDetails(props: { user: UserProfile; }) {

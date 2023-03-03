@@ -1,5 +1,5 @@
 import { User } from "@auth0/auth0-react";
-import { UserUserTypeEnum } from "gen/api";
+import { UserUserTypeEnum } from "jobpilot-backend";
 import { User as UserDB } from "jobpilot-backend";
 
 export default async function requestNewUser(

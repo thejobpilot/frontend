@@ -4,8 +4,7 @@ import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/router";
 import useUserDB from "@/components/db/useUserDB";
 import Onboarding from "@/components/onboarding";
-import { UserUserTypeEnum } from "gen/api/dist";
-import { User } from "gen/api";
+import { User, UserUserTypeEnum } from "jobpilot-backend";
 import requestNewUser from "@/components/db/requestNewUser";
 
 enum CaptureStates {

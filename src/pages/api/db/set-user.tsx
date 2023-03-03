@@ -1,5 +1,5 @@
 import { Configuration, User, UsersApi } from "jobpilot-backend";
-import { UserUserTypeEnum } from "gen/api";
+import { UserUserTypeEnum } from "jobpilot-backend";
 import { AxiosError } from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 

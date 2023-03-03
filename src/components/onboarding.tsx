@@ -5,7 +5,7 @@ import {
   Radio,
   Button,
 } from "@mui/material";
-import { UserUserTypeEnum } from "gen/api";
+import { UserUserTypeEnum } from "jobpilot-backend";
 
 export default function Onboarding(props: any) {
   return (

@@ -1,4 +1,4 @@
-import { User } from "gen/api";
+import { User } from "jobpilot-backend";
 
 export default async function requestSetUser(email: string, user: User) {
   await fetch(`/api/db/set-user?email=${email}`, {
