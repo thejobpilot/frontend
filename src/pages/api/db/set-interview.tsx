@@ -8,7 +8,13 @@ export default async function updateUser(
 ) {
     const id: number = parseInt(req.query.id as string);
     const positionId: number = parseInt(req.query.positionId as string);
-    const interview: Interview = JSON.parse(req.body);
+    console.log(req.body)
+    const interview = JSON.parse(req.body);
+    const formattedInterview: Interview = {
+        name: interview.name,
+        prepTime: parseInt(interview.prepTime),
+        retakes: parseInt(interview.retakes)
+    }
 
     const usersApi = new InterviewApi(
         new Configuration({
@@ -17,7 +23,7 @@ export default async function updateUser(
     );
 
     let axiosResponse = await usersApi
-        .updateOneBaseInterviewsControllerInterview(id, positionId, interview)
+        .updateOneBaseInterviewsControllerInterview(id, positionId, formattedInterview)
         .catch((error: AxiosError) => {
             console.log(error.response?.data);
         })

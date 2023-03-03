@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
     Box,
     Typography,
@@ -19,31 +19,39 @@ export default function InterviewEditor(props: any) {
         isError,
         mutate,
     } = useUserDB(props.user.email!);
-    let selectedInterview;
-    if (props.selected.position && props.selected.interview) {
-        selectedInterview = data.positions.find((position: Position) => position.id === props.selected.position.id)
-            .interviews.find((interview: Interview) => interview.id === props.selected.interview.id);
-    }
-    const newInterview: Interview = {name: selectedInterview.name, prepTime: selectedInterview.prepTime, retakes: selectedInterview.retakes}
-    const [interview, setInterview] = useState<Interview>(
-        newInterview
+
+    const [interview, setInterview] = useState(
+        props.selected.interview
     );
+    const [, updateState] = React.useState();
+    useEffect(() => {
+        setInterview(props.selected.interview);
+        updateState(undefined);
+    }, [props.selected, props.selected.interview])
+
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        requestSetInterview(
-            props.selected.interview.id,
-            props.selected.position.id,
-            interview
-        );
+        if (interview) {
+            console.log(interview)
+            requestSetInterview(
+                props.selected.interview.id,
+                props.selected.position.id,
+                interview
+            );
+            mutate(interview);
+        }
     };
 
     function updateField(e: any) {
-        const {name, value} = e.target;
-        setInterview((prev) => {
-            console.log("upate")
-            return {...prev, [name]: value};
-        });
+        if (interview) {
+            const {name, value} = e.target;
+            // @ts-ignore
+            setInterview((prev) => {
+                return {...prev, [name]: value};
+            });
+        }
+
     }
 
     return (
