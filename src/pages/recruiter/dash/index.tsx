@@ -5,9 +5,8 @@ import React from "react";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import AccountDetails from "@/components/recruiterDash/accountDetails";
 
-export default function Profile() {
+export default function Dashboard() {
   const { user, error, isLoading } = useUser();
-
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
 
@@ -62,7 +61,7 @@ export default function Profile() {
             </Button>
           </div>
           <div style={{ flexGrow: 1 }}>
-            <AccountDetails />
+            <AccountDetails user={user} />
           </div>
         </div>
       </div>
