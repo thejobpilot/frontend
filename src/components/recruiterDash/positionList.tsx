@@ -65,7 +65,7 @@ export default function PositionList(props: any) {
             </Typography>
           </Box>
         ) : (
-          "Positions"
+          "Listed Positions"
         )}
       </Typography>
       <List>
