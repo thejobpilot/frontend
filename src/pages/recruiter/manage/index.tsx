@@ -1,12 +1,11 @@
-import { withAuth0, WithAuth0Props } from "@auth0/auth0-react";
 import { useUser } from "@auth0/nextjs-auth0/client";
-
 import ResponsiveAppBar from "@/components/navBar";
-import Button from "@mui/material/Button";
-import React, { Component } from "react";
+import React from "react";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
+import PositionList from "@/components/recruiterDash/positionList";
+import ApplicantList from "@/components/recruiterDash/applicantList";
 
-export default function Profile() {
+export default function InterviewManager() {
   const { user, error, isLoading } = useUser();
 
   if (isLoading) return <div>Loading...</div>;
@@ -14,22 +13,10 @@ export default function Profile() {
 
   return (
     user && (
-      <div>
-        {user.picture && user.name && (
-          <img src={user.picture} alt={user.name} />
-        )}
-        <h1>Recruiter/Manage</h1>
-        <h2>{user.name}</h2>
-        <p>{user.email}</p>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-          href="/api/auth/logout"
-        >
-          Sign Out
-        </Button>
+      <div style={{ backgroundColor: "#EFEFEF" }}>
+        <ResponsiveAppBar></ResponsiveAppBar>
+        <PositionList></PositionList>
+        <ApplicantList></ApplicantList>
       </div>
     )
   );

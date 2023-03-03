@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Box, Typography, TextField, Button, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 
-function AccountDetails() {
+export function EmployerAccountDetails() {
     const [username, setUsername] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [company, setCompany] = React.useState('');
@@ -79,4 +79,3 @@ function AccountDetails() {
     );
 }
 
-export default AccountDetails;
