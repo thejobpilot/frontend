@@ -42,5 +42,3 @@ export default async function updateUser(
       res.status(200).json(r.data);
     });
 }
-
-    // updateOneBaseUserControllerUser(email: string, user: User, options?: AxiosRequestConfig): Promise<import("axios").AxiosResponse<User, any>>;

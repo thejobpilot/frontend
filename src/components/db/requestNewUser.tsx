@@ -14,6 +14,9 @@ export default async function requestNewUser(
     retakes: false,
     userType: user.userType!,
     username: user.name!,
+    jobPreference: "",
+    rolePreference: "",
+    locationPreference: "",
   };
 
   await fetch(`/api/db/new-user`, {
