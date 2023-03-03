@@ -8,46 +8,31 @@ import {
   Button,
   TextField,
 } from "@mui/material";
-import { User, UserUserTypeEnum } from "jobpilot-backend";
-import capitalizeFirstLetter from "../capitalizeFirstLetter";
-import requestSetUser from "../db/requestSetUser";
-import useUserDB from "../db/useUserDB";
+import { Interview, User, UserUserTypeEnum } from "jobpilot-backend";
+import requestSetInterview from "../db/requestSetInterview";
 
 export default function InterviewEditor(props: any) {
-  const [details, setDetails] = useState<User>({
-    username: props.user.email as string,
-    email: props.user.email as string,
-    fullName: "",
-    graduationDate: "",
-    gpa: 0,
-    resumeLink: "",
-    userType: UserUserTypeEnum.Applicant,
-    retakes: true,
-    jobPreference: "",
-    rolePreference: "",
-    locationPreference: "",
-  });
-
-  const { data, isLoading, isError, mutate } = useUserDB(props.user.email!);
-
-  useEffect(() => {
-    if (data) setDetails(data as User);
-  }, [data]);
+  const [interview, setInterview] = useState<Interview>(
+    props.selected.interview
+  );
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    requestSetUser(details.email, details);
-    mutate(details);
+    requestSetInterview(
+      props.selected.interview.id,
+      props.selected.position.id,
+      interview
+    );
   };
 
   function updateField(e: any) {
     const { name, value } = e.target;
-    setDetails((prev) => {
+    setInterview((prev) => {
+      console.log("upate")
       return { ...prev, [name]: value };
     });
   }
-  if (isError) return <div>failed to load</div>;
-  if (isLoading) return <div>loading...</div>;
+
   return (
     <Box
       sx={{
@@ -68,7 +53,7 @@ export default function InterviewEditor(props: any) {
         Interview Editor
       </Typography>
 
-      {props.selected.interview && (
+      {interview && (
         <form
           onSubmit={(e) => {
             handleSubmit(e);
@@ -90,7 +75,7 @@ export default function InterviewEditor(props: any) {
                 label="Preparation Time"
                 variant="outlined"
                 name="prepTime"
-                defaultValue={props.selected.interview.prepTime}
+                defaultValue={interview.prepTime}
                 onChange={(e) => updateField(e)}
                 inputProps={{ type: "number" }}
               />
@@ -98,7 +83,7 @@ export default function InterviewEditor(props: any) {
                 label="# Retakes"
                 variant="outlined"
                 name="retakes"
-                defaultValue={props.selected.interview.retakes}
+                defaultValue={interview.retakes}
                 onChange={(e) => updateField(e)}
                 inputProps={{ type: "number" }}
               />
