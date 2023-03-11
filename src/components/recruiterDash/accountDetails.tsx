@@ -90,6 +90,7 @@ export default function AccountDetails(props: any) {
             name="email"
             required
             disabled
+            required
             inputProps={{ type: "email" }}
           />
           <TextField
