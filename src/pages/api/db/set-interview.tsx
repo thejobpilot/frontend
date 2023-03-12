@@ -13,7 +13,7 @@ export default async function updateUser(
     const formattedInterview: Interview = {
         name: interview.name,
         prepTime: parseInt(interview.prepTime),
-        retakes: parseInt(interview.retakes)
+        // retakes: parseInt(interview.retakes)
     }
 
     const usersApi = new InterviewApi(
