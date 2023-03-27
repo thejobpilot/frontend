@@ -7,6 +7,7 @@ import ApplicantList from "@/components/recruiterDash/applicantList";
 import InterviewEditor from "@/components/recruiterDash/interviewEditor";
 import { Interview, Position } from "jobpilot-backend";
 import useUserDB from "@/components/db/useUserDB";
+import ApplicantListContainer from "@/components/dragAndDrop";
 
 export default function InterviewManager() {
   const [selected, setSelected] = useState({
