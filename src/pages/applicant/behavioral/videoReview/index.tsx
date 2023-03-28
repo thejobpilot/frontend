@@ -10,6 +10,8 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import ResponsiveAppBar from "@/components/navBar";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
 
 const theme = createTheme({
@@ -27,6 +29,8 @@ const theme = createTheme({
   const InterviewPage: React.FC = () => {
     const [currentQuestion, setCurrentQuestion] = useState(1);
     const videoLink = 'https://i.geckolib.com/file/softwarelocker/05h1Cg.mp4';
+    const numRetrys = 2;
+    const valueToCompare: number = 0;
     const totalQuestions = 3;
     const [progress, setProgress] = useState(0);
     const prompt =
@@ -88,20 +92,34 @@ const theme = createTheme({
                 }}
               >
                 <Box sx={{ mt: 2 }}>
-                <Countdown seconds={countdownSeconds} onCountdownUpdate={handleCountdownUpdate} />
+                <Stack direction="row" alignItems="center" spacing={1}>
+                    <Typography variant="h4">Review</Typography>
+                    <Typography variant="body1">{`(${numRetrys} retries left)`}</Typography>
+                 </Stack>
+                {/* <Countdown seconds={countdownSeconds} onCountdownUpdate={handleCountdownUpdate} /> */}
                 </Box>
                 <Box sx={{ mt: 2, width: '100%' }}>
-                <ProgressBar currentStep={progress} totalSteps={100} />
+                {/* <ProgressBar currentStep={progress} totalSteps={100} /> */}
                 </Box>
                 <Box sx={{ mt: 2 }}>
-                  <CameraComponent />
+                  <VideoPlayer src={videoLink} />
                 </Box>
                 <Box sx={{ mt: 2 }}>
-                  <Controls
+                <Stack direction="row" alignItems="center" sx={{ mt: 2 }}>
+                <Button
+                    variant="outlined"
+                    disabled={numRetrys === valueToCompare}
+                    onClick={() => console.log('Retry clicked')}
+                    sx={{ marginRight: 1 }}
+                >
+                    Retry
+                </Button>
+                <Controls
                     onStartRecording={onStartRecording}
                     onStopRecording={onStopRecording}
                     onSubmit={onSubmit}
-                  />
+                />
+                </Stack>
                 </Box>
               </Box>
             </Grid>
