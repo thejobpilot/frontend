@@ -14,10 +14,10 @@ const questionComponent: React.FC<QuestionComponentProps> = ({
 }) => {
   return (
     <div>
-      <h2>
+      <h1>
         Question {currentQuestion} of {totalQuestions}
-      </h2>
-      <p>{prompt}</p>
+      </h1>
+      <h3> <br /> {prompt}</h3>
     </div>
   );
 };
