@@ -12,4 +12,10 @@ To run the development server:
 yarn dev
 ```
 
+Sometimes run
+
+```bash
+yarn run api
+```
+
 Visit the website at http://localhost:3000
