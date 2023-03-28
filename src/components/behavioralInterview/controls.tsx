@@ -15,12 +15,7 @@ const controls: React.FC<ControlsProps> = ({
 }) => {
   return (
     <div>
-      <Button variant="outlined" onClick={onStartRecording}>
-        Start Recording
-      </Button>
-      <Button variant="outlined" onClick={onStopRecording}>
-        Stop Recording
-      </Button>
+  
       <Button variant="contained" onClick={onSubmit}>
         Submit
       </Button>
