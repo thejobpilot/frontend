@@ -18,15 +18,23 @@ export default function InterviewManager() {
     setSelected((prev: any) => {
         return { ...prev, interview: id };
     })
+    mutate()
   }
 
   const positionSelector = (id: Position) => {
     setSelected((prev: any) => {
         return { ...prev, position: id };
     })
+    mutate();
   }
 
   const { user, error, isLoading } = useUser();
+  const {
+    data,
+    isLoading: isLoadingDB,
+    isError,
+    mutate,
+  } = useUserDB(user ? user.email! : "");
 
   useEffect(() => {
     document.body.style.backgroundColor = "#EFEFEF";
@@ -40,14 +48,21 @@ export default function InterviewManager() {
         <ResponsiveAppBar />
         <PositionList
           user={user}
+          data={data}
+          isLoading={isLoading}
+          isError={isError}
           selected={selected}
           positionSelector={positionSelector}
           interviewSelector={interviewSelector}
         />
         <InterviewEditor
-          user={user}
+          data={data}
+          isLoading={isLoading}
+          isError={isError}
+          mutate={mutate}
           selected={selected}
-          setSelected={setSelected}
+          setInterview={interviewSelector}
+          setPosition={positionSelector}
         />
         <ApplicantList
           user={user}
