@@ -10,6 +10,7 @@ import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import { blueGrey } from '@mui/material/colors';
 
+
 export default function interviewDash() {
 
     return (
@@ -63,7 +64,7 @@ export default function interviewDash() {
           <Grid xs={12}>
             <Stack spacing={2} direction="row" alignItems="flex-end" justifyContent="center" sx={{mt: 5}}>
          
-              <Button variant="contained" sx={{ width: '25%' }}>Continue </Button>
+              <Button href="/applicant/behavioral/question" variant="contained" sx={{ width: '25%' }}>Continue </Button>
             </Stack>
           </Grid>
       </Grid>
