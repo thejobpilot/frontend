@@ -5,7 +5,7 @@ import SignUp from "@/components/signUp";
 import ResponsiveAppBar from "@/components/navBar";
 import aboutInterview from "@/components/interviewComponents/aboutInterview";
 import InterviewBox from "@/components/interviewComponents/aboutInterview";
-import VideoDisplay from "@/components/videoBoxDisplayedForApplicantFromRecruiter";
+import VideoDisplay from "@/components/interviewComponents/videoBoxDisplayedForApplicantFromRecruiter";
 import startInterviewButtion from "@/components/interviewComponents/startInterviewButtion";
 import StartInterviewButton from "@/components/interviewComponents/startInterviewButtion";
 
