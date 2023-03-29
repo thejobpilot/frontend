@@ -18,20 +18,14 @@ function getPosByID(user: User, id: number) {
 }
 
 export default function PositionList(props: any) {
-  const {
-    data,
-    isLoading: isLoadingDB,
-    isError,
-    mutate,
-  } = useUserDB(props.user.email!);
-
+  const [posI, setPosI] = useState(-1);
   const handleBackClick = () => {
     props.interviewSelector(null);
     props.positionSelector(null);
   };
 
-  if (isError) return <div>failed to load</div>;
-  if (isLoadingDB) return <div>loading...</div>;
+  if (props.isLoading || !props.data) return <div>Loading...</div>;
+  if (props.error) return <div>{props.error.message}</div>;
   // @ts-ignore
   // @ts-ignore
   return (
@@ -70,7 +64,7 @@ export default function PositionList(props: any) {
       </Typography>
       <List>
         {props.selected.position == null
-          ? data.positions.map((position: Position) => (
+          ? props.data.positions.map((position: Position) => (
               <ListItem
                 key={position.id}
                 button
@@ -84,10 +78,12 @@ export default function PositionList(props: any) {
               <ListItem
                 key={interview.id}
                 button
+                selected={props.selected.interview && interview === props.selected.interview}
                 onClick={() => {props.interviewSelector(interview)}}
                 sx={{ borderBottom: "1px solid #E0E0E0" }}
               >
-                <ListItemText primary={interview.name} />
+                <ListItemText primary={interview.name}  />
+                <h2>{props.interview}</h2>
               </ListItem>
             ))}
       </List>

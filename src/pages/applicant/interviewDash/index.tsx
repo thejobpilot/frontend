@@ -14,7 +14,7 @@ export default function Behavioral() {
     return (
         <>
             <ResponsiveAppBar></ResponsiveAppBar>
-            <InterviewPage></InterviewPage>
+            <InterviewDash></InterviewDash>
         </>
     )
 }
