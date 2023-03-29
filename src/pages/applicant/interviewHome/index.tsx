@@ -3,9 +3,11 @@ import NavBar from "@/components/navBar";
 import SignIn from "@/components/signIn";
 import SignUp from "@/components/signUp";
 import ResponsiveAppBar from "@/components/navBar";
-import aboutInterview from "@/components/aboutInterview";
-import InterviewBox from "@/components/aboutInterview";
+import aboutInterview from "@/components/interviewComponents/aboutInterview";
+import InterviewBox from "@/components/interviewComponents/aboutInterview";
 import VideoDisplay from "@/components/videoBoxDisplayedForApplicantFromRecruiter";
+import startInterviewButtion from "@/components/interviewComponents/startInterviewButtion";
+import StartInterviewButton from "@/components/interviewComponents/startInterviewButtion";
 
 const inter = Inter({subsets: ['latin']})
 
@@ -20,6 +22,7 @@ export default function RecruiterSignUp() {
                     type="WRITTEN OR VIDEO"
                 />
                 <VideoDisplay></VideoDisplay>
+                <StartInterviewButton></StartInterviewButton>
             </div>
         </>
     )
