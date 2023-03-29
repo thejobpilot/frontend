@@ -1,37 +1,19 @@
-import { Configuration, User, UsersApi } from "jobpilot-backend";
-import { AxiosError } from "axios";
-import { NextApiRequest, NextApiResponse } from "next";
+import {NextApiRequest, NextApiResponse} from "next";
+import api from "@/utils/utils";
+import {ApiErrorResponse, ApiOkResponse} from "apisauce";
 
 export default async function getUser(
-  req: NextApiRequest,
-  res: NextApiResponse
+    req: NextApiRequest,
+    res: NextApiResponse
 ) {
-  const email = req.query.email as string;
-  if (!email) {
-    res.status(400).send("Bad Request: Missing email or invalid");
-    return;
-  }
-
-  const api = new UsersApi(
-    new Configuration({
-      basePath: "https://7kaz5avhmv.us-east-2.awsapprunner.com",
-    })
-  );
-
-  let axiosResponse = await api
-    .getOneBaseUserControllerUser(email)
-    .catch((error: AxiosError) => {
-      if (error.response?.status === 404) {
-        res.status(404).send("User not found");
-      } else {
-        console.log(error.response?.data);
+    const email = req.query.email as string;
+    const response: ApiErrorResponse<unknown> | ApiOkResponse<unknown> = await api.get(`/user/${email}`);
+    if (response.ok) {
+        res.status(200).json(response.data);
+    } else {
+        console.log(response?.data);
         res.status(500).send("Internal Server Error");
-      }
-    });
-
-  if (axiosResponse) {
-    res.status(200).json(axiosResponse.data);
-  }
+    }
 }
 
 
