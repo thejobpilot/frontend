@@ -46,11 +46,11 @@ const ApplicantName = styled.div`
 const ApplicantListContainer = () => {
     const [applicants, setApplicants] = useState([    { id: 1, name: "Applicant 1", rank: 1 },    { id: 2, name: "Applicant 2", rank: 2 },    { id: 3, name: "Applicant 3", rank: 3 },    { id: 4, name: "Applicant 4", rank: 4 },    { id: 5, name: "Applicant 5", rank: 5 }  ]);
 
-    const handleDrag = (e, index) => {
+    const handleDrag = (e: any, index: any) => {
         e.dataTransfer.setData("text/plain", index);
     };
 
-    const handleDrop = (e, newIndex) => {
+    const handleDrop = (e: any, newIndex: any) => {
         const oldIndex = e.dataTransfer.getData("text/plain");
         const newApplicants = [...applicants];
         const [removed] = newApplicants.splice(oldIndex, 1);
