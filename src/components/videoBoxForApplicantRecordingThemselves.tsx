@@ -7,11 +7,13 @@ const VideoRecorder = () => {
 
     const startRecording = async () => {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        // @ts-ignore
         videoRef.current.srcObject = stream;
+        // @ts-ignore
         videoRef.current.play();
 
         const mediaRecorder = new MediaRecorder(stream);
-        const chunks = [];
+        const chunks: BlobPart[] | undefined = [];
 
         mediaRecorder.ondataavailable = (event) => {
             chunks.push(event.data);
@@ -29,7 +31,9 @@ const VideoRecorder = () => {
     };
 
     const stopRecording = () => {
+        // @ts-ignore
         videoRef.current.srcObject.getTracks().forEach(track => track.stop());
+        // @ts-ignore
         videoRef.current.srcObject = null;
     };
 

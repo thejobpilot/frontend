@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 
+// @ts-ignore
 const VideoDisplay = ({ src }) => {
     const videoRef = useRef(null);
     const [videoURL, setVideoURL] = useState(src || '');
