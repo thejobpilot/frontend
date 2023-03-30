@@ -8,9 +8,7 @@ import InterviewPage from "@/components/interviewComponents/interviewPage";
 import Question from "@/components/interviewComponents/questions";
 import InterviewDash from "@/components/behavioralInterview/interviewDash";
 
-const inter = Inter({subsets: ['latin']})
-
-export default function Behavioral() {
+export default function Written() {
     return (
         <>
             <ResponsiveAppBar></ResponsiveAppBar>

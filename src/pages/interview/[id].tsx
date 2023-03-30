@@ -3,6 +3,9 @@ import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/router";
 import useUserDB from "@/components/db/useUserDB";
 import { useEffect, useState } from "react";
+import { Alert, AlertTitle } from "@mui/material";
+import { Container } from "@mui/system";
+import Forbidden from "@/components/forbidden";
 
 function userHasInterviewID(user: any, id: any, updater: any) {
   if (!user) {
@@ -39,7 +42,10 @@ export default function Interview() {
   if (isLoadingDB) return <div>Loading...</div>;
   if (isError) return <div>{isError.message}</div>;
 
-  if (interview === null) return <h1>Error: Not your interview</h1>;
+  if (interview === null)
+    return <Forbidden message="You do not have access to this interview" />;
+
+  console.log(interview);
 
   return (
     interview && (
