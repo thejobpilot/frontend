@@ -16,6 +16,6 @@ export default async function newUser(
     res.status(200).json(response.data);
   } else {
     console.log(response?.data);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send(`Internal Server Error: ${response?.data}`);
   }
 }

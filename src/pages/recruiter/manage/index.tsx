@@ -7,8 +7,9 @@ import ApplicantList from "@/components/recruiterDash/applicantList";
 import InterviewEditor from "@/components/recruiterDash/interviewEditor";
 import useUserDB from "@/components/db/useUserDB";
 import ApplicantListContainer from "@/components/dragAndDrop";
+import { withTitle } from "@/components/utils";
 
-export default function InterviewManager() {
+export function InterviewManager() {
   const [selected, setSelected] = useState({
     interview: null,
     position: null,
@@ -75,3 +76,4 @@ export default function InterviewManager() {
 }
 
 export const getServerSideProps = withPageAuthRequired();
+export default withTitle("Interview Manager")(InterviewManager);

@@ -21,12 +21,15 @@ export default function InterviewEditor(props: any) {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (interview) {
+      interview.companyName = "Google";
       requestSetInterview(
         props.selected.interview.id,
         props.selected.position.id,
         interview
       );
       props.mutate();
+      console.log(props.selected.interview)
+      console.log(interview)
       props.setInterview(null);
       props.setPosition(null);
     }
@@ -36,7 +39,7 @@ export default function InterviewEditor(props: any) {
     if (interview) {
       const { name, value } = e.target;
       // @ts-ignore
-      setInterview((prev) => {
+      setInterview((prev: any) => {
         return { ...prev, [name]: value };
       });
     }
@@ -100,6 +103,7 @@ export default function InterviewEditor(props: any) {
                   value={interview.name}
                   onChange={(e) => updateField(e)}
                   inputProps={{ type: "string" }}
+                  required
                 />
                 <TextField
                   label="Preparation Time"
@@ -108,6 +112,7 @@ export default function InterviewEditor(props: any) {
                   value={interview.prepTime}
                   onChange={(e) => updateField(e)}
                   inputProps={{ type: "number" }}
+                  required
                 />
                 <TextField
                   label="# Retakes"
@@ -116,6 +121,7 @@ export default function InterviewEditor(props: any) {
                   value={interview.retakes}
                   onChange={(e) => updateField(e)}
                   inputProps={{ type: "number" }}
+                  required
                 />
                 <Button
                   type="submit"

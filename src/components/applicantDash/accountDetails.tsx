@@ -113,7 +113,7 @@ function AccountDetails(props: { user: UserProfile }) {
             onChange={(e) => updateField(e)}
             required={true}
             helperText={
-              error ? "Date must be valid ISO date like 2021-05-01" : "Perfect!"
+              error ? "Date must be valid ISO date like 2021-05-01" : "Date Format Valid"
             }
             error={error}
           />

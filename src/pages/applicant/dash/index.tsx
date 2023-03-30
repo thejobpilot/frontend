@@ -4,8 +4,9 @@ import React from "react";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import AccountDetails from "@/components/applicantDash/accountDetails";
 import InterviewList from "@/components/applicantDash/interviewList";
+import { withTitle } from "@/components/utils";
 
-export default function Profile() {
+export function Dashboard() {
   const { user, isLoading, error } = useUser();
   if (error) return <div>Failed to load</div>;
   if (isLoading) return <div>Loading...</div>;
@@ -22,3 +23,4 @@ export default function Profile() {
 }
 
 export const getServerSideProps = withPageAuthRequired();
+export default withTitle("Applicant Dashboard")(Dashboard);

@@ -6,8 +6,9 @@ import React from "react";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import AccountDetails from "@/components/recruiterDash/accountDetails";
 import useUserDB from "@/components/db/useUserDB";
+import { withTitle } from "@/components/utils";
 
-export default function Dashboard() {
+export function Dashboard() {
   const router = useRouter();
 
   const { user, error, isLoading } = useUser();
@@ -19,7 +20,7 @@ export default function Dashboard() {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
   if (isLoadingDB) return <div>Loading...</div>;
-  if (isError) return <div>{error.message}</div>;
+  if (isError) return <div>{isError.message}</div>;
 
   /* TODO: ENABLE THIS BEFORE FRIDAY TO PROTECT PATHS */
 //  if (data.userType != "recruiter") router.push(`/${data.userType}/dash`);
@@ -84,3 +85,6 @@ export default function Dashboard() {
 }
 
 export const getServerSideProps = withPageAuthRequired();
+
+
+export default withTitle("Recruiter Dashboard")(Dashboard);
