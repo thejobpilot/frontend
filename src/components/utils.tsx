@@ -28,3 +28,14 @@ export function withTitle(title: string) {
     };
   };
 }
+
+export function userHasInterviewByID(user: any, id: any) {
+  if (!user) return false;
+  id! = parseInt(id);
+  for (const i in user.interviews) {
+    if (user.interviews[i].id === id) {
+      return true;
+    }
+  }
+  return false
+}
