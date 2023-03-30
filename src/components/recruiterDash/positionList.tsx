@@ -1,16 +1,15 @@
 import { useState } from "react";
 import { Box, Typography, List, ListItem, ListItemText } from "@mui/material";
-import { Interview, Position, User } from "jobpilot-backend";
 import useUserDB from "@/components/db/useUserDB";
 
-function getInterviewByID(user: User, id: number) {
+function getInterviewByID(user: any, id: number) {
   if (!user.interviews) return null;
   for (let i = 0; i < user.interviews.length; i++) {
     if (user.interviews[i].id === id) return user.interviews[i];
   }
 }
 
-function getPosByID(user: User, id: number) {
+function getPosByID(user: any, id: number) {
   if (!user.positions) return null;
   for (let i = 0; i < user.positions.length; i++) {
     if (user.positions[i].id === id) return user.positions[i];
@@ -64,7 +63,7 @@ export default function PositionList(props: any) {
       </Typography>
       <List>
         {props.selected.position == null
-          ? props.data.positions.map((position: Position) => (
+          ? props.data.positions.map((position: any) => (
               <ListItem
                 key={position.id}
                 button
@@ -74,7 +73,7 @@ export default function PositionList(props: any) {
                 <ListItemText primary={position.name} />
               </ListItem>
             ))
-          : props.selected.position.interviews?.map((interview: Interview) => (
+          : props.selected.position.interviews?.map((interview: any) => (
               <ListItem
                 key={interview.id}
                 button

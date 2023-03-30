@@ -1,19 +1,19 @@
 import { Box, Typography, TextField, Button } from "@mui/material";
-import { User, UserUserTypeEnum } from "jobpilot-backend";
+import { UserType } from "../utils";
 import { useEffect, useState } from "react";
+import { capitalizeFirstLetter } from "../utils";
 import requestSetUser from "../db/requestSetUser";
 import useUserDB from "../db/useUserDB";
-import capitalizeFirstLetter from "../capitalizeFirstLetter";
 
 export default function AccountDetails(props: any) {
-  const [details, setDetails] = useState<User>({
+  const [details, setDetails] = useState({
     username: props.user.email as string,
     email: props.user.email as string,
     fullName: "",
     graduationDate: "",
     gpa: 0,
     resumeLink: "",
-    userType: UserUserTypeEnum.Applicant,
+    userType: UserType.Applicant,
     retakes: true,
     jobPreference: "",
     rolePreference: "",
@@ -22,7 +22,7 @@ export default function AccountDetails(props: any) {
 
   const { data, isLoading, isError, mutate } = useUserDB(props.user.email!);
   useEffect(() => {
-    if (data) setDetails(data as User);
+    if (data) setDetails(data);
   }, [data]);
 
   const handleSubmit = (e: any) => {

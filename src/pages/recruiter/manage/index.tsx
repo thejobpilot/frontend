@@ -5,8 +5,8 @@ import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import PositionList from "@/components/recruiterDash/positionList";
 import ApplicantList from "@/components/recruiterDash/applicantList";
 import InterviewEditor from "@/components/recruiterDash/interviewEditor";
-import { Interview, Position } from "jobpilot-backend";
 import useUserDB from "@/components/db/useUserDB";
+import ApplicantListContainer from "@/components/dragAndDrop";
 
 export default function InterviewManager() {
   const [selected, setSelected] = useState({
@@ -14,14 +14,14 @@ export default function InterviewManager() {
     position: null,
   });
 
-  const interviewSelector = (id: Interview) => {
+  const interviewSelector = (id: any) => {
     setSelected((prev: any) => {
         return { ...prev, interview: id };
     })
     mutate()
   }
 
-  const positionSelector = (id: Position) => {
+  const positionSelector = (id: any) => {
     setSelected((prev: any) => {
         return { ...prev, position: id };
     })

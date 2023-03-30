@@ -64,7 +64,7 @@ export default function interviewDash() {
           <Grid xs={12}>
             <Stack spacing={2} direction="row" alignItems="flex-end" justifyContent="center" sx={{mt: 5}}>
          
-              <Button href="/applicant/behavioral/question" variant="contained" sx={{ width: '25%' }}>Continue </Button>
+              <Button href="/applicant/videoInterview" variant="contained" sx={{ width: '25%' }}>Continue </Button>
             </Stack>
           </Grid>
       </Grid>

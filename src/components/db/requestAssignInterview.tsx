@@ -1,4 +1,3 @@
-import { User } from "jobpilot-backend";
 
 export default async function requestAssignInterview(email: string, interviewId: number) {
   await fetch(`/api/db/assign-interview`, {
