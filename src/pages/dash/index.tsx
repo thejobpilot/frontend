@@ -4,7 +4,7 @@ import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/router";
 import useUserDB from "@/components/db/useUserDB";
 import Onboarding from "@/components/onboarding";
-import { User, UserUserTypeEnum } from "jobpilot-backend";
+import { UserUserTypeEnum } from "@/components/utils";
 import requestNewUser from "@/components/db/requestNewUser";
 
 enum CaptureStates {
@@ -29,7 +29,7 @@ export default function Profile() {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    const newUser: User= {
+    const newUser = {
       email: email,
       fullName: user!.nickname!,
       gpa: 0.0,

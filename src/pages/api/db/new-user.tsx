@@ -1,27 +1,21 @@
-import { Configuration, User, UsersApi } from "jobpilot-backend";
-import { AxiosError } from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
+import api from "@/utils/utils";
+import { ApiErrorResponse, ApiOkResponse } from "apisauce";
 
 export default async function newUser(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const user: User = JSON.parse(req.body);
+  const user = JSON.parse(req.body);
   if (user.username == "") user.username = user.email;
 
-  const usersApi = new UsersApi(
-    new Configuration({
-      basePath: "https://7kaz5avhmv.us-east-2.awsapprunner.com",
-    })
-  );
+  const response: ApiErrorResponse<unknown> | ApiOkResponse<unknown> =
+    await api.post("/user/", user);
 
-  let axiosResponse = await usersApi
-    .createOneBaseUserControllerUser(user)
-    .catch((error: AxiosError) => {
-      res.status(500).send(error.message);
-    })
-    .then((r) => {
-      if (!r) return;
-      res.status(200).json(r.data);
-    });
+  if (response.ok) {
+    res.status(200).json(response.data);
+  } else {
+    console.log(response?.data);
+    res.status(500).send("Internal Server Error");
+  }
 }

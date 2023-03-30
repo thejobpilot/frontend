@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Box, Typography, List, ListItem, ListItemText } from "@mui/material";
 import useUserDB from "../db/useUserDB";
 import useAllUsers from "../db/useAllUsers";
-import { User } from "jobpilot-backend";
 import requestAssignInterview from "../db/requestAssignInterview";
 
 // function searchInterviewForEmail(user: User, email: string) {

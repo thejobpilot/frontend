@@ -1,6 +1,3 @@
-import { User } from "jobpilot-backend";
-import { useState, useEffect } from "react";
-import useUserDB from "./useUserDB";
 
 const emails = ["beigeletters@gmail.com", "john@google.com", "cookie@gmail.com", "applicant@gmail.com", "recruiter@gmail.com"]
 

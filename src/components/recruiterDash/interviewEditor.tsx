@@ -8,7 +8,6 @@ import {
   Button,
   TextField,
 } from "@mui/material";
-import { Interview, Position, User, UserUserTypeEnum } from "jobpilot-backend";
 import requestSetInterview from "../db/requestSetInterview";
 
 export default function InterviewEditor(props: any) {
