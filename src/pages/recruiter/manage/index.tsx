@@ -67,6 +67,7 @@ export function InterviewManager() {
         />
         <ApplicantList
           user={user}
+          mutater={mutate}
           selected={selected}
           setSelected={setSelected}
         />

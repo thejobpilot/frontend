@@ -7,6 +7,6 @@ export default async function requestRemoveInterview(
       email: email,
       interviewId: interviewId,
     }),
-    method: "POST",
+    method: "DELETE",
   });
 }
