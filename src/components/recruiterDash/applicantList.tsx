@@ -114,8 +114,8 @@ export default function ApplicantList(props: any) {
                         ) && (
                           <Chip
                             label="Assigned"
-                            color="info"
-                            //variant="outlined"
+                            color="primary"
+                            variant="outlined"
                             onDelete={(e) => handleDelete(applicant.email)}
                           />
                         )}
