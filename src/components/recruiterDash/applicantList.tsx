@@ -74,7 +74,7 @@ export default function ApplicantList(props: any) {
       >
         Applicant List
       </Typography>
-      <List>
+      <List style={{ maxHeight: "90%", overflow: "auto" }}>
         {applicants.length > 0 ? (
           applicants.map((applicant: any) => (
             <ListItem
@@ -103,7 +103,7 @@ export default function ApplicantList(props: any) {
                       sx={{
                         display: "flex",
                         justifyContent: "space-between",
-                        my: "5px",
+                        my: "8px",
                       }}
                     >
                       {applicant.email}
