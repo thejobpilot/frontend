@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Box, Card, CardContent, Typography } from "@mui/material";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import React, {useState} from "react";
+import {Box, Card, CardContent, Typography} from "@mui/material";
+import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 
 const initialApplicants = [
     {
@@ -60,10 +60,8 @@ const SmartCards = () => {
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}
                                         sx={{
+                                            margin: 2,
                                             width: "30%",
-                                            marginBottom: 2,
-                                            borderRadius: 2,
-                                            boxShadow: 1,
                                         }}
                                     >
                                         <CardContent>
