@@ -18,8 +18,10 @@ export default async function removeInterview(
   }
 
   const response: ApiErrorResponse<unknown> | ApiOkResponse<unknown> =
-    await api.delete(`/user/${body.email}/remove-interview`, {
-      interviewId: body.interviewId,
+    await api.delete(`/user/${body.email}/remove-interview`,{}, {
+      data: {
+        interviewId: body.interviewId,
+      },
     });
 
   if (response.ok) {

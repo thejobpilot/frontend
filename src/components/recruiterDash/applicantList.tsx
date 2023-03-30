@@ -36,7 +36,8 @@ export default function ApplicantList(props: any) {
   const addToInterview = (selectedEmail: string) => {
     if (props.selected.interview) {
       requestAssignInterview(selectedEmail, props.selected.interview.id);
-      window.alert("Successfully assigned interview!");
+      window.alert(`Assigned interview to: ${selectedEmail}`);
+      props.mutater();
       mutate();
     }
   };
@@ -44,6 +45,8 @@ export default function ApplicantList(props: any) {
   const handleDelete = (selectedEmail: string) => {
     if (props.selected.interview) {
       requestRemoveInterview(selectedEmail, props.selected.interview.id);
+      window.alert(`Removed interview from: ${selectedEmail}`);
+      props.mutater();
       mutate();
     }
   };
@@ -76,10 +79,18 @@ export default function ApplicantList(props: any) {
           applicants.map((applicant: any) => (
             <ListItem
               key={applicant.email}
-              button
+              button={
+                props.selected.interview &&
+                !userHasInterviewByID(applicant, props.selected.interview.id)
+              }
               onClick={(e) => {
                 if (
-                  !userHasInterviewByID(applicant, props.selected.interview.id)
+                  !userHasInterviewByID(
+                    applicant,
+                    props.selected.interview
+                      ? props.selected.interview.id
+                      : null
+                  )
                 )
                   addToInterview(applicant.email);
               }}
@@ -103,7 +114,8 @@ export default function ApplicantList(props: any) {
                         ) && (
                           <Chip
                             label="Assigned"
-                            variant="outlined"
+                            color="info"
+                            //variant="outlined"
                             onDelete={(e) => handleDelete(applicant.email)}
                           />
                         )}
