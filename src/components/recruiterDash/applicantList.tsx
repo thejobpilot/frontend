@@ -74,7 +74,7 @@ export default function ApplicantList(props: any) {
       >
         Applicant List
       </Typography>
-      <List>
+      <List style={{ maxHeight: "90%", overflow: "auto" }}>
         {applicants.length > 0 ? (
           applicants.map((applicant: any) => (
             <ListItem
@@ -103,10 +103,17 @@ export default function ApplicantList(props: any) {
                       sx={{
                         display: "flex",
                         justifyContent: "space-between",
-                        my: "5px",
+                        my: "8px",
                       }}
                     >
-                      {applicant.email}
+                      <div>
+                      <Typography variant="body1">
+                        {applicant.fullName}
+                      </Typography>
+                      <Typography fontWeight="normal" color="grey.500" variant="subtitle2">
+                        {applicant.email}
+                      </Typography>
+                      </div>
                       {props.selected.interview &&
                         userHasInterviewByID(
                           applicant,
@@ -114,8 +121,6 @@ export default function ApplicantList(props: any) {
                         ) && (
                           <Chip
                             label="Assigned"
-                            color="primary"
-                            variant="outlined"
                             onDelete={(e) => handleDelete(applicant.email)}
                           />
                         )}

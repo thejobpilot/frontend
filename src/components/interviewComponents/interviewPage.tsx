@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import Question from "@/components/interviewComponents/questions";
 import Countdown from "@/components/interviewComponents/countdown";
@@ -8,7 +8,7 @@ interface QuestionData {
     answer: string;
 }
 
-const InterviewPage: React.FC = () => {
+export default function InterviewPage(props: any) {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [questions, setQuestions] = useState<QuestionData[]>([
         { question: "What is your favorite color?", answer: "" },
@@ -33,7 +33,7 @@ const InterviewPage: React.FC = () => {
         // Submit the answers
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: any) => {
         const newAnswer = e.target.value;
         setQuestions((prevQuestions) =>
             prevQuestions.map((q, idx) =>
@@ -77,5 +77,3 @@ const InterviewPage: React.FC = () => {
         </Box>
     );
 };
-
-export default InterviewPage;
