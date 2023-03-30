@@ -106,7 +106,14 @@ export default function ApplicantList(props: any) {
                         my: "8px",
                       }}
                     >
-                      {applicant.email}
+                      <div>
+                      <Typography variant="body1">
+                        {applicant.fullName}
+                      </Typography>
+                      <Typography fontWeight="normal" color="grey.500" variant="subtitle2">
+                        {applicant.email}
+                      </Typography>
+                      </div>
                       {props.selected.interview &&
                         userHasInterviewByID(
                           applicant,
@@ -114,8 +121,6 @@ export default function ApplicantList(props: any) {
                         ) && (
                           <Chip
                             label="Assigned"
-                            color="primary"
-                            variant="outlined"
                             onDelete={(e) => handleDelete(applicant.email)}
                           />
                         )}
