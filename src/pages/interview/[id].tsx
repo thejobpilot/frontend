@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Alert, AlertTitle } from "@mui/material";
 import { Container } from "@mui/system";
 import Forbidden from "@/components/forbidden";
+import { withTitle } from "@/components/utils";
 
 function userHasInterviewID(user: any, id: any, updater: any) {
   if (!user) {
@@ -22,7 +23,7 @@ function userHasInterviewID(user: any, id: any, updater: any) {
   updater(null);
 }
 
-export default function Interview() {
+export function Interview() {
   const router = useRouter();
   const [interview, setInterview] = useState<any>(null);
   const { user, error, isLoading } = useUser();
@@ -59,3 +60,4 @@ export default function Interview() {
 }
 
 export const getServerSideProps = withPageAuthRequired();
+export default withTitle("Interview Assistant")(Interview);
