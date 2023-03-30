@@ -15,7 +15,7 @@ export default function RecruiterSignUp() {
     return (
         <>
             <ResponsiveAppBar></ResponsiveAppBar>
-   <RecordedInterviewPage></RecordedInterviewPage>
+            <RecordedInterviewPage></RecordedInterviewPage>
 
         </>
     )
