@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Box, Typography, List, ListItem, ListItemText } from "@mui/material";
 import useUserDB from "@/components/db/useUserDB";
+import { ArrowBack } from "@mui/icons-material";
 
 function getInterviewByID(user: any, id: number) {
   if (!user.interviews) return null;
@@ -17,7 +18,6 @@ function getPosByID(user: any, id: number) {
 }
 
 export default function PositionList(props: any) {
-  const [posI, setPosI] = useState(-1);
   const handleBackClick = () => {
     props.interviewSelector(null);
     props.positionSelector(null);
@@ -46,19 +46,16 @@ export default function PositionList(props: any) {
       >
         {props.selected.position != null ? (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Typography
-              variant="h5"
+            <ArrowBack 
               sx={{ mr: 2, cursor: "pointer" }}
               onClick={handleBackClick}
-            >
-              {"<"}
-            </Typography>
+            />
             <Typography variant="h5">
                 {props.selected.position.name}
             </Typography>
           </Box>
         ) : (
-          "Listed Positions"
+          "Positions"
         )}
       </Typography>
       <List>

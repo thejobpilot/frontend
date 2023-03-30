@@ -27,11 +27,9 @@ export default function InterviewEditor(props: any) {
         props.selected.position.id,
         interview
       );
+      props.setInterview(interview);
+      window.alert(`Updated interview`);
       props.mutate();
-      console.log(props.selected.interview)
-      console.log(interview)
-      props.setInterview(null);
-      props.setPosition(null);
     }
   };
 
