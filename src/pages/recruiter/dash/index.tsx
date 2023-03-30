@@ -6,8 +6,9 @@ import React from "react";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import AccountDetails from "@/components/recruiterDash/accountDetails";
 import useUserDB from "@/components/db/useUserDB";
+import { withTitle } from "@/components/utils";
 
-export default function Dashboard() {
+export function Dashboard() {
   const router = useRouter();
 
   const { user, error, isLoading } = useUser();
@@ -84,3 +85,6 @@ export default function Dashboard() {
 }
 
 export const getServerSideProps = withPageAuthRequired();
+
+
+export default withTitle("Recruiter Dashboard")(Dashboard);

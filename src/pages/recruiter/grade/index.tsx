@@ -5,8 +5,9 @@ import ResponsiveAppBar from "@/components/navBar";
 import Button from "@mui/material/Button";
 import React, { Component } from "react";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
+import { withTitle } from "@/components/utils";
 
-export default function Profile() {
+export function Grader() {
   const { user, error, isLoading } = useUser();
 
   if (isLoading) return <div>Loading...</div>;
@@ -36,3 +37,5 @@ export default function Profile() {
 }
 
 export const getServerSideProps = withPageAuthRequired();
+
+export default withTitle("Recruiter Grade Manager")(Grader);
