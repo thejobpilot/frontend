@@ -14,7 +14,7 @@ export default function InterviewEditor(props: any) {
   useEffect(() => {
     setInterview(props.selected.interview);
     updateState(undefined);
-  }, [props.selected, props.selected.interview]);
+  }, [props.selected, props.selected.interview])
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -143,6 +143,14 @@ export default function InterviewEditor(props: any) {
                         onChange={(e) => updateField(e)}
                         inputProps={{ type: "number" }}
                         required
+                    />
+                    <TextField
+                        label="Video Link"
+                        variant="outlined"
+                        name="videoLink"
+                        value={interview.videoLink || ''}
+                        onChange={(e) => updateField(e)}
+                        inputProps={{ type: "url" }}
                     />
                     {questions.map((question, index) => (
                         <Box key={index} sx={{ display: "flex", flexDirection: "row", gap: 2, alignItems: "center" }}>
