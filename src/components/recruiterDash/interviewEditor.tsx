@@ -44,6 +44,16 @@ export default function InterviewEditor(props: any) {
     }
   }
 
+  function resetToDefault() {
+    setInterview({
+      ...interview,
+      name: "",
+      prepTime: "",
+      retakes: "",
+    });
+    setQuestions([]);
+  }
+
   const addQuestion = () => {
     setQuestions([...questions, ""]);
   };
@@ -174,6 +184,29 @@ export default function InterviewEditor(props: any) {
               </form>
             </>
         )}
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          <Button
+              variant="contained"
+              color="primary"
+              onClick={addQuestion}
+          >
+            Add Question
+          </Button>
+          <Button
+              variant="contained"
+              color="secondary"
+              onClick={resetToDefault}
+          >
+            Reset
+          </Button>
+          <Button
+              type="submit"
+              variant="contained"
+              sx={{ bgcolor: "#111E31", color: "white" }}
+          >
+            Save
+          </Button>
+        </Box>
       </Box>
   );
 }
