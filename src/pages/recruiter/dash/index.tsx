@@ -19,7 +19,7 @@ export default function Dashboard() {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
   if (isLoadingDB) return <div>Loading...</div>;
-  if (isError) return <div>{error.message}</div>;
+  if (isError) return <div>{isError.message}</div>;
 
   /* TODO: ENABLE THIS BEFORE FRIDAY TO PROTECT PATHS */
 //  if (data.userType != "recruiter") router.push(`/${data.userType}/dash`);
