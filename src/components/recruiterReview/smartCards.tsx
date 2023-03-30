@@ -3,6 +3,7 @@ import {Box, Card, CardContent, Typography} from "@mui/material";
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import {SelectedInterview} from "@/pages/recruiter/grade";
 import useUserDB from "@/components/db/useUserDB";
+import useSearchUsers from "@/components/db/useSearchUsers";
 
 export type SmartCardEntry = {
     id: string;
@@ -14,15 +15,17 @@ const initialApplicants: SmartCardEntry[] = [];
 
 const SmartCards = (props: { selected: SelectedInterview }) => {
     const [applicants, setApplicants] = useState(initialApplicants);
-
+    let {data} = useSearchUsers()
     useEffect(() => {
         if (props.selected.interview) {
+            console.log(props.selected.interview)
             let smartCards: SmartCardEntry[] = props.selected.interview?.responses.map((response: any, index: number) => {
-
+                let matchedUser = data.find((user: any) => user.email == response.applicantEmail);
+                console.log(matchedUser);
                 let entry: SmartCardEntry = {
-                    gpa: "",
-                    graduationYear: "",
-                    name: "",
+                    gpa: matchedUser.gpa,
+                    graduationYear: matchedUser.graduationDate,
+                    name: matchedUser.fullName,
                     id: index.toString()
                 };
                 return entry

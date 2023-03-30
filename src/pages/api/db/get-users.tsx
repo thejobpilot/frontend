@@ -12,12 +12,7 @@ export default async function getUser(
   const or = req.query.or as string;
   const sort = req.query.sort as string;
 
-  const urlBuilder = `/user?fields=${
-    fields ? fields : ""}&s=${
-    search ? search : ""}&filter=${
-    filter ? filter : ""}&or=${
-    or ? or : ""}&sort=${
-    sort ? sort : ""}`;
+  const urlBuilder = `/user?${fields ? "fields=" + fields : ""}${search ? "&s=" + search : ""}${filter ? "&filter=" + filter : ""}${or ? "&or=" + or : ""}${sort ? "&sort=" + sort : ""}`;
 
   const response: ApiErrorResponse<unknown> | ApiOkResponse<unknown> =
     await api.get(urlBuilder);
