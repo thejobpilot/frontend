@@ -4,7 +4,7 @@ import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/router";
 import useUserDB from "@/components/db/useUserDB";
 import Onboarding from "@/components/onboarding";
-import { UserUserTypeEnum } from "@/components/utils";
+import { UserType } from "@/components/utils";
 import requestNewUser from "@/components/db/requestNewUser";
 
 enum CaptureStates {
@@ -19,7 +19,7 @@ export default function Profile() {
     CaptureStates.USER_NOT_FOUND
   );
   const [email, setEmail] = useState("");
-  const [selectedType, setSelectedType] = useState(UserUserTypeEnum.Applicant);
+  const [selectedType, setSelectedType] = useState(UserType.Applicant);
   const { user, error, isLoading } = useUser();
   const { data, isError, isLoading: loading, mutate } = useUserDB(email);
 

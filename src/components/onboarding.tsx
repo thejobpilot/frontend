@@ -5,7 +5,7 @@ import {
   Radio,
   Button,
 } from "@mui/material";
-import { UserUserTypeEnum } from "./utils";
+import { UserType } from "./utils";
 
 export default function Onboarding(props: any) {
   return (
@@ -30,7 +30,7 @@ export default function Onboarding(props: any) {
         <RadioGroup
           aria-label="role"
           name="role"
-          defaultValue={UserUserTypeEnum.Applicant}
+          defaultValue={UserType.Applicant}
           value={props.selectedType}
           onChange={props.handleTypeChange}
           style={{
@@ -40,17 +40,17 @@ export default function Onboarding(props: any) {
           }}
         >
           <FormControlLabel
-            value={UserUserTypeEnum.Applicant}
+            value={UserType.Applicant}
             control={<Radio />}
             label="Applicant"
           />
           <FormControlLabel
-            value={UserUserTypeEnum.Employer}
+            value={UserType.Employer}
             control={<Radio />}
             label="Employer"
           />
           <FormControlLabel
-            value={UserUserTypeEnum.Recruiter}
+            value={UserType.Recruiter}
             control={<Radio />}
             label="Recruiter"
           />

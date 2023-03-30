@@ -1,5 +1,5 @@
 import { Box, Typography, TextField, Button } from "@mui/material";
-import { UserUserTypeEnum } from "../utils";
+import { UserType } from "../utils";
 import { useEffect, useState } from "react";
 import { capitalizeFirstLetter } from "../utils";
 import requestSetUser from "../db/requestSetUser";
@@ -13,7 +13,7 @@ export default function AccountDetails(props: any) {
     graduationDate: "",
     gpa: 0,
     resumeLink: "",
-    userType: UserUserTypeEnum.Applicant,
+    userType: UserType.Applicant,
     retakes: true,
     jobPreference: "",
     rolePreference: "",

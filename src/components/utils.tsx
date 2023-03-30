@@ -1,4 +1,4 @@
-export const UserUserTypeEnum = {
+export const UserType = {
   Applicant: "applicant",
   Recruiter: "recruiter",
   Employer: "employer",

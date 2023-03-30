@@ -20,7 +20,7 @@ export default async function setUser(
   //   graduationDate: graduationDate,
   //   resumeLink: resumeLink,
   //   retakes: true,
-  //   userType: UserUserTypeEnum.Applicant,
+  //   userType: UserType.Applicant,
   //   username: username,
   // };
   const user = JSON.parse(req.body);

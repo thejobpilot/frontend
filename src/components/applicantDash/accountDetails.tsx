@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import useUserDB from "../db/useUserDB";
 import requestSetUser from "../db/requestSetUser";
-import { UserUserTypeEnum } from "../utils";
+import { UserType } from "../utils";
 import { UserProfile } from "@auth0/nextjs-auth0/client";
 import { capitalizeFirstLetter } from "../utils";
 
@@ -15,7 +15,7 @@ function AccountDetails(props: { user: UserProfile }) {
     graduationDate: "",
     gpa: 0,
     resumeLink: "",
-    userType: UserUserTypeEnum.Applicant,
+    userType: UserType.Applicant,
     retakes: true,
     jobPreference: "",
     rolePreference: "",
