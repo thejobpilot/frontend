@@ -28,8 +28,6 @@ export default function InterviewEditor(props: any) {
         interview
       );
       props.mutate();
-      console.log(props.selected.interview)
-      console.log(interview)
       props.setInterview(null);
       props.setPosition(null);
     }
