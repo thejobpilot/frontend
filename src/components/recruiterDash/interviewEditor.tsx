@@ -6,15 +6,34 @@ import {getIdFromArray} from "../utils";
 import requestChangeQuestion from "@/components/db/requestChangeQuestion";
 import requestCreateQuestion from "@/components/db/requestCreateQuestion";
 import requestDeleteQuestion from "@/components/db/requestDeleteQuestion";
+import { Select, InputLabel, FormControl } from "@mui/material";
+
+const preMadeQuestions = [
+    "What is your greatest strength?",
+    "What is your greatest weakness?",
+    "Tell me about a challenging situation and how you handled it.",
+];
 
 export default function InterviewEditor(props: any) {
     const [interview, setInterview] = useState<any>(null);
     const [interviewCache, setInterviewCache] = useState<any>(null);
-    const [questions, setQuestions] = useState([]);
+    const [questions, setQuestions] = useState<any>([]);
+    const [selectedPreMadeQuestion, setSelectedPreMadeQuestion] = useState("");
 
     if (props.isLoading || !props.data || !props.selected)
         return <div>Loading...</div>;
     if (props.error) return <div>{props.error.message}</div>;
+    const handleSelectPreMadeQuestion = async () => {
+        if (selectedPreMadeQuestion) {
+            setQuestions([selectedPreMadeQuestion, ...questions]);
+            //scuffed asf
+            let response = await requestCreateQuestion(interview.id);
+            let body = await response.json();
+            await requestChangeQuestion(body.id, interview.id, selectedPreMadeQuestion);
+            setSelectedPreMadeQuestion("");
+            props.mutate();
+        }
+    };
 
     useEffect(() => {
         let positionCache = getIdFromArray(
@@ -93,9 +112,11 @@ export default function InterviewEditor(props: any) {
                 color: "black",
                 position: "absolute",
                 top: 55,
+                minHeight: "100vh",
                 right: "35%",
                 height: "100%",
                 width: "30%",
+                overflowY: "auto",
             }}
         >
             <Typography
@@ -191,7 +212,27 @@ export default function InterviewEditor(props: any) {
                                     onChange={(e) => updateField(e)}
                                     inputProps={{type: "url"}}
                                 />
-
+                                <FormControl fullWidth variant="outlined" sx={{ mt: 2 }}>
+                                    <InputLabel>Pre-made Questions</InputLabel>
+                                    <Select
+                                        label="Pre-made Questions"
+                                        value={selectedPreMadeQuestion}
+                                        onChange={(e) => setSelectedPreMadeQuestion(e.target.value)}
+                                    >
+                                        {preMadeQuestions.map((question, index) => (
+                                            <MenuItem key={index} value={question}>
+                                                {question}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                                <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    onClick={handleSelectPreMadeQuestion}
+                                >
+                                    Add Pre-made Question
+                                </Button>
                                 {questions.length > 0 && (
                                     <Typography sx={{mt: 2}} variant="h6">
                                         Questions:

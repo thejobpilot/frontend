@@ -16,7 +16,7 @@ export default async function createQuestion(
         await api.post(`/interview/${interviewId}/question/`, formattedQuestion);
 
     if (response.ok) {
-        res.status(200).json(response.data);
+        res.status(200).send(response.data);
     } else {
         console.log("fail", response?.data);
         res.status(500).send(`Internal Server Error: ${response?.data}`);
