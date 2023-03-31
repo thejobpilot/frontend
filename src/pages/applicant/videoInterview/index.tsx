@@ -8,6 +8,7 @@ import InterviewPage from "@/components/interviewComponents/interviewPage";
 import Question from "@/components/interviewComponents/questions";
 import RecordedInterviewPage from "@/components/interviewComponents/recordInterviewPage";
 
+
 const inter = Inter({subsets: ['latin']})
 
 export default function RecruiterSignUp() {
@@ -15,6 +16,7 @@ export default function RecruiterSignUp() {
         <>
             <ResponsiveAppBar></ResponsiveAppBar>
             <RecordedInterviewPage></RecordedInterviewPage>
+
         </>
     )
 }
