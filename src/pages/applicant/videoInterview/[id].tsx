@@ -1,11 +1,5 @@
 import {Inter} from '@next/font/google'
-import NavBar from "@/components/navBar";
-import SignIn from "@/components/signIn";
-import SignUp from "@/components/signUp";
 import ResponsiveAppBar from "@/components/navBar";
-import Countdown from "@/components/interviewComponents/countdown";
-import InterviewPage from "@/components/interviewComponents/interviewPage";
-import Question from "@/components/interviewComponents/questions";
 import RecordedInterviewPage from "@/components/interviewComponents/recordInterviewPage";
 import {useRouter} from "next/router";
 import {useUser} from "@auth0/nextjs-auth0/client";
@@ -35,7 +29,10 @@ export default function RecruiterSignUp() {
     return (
         <>
             <ResponsiveAppBar></ResponsiveAppBar>
-            <RecordedInterviewPage></RecordedInterviewPage>
+            <RecordedInterviewPage
+                user={data}
+                interview={interview}
+            ></RecordedInterviewPage>
 
         </>
     )

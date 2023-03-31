@@ -16,7 +16,6 @@ export default function Written(props: any) {
         isLoading: isLoadingDB,
         isError,
     } = useUserDB(user ? user.email! : "");
-    console.log(id)
     useEffect(() => {
         if (data && data.interviews) {
             setInterview(data.interviews.find(interview => interview.id == id));
