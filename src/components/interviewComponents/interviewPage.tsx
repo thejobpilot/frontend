@@ -55,7 +55,7 @@ export default function InterviewPage(props: any) {
       setCleared(false);
       window.alert("Error: You have already responded to this interview");
       // TODO uncomment
-      //router.push(`/applicant/summary/${props.interview.id}`);
+      router.push(`/applicant/summary/${props.interview.id}`);
     }
   }, [props.interview]);
 
@@ -70,7 +70,7 @@ export default function InterviewPage(props: any) {
         setCleared(false);
         window.alert("Error: This interview has no time left");
         // TODO uncomment
-        //router.push(`/applicant/summary/${props.interview?.id}`);
+        router.push(`/applicant/summary/${props.interview?.id}`);
         return () => {
           ignore = true;
         };

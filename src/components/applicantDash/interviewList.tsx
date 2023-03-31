@@ -61,11 +61,7 @@ function InterviewList(props: { user: UserProfile }) {
                 break;
               default:
                 path =
-                  "/applicant/" +
-                  (interview.interviewType == "recorded"
-                    ? "videoInterview"
-                    : "writtenInterview") +
-                  "/" +
+                  "/interview/" +
                   interview.id;
                 break;
             }
