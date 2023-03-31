@@ -11,8 +11,11 @@ import Divider from '@mui/material/Divider';
 import { blueGrey } from '@mui/material/colors';
 
 
-export default function interviewDash() {
-
+export default function interviewDash(props: {interview: any, user: any}) {
+    console.log("user")
+    console.log(props.user)
+    console.log("interview")
+    console.log(props.interview)
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <Box sx={{ 
@@ -31,17 +34,17 @@ export default function interviewDash() {
           <Typography variant='h2' sx={{ 
             alignSelf: 'flex-start', 
             textAlign: "center" }}> 
-            Hello, insert name</Typography>
+            Hello, {props.user.fullName}</Typography>
           </Grid>
 
           <Grid xs={12}>
             <Typography variant='h5' sx={{ 
               alignSelf: 'flex-start', 
               textAlign: "center" }}> 
-            Welcome to the next step for your interview process w/ (Company)!
-             <br /> <br />This interview is for position (swe) and there will be (x) questions.
-             Each question will have (mm) prep time, (mm) response time, and there will be (x)
-             retakes for each question. The estimated time to complete this interview is (x).
+            Welcome to the next step for your interview process w/ {props.interview.companyName}!
+             <br /> <br />This interview is for position {props.interview.name} and there will be {props.interview.questions.length} questions.
+             Each question will have {props.interview.prepTime} min prep time, {props.interview.interviewLength}min response time, and there will be {props.interview.retakes}
+             retakes for each question
             <br />
            </Typography>
           </Grid>
@@ -49,7 +52,7 @@ export default function interviewDash() {
             <Typography variant='h6' sx={{ 
               alignSelf: 'flex-start', 
               textAlign: "center" }}> <br />
-            Each question will have the promp and the question number on the left side of the page. The top left will show the question you are on
+            Each question will have the prompt and the question number on the left side of the page. The top left will show the question you are on
             and how many questions total there are. The prompt will be below the question number in text form. If applicable it can also be shown
             through a video on the left hand side as well. On the right hand side you will have a count down. The count down can represent the 
             prep time if applicable. Prep time is the time that is given for you before you answer the prompt to brainstorm an answer. After the prep

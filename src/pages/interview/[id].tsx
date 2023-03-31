@@ -7,6 +7,7 @@ import { Alert, AlertTitle } from "@mui/material";
 import { Container } from "@mui/system";
 import Forbidden from "@/components/forbidden";
 import { withTitle } from "@/components/utils";
+import Behavioral from "@/pages/applicant/interviewDash";
 
 function userHasInterviewID(user: any, id: any, updater: any) {
   if (!user) {
@@ -50,11 +51,7 @@ export function Interview() {
 
   return (
     interview && (
-      <>
-        <h1>Found your interview! Interview {id}</h1>
-        <h3>Name: {interview.name!}</h3>
-        <h3>prepTime: {interview.prepTime!}</h3>
-      </>
+      <Behavioral interview={interview}></Behavioral>
     )
   );
 }

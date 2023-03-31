@@ -15,12 +15,10 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 
 const inter = Inter({subsets: ['latin']})
 
-export default function Behavioral() {
+export default function Behavioral(props: {interview: any}) {
     const [email, setEmail] = useState("");
-    const { data, isError, isLoading: loading, mutate } = useUserDB(email);
     const { user, error, isLoading } = useUser();
-    console.log("userauth: " + user);
-    console.log("data " +data);
+    const { data, isError, isLoading: loading, mutate } = useUserDB(user?.email);
     if (isLoading) return <div>Loading Auth0...</div>;
     if (loading) return <div>Loading DB...</div>;
   
@@ -29,7 +27,7 @@ export default function Behavioral() {
     return (
         <>
             <ResponsiveAppBar></ResponsiveAppBar>
-            <InterviewDash></InterviewDash>
+            <InterviewDash interview={props.interview} user={data}></InterviewDash>
         </>
        
     )
