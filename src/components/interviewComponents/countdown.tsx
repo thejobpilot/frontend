@@ -5,6 +5,7 @@ interface CountdownProps {
   totalTimeMinutes: any;
   interview: any;
   updater: any;
+  message: any;
 }
 
 export default function Countdown(props: CountdownProps) {
@@ -44,7 +45,7 @@ export default function Countdown(props: CountdownProps) {
   return (
     <div>
       <Typography color="black" variant="h6">
-        Time remaining: {Math.floor(remainingTime / 60).toFixed(0)} minutes :{" "}
+        {props.message ? props.message : "Time remaining"}: {Math.floor(remainingTime / 60).toFixed(0)} minutes :{" "}
         {(remainingTime % 60).toFixed(0)} seconds
       </Typography>
       <LinearProgress
