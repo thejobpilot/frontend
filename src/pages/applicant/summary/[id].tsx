@@ -35,9 +35,16 @@ function userHasInterviewID(user: any, id: any, updater: any, updaterq: any) {
       let response = user.interviews[i].responses.find(
         (response: any) => response.applicantEmail === user?.email
       );
-      let questions = user.interviews[i].questions.find(
-        (response: any) => response.applicantEmail === user?.email
-      );
+      let questions = [];
+      response.textAnswers.forEach((answer: any) => {
+        let question = user.interviews[i].questions.find(
+          (q  : any) => q.id === answer.questionId
+        );
+        questions.push({
+          question: question,
+          answer: answer,
+        });
+      })
 
       updater(response);
       updaterq(questions);
@@ -82,24 +89,24 @@ export function Summary() {
   if (response === null)
     return <Forbidden message="You do not have access to this interview" />;
 
-  console.log(response);
+    console.log(questions)
   return (
-    response && (
+    questions && (
       <>
         <ResponsiveAppBar />
         <Container maxWidth="md" sx={{ mt: 15 }}>
           <Box sx={{ mt: 4 }}>
             <Typography variant="h4" mb={2}>
-              List of Questions
+              Response Summary
             </Typography>
             <div>
-              {response.textAnswer && response.textAnswers.map((answer: any) => (
-                <Accordion key={answer.id}>
+              {questions.map((ans: any) => (
+                <Accordion key={ans.answer.id}>
                   <AccordionSummary>
-                    <Typography variant="body1">{answer.answer}</Typography>
+                    <Typography variant="body1">Question: {ans.question.prompt}</Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <ResponseCard question={answer.answer} />
+                    <ResponseCard question={ans.answer} />
                   </AccordionDetails>
                 </Accordion>
               ))}
