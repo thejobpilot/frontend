@@ -1,30 +1,35 @@
-import React, {useState} from "react";
-import {Box, Card, CardContent, Typography} from "@mui/material";
+import React, {useEffect, useState} from "react";
+import {Box, Button, Card, CardActions, CardContent, Typography} from "@mui/material";
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
+import {SelectedInterview} from "@/pages/recruiter/grade";
 
-const initialApplicants = [
-    {
-        id: "1",
-        name: "John Doe",
-        gpa: 3.7,
-        graduationYear: 2022,
-    },
-    {
-        id: "2",
-        name: "Jane Smith",
-        gpa: 3.9,
-        graduationYear: 2021,
-    },
-    {
-        id: "3",
-        name: "Bob Johnson",
-        gpa: 3.5,
-        graduationYear: 2023,
-    },
-];
+export type SmartCardEntry = {
+    response: any,
+    id: string;
+    gpa: string,
+    name: string,
+    graduationYear: string
+};
+let initialApplicants: SmartCardEntry[] = [];
 
-const SmartCards = () => {
+const SmartCards = (props: { selected: SelectedInterview, responseSelector: any, data: any }) => {
     const [applicants, setApplicants] = useState(initialApplicants);
+    useEffect(() => {
+        if (props.selected.interview) {
+            let smartCards: SmartCardEntry[] = props.selected.interview?.responses.map((response: any, index: number) => {
+                let matchedUser = props.data.find((user: any) => user.email == response.applicantEmail);
+                let entry: SmartCardEntry = {
+                    gpa: matchedUser.gpa,
+                    graduationYear: matchedUser.graduationDate,
+                    name: matchedUser.fullName,
+                    id: index.toString(),
+                    response: response
+                };
+                return entry
+            });
+            setApplicants(smartCards);
+        }
+    }, [props.selected]);
 
     const onDragEnd = (result: any) => {
         if (!result.destination) return;
@@ -61,7 +66,7 @@ const SmartCards = () => {
                                         {...provided.dragHandleProps}
                                         sx={{
                                             margin: 2,
-                                            width: "30%",
+                                            width: "100%",
                                         }}
                                     >
                                         <CardContent>
@@ -72,6 +77,21 @@ const SmartCards = () => {
                                                 GPA: {applicant.gpa} | Graduation Year: {applicant.graduationYear}
                                             </Typography>
                                         </CardContent>
+                                        <CardActions>
+                                            <Box
+                                                sx={{
+                                                    display: "flex",
+                                                    justifyContent: "center",
+                                                    width: "100%",
+                                                }}
+                                            >
+                                                <Button variant="contained" color="primary"
+                                                        onClick={() => props.responseSelector(applicant.response)}
+                                                >
+                                                    Select
+                                                </Button>
+                                            </Box>
+                                        </CardActions>
                                     </Card>
                                 )}
                             </Draggable>
