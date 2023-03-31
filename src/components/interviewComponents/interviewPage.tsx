@@ -79,12 +79,11 @@ export default function InterviewPage(props: any) {
     };
 
     const resetTimer = () => {
-      localStorage.setItem(
-        "time_left",
-        JSON.stringify(
-          props.interview == null ? 0 : props.interview.interviewLength * 60
-        )
+      const now = new Date();
+      const initialEndTime = new Date(
+        now.getTime() + props.interview.interviewLength * 60 * 1000
       );
+      localStorage.setItem("end_time", initialEndTime.toISOString());
       window.location.reload();
     };
 
@@ -123,7 +122,7 @@ export default function InterviewPage(props: any) {
                 }}
               >
                 <Countdown
-                  totalTime={
+                  totalTimeMinutes={
                     props.interview == null
                       ? 0
                       : props.interview.interviewLength
