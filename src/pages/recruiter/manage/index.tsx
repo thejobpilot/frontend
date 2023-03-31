@@ -6,29 +6,15 @@ import PositionList from "@/components/recruiterDash/positionList";
 import ApplicantList from "@/components/recruiterDash/applicantList";
 import InterviewEditor from "@/components/recruiterDash/interviewEditor";
 import useUserDB from "@/components/db/useUserDB";
-import ApplicantListContainer from "@/components/dragAndDrop";
 import { withTitle } from "@/components/utils";
+import { Snackbar, Alert } from "@mui/material";
 
 export function InterviewManager() {
+  const [showSave, setShowSave] = React.useState(false);
   const [selected, setSelected] = useState({
-    interview: null,
-    position: null,
+    positionId: null,
+    interviewId: null,
   });
-
-  const interviewSelector = (id: any) => {
-    setSelected((prev: any) => {
-        return { ...prev, interview: id };
-    })
-    mutate()
-  }
-
-  const positionSelector = (id: any) => {
-    setSelected((prev: any) => {
-        return { ...prev, position: id };
-    })
-    mutate();
-  }
-
   const { user, error, isLoading } = useUser();
   const {
     data,
@@ -40,6 +26,37 @@ export function InterviewManager() {
   useEffect(() => {
     document.body.style.backgroundColor = "#EFEFEF";
   }, []);
+
+  const setPositionId = (id: any) => {
+    setSelected((prev: any) => {
+      return { ...prev, positionId: id };
+    });
+    mutate();
+  };
+  const setInterviewId = (id: any) => {
+    if (selected.interviewId === id) {
+      setSelected((prev: any) => {
+        return { ...prev, interview: null };
+      });
+    }
+    setSelected((prev: any) => {
+      return { ...prev, interviewId: id };
+    });
+    mutate();
+  };
+
+  const toggleSnackbar = () => {
+    setShowSave(true);
+  };
+  const closeSnackbar = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setShowSave(false);
+  };
 
   if (isLoading) return <div>Loading...</div>;
   if (isLoadingDB) return <div>Loading...</div>;
@@ -55,8 +72,8 @@ export function InterviewManager() {
           isLoading={isLoading}
           isError={isError}
           selected={selected}
-          positionSelector={positionSelector}
-          interviewSelector={interviewSelector}
+          setPositionId={setPositionId}
+          setInterviewId={setInterviewId}
         />
         <InterviewEditor
           data={data}
@@ -64,8 +81,9 @@ export function InterviewManager() {
           isError={isError}
           mutate={mutate}
           selected={selected}
-          setInterview={interviewSelector}
-          setPosition={positionSelector}
+          toggleSnackbar={toggleSnackbar}
+          setPositionId={setPositionId}
+          setInterviewId={setInterviewId}
         />
         <ApplicantList
           user={user}
@@ -73,6 +91,20 @@ export function InterviewManager() {
           selected={selected}
           setSelected={setSelected}
         />
+        <Snackbar
+          open={showSave}
+          autoHideDuration={3000}
+          onClose={closeSnackbar}
+        >
+          <Alert
+            onClose={closeSnackbar}
+            severity="success"
+            variant="filled"
+            sx={{ width: "100%" }}
+          >
+            Interview successfully saved!
+          </Alert>
+        </Snackbar>
       </div>
     )
   );

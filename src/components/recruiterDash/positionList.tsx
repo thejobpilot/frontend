@@ -1,30 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Typography, List, ListItem, ListItemText } from "@mui/material";
-import useUserDB from "@/components/db/useUserDB";
 import { ArrowBack } from "@mui/icons-material";
-
-function getInterviewByID(user: any, id: number) {
-  if (!user.interviews) return null;
-  for (let i = 0; i < user.interviews.length; i++) {
-    if (user.interviews[i].id === id) return user.interviews[i];
-  }
-}
-
-function getPosByID(user: any, id: number) {
-  if (!user.positions) return null;
-  for (let i = 0; i < user.positions.length; i++) {
-    if (user.positions[i].id === id) return user.positions[i];
-  }
-}
+import { getIdFromArray } from "../utils";
 
 export default function PositionList(props: any) {
-  const handleBackClick = () => {
-    props.interviewSelector(null);
-    props.positionSelector(null);
-  };
+  const [selected, setSelected] = useState({
+    position: getIdFromArray(props.data.positions, props.selected?.positionId),
+    interview: null,
+  });
+
+  useEffect(() => {
+    let positionCache = getIdFromArray(
+      props.data.positions,
+      props.selected?.positionId
+    );
+    let interviewCache = getIdFromArray(
+      positionCache?.interviews,
+      props.selected?.interviewId
+    );
+    setSelected({
+      position: positionCache,
+      interview: interviewCache,
+    });
+  }, [
+    props.data,
+    props.data.positions,
+    props.selected?.positionId,
+    props.selected?.interviewId,
+  ]);
 
   if (props.isLoading || !props.data) return <div>Loading...</div>;
   if (props.error) return <div>{props.error.message}</div>;
+
+  const handleBackClick = () => {
+    props.setInterviewId(null);
+    props.setPositionId(null);
+  };
+
   // @ts-ignore
   // @ts-ignore
   return (
@@ -44,42 +56,45 @@ export default function PositionList(props: any) {
         variant="h5"
         sx={{ bgcolor: "#111E31", color: "white", p: 2, textAlign: "center" }}
       >
-        {props.selected.position != null ? (
+        {selected.position != null ? (
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <ArrowBack 
+            <ArrowBack
               sx={{ mr: 2, cursor: "pointer" }}
               onClick={handleBackClick}
             />
-            <Typography variant="h5">
-                {props.selected.position.name}
-            </Typography>
+            <Typography variant="h5">{selected.position.name}</Typography>
           </Box>
         ) : (
           "Positions"
         )}
       </Typography>
       <List>
-        {props.selected.position == null
+        {selected.position == null
           ? props.data.positions.map((position: any) => (
               <ListItem
                 key={position.id}
                 button
-                onClick={() => {props.positionSelector(position)}}
+                onClick={() => {
+                  props.setPositionId(position.id);
+                }}
                 sx={{ borderBottom: "1px solid #E0E0E0" }}
               >
                 <ListItemText primary={position.name} />
               </ListItem>
             ))
-          : props.selected.position.interviews?.map((interview: any) => (
+          : selected.position.interviews?.map((interview: any) => (
               <ListItem
                 key={interview.id}
                 button
-                selected={props.selected.interview && interview === props.selected.interview}
-                onClick={() => {props.interviewSelector(interview)}}
+                selected={
+                  selected.interview && interview === selected.interview
+                }
+                onClick={() => {
+                  props.setInterviewId(interview.id);
+                }}
                 sx={{ borderBottom: "1px solid #E0E0E0" }}
               >
-                <ListItemText primary={interview.name}  />
-                <h2>{props.interview}</h2>
+                <ListItemText primary={interview.name} />
               </ListItem>
             ))}
       </List>

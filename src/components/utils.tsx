@@ -29,8 +29,20 @@ export function withTitle(title: string) {
   };
 }
 
+export function getIdFromArray(arr: any, id: any) {
+  if (!arr || !id) return null;
+  id = parseInt(id);
+  for (let idx in arr) {
+    if (arr[idx].id === id) {
+      return arr[idx];
+    }
+  }
+  return null;
+}
+
+
 export function userHasInterviewByID(user: any, id: any) {
-  if (!user) return false;
+  if (!user || !id) return false;
   id! = parseInt(id);
   for (const i in user.interviews) {
     if (user.interviews[i].id === id) {
