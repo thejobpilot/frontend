@@ -110,14 +110,18 @@ export function Summary() {
             <Typography variant="h4" mb={2}>
               Response Summary
               <Typography variant="h6" mb={2}>
-                Completion date: {interview && fetchDate(interview)}
+                Completion date:{" "}
+                {interview &&
+                  new Date(fetchDate(interview)).toLocaleDateString()}
               </Typography>
             </Typography>
             <div>
               {questions.map((ans: any) => (
                 <Accordion key={ans.answer.id}>
                   <AccordionSummary>
-                    <Typography variant="body1">Question: {ans.question.prompt}</Typography>
+                    <Typography variant="body1">
+                      Question: {ans.question.prompt}
+                    </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
                     <ResponseCard question={ans.answer} />
