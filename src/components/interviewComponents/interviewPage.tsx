@@ -7,9 +7,14 @@ import TextField from "@mui/material/TextField";
 import ResponsiveAppBar from "@/components/navBar";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {Button} from "@mui/material";
+import requestSubmitTextInterview from "@/components/db/requestSubmitTextInterview";
+import requestAddTextResponse from "@/components/db/requestAddTextResponse";
+import {router} from "next/client";
+import {useRouter} from "next/router";
 
 interface QuestionData {
     question: string;
+    id: string;
     answer: string;
 }
 
@@ -29,22 +34,20 @@ export default function InterviewPage(props: any) {
     console.log(props.interview?.interviewLength);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [questions, setQuestions] = useState<QuestionData[]>([
-        {question: "What is your favorite color?", answer: ""},
-        {question: "How old are you?", answer: ""},
-        {question: "Why us?", answer: ""},
-        // Add more questions here
+        {question: "What is your favorite color?", answer: "", id: "0"},
     ]);
+    const router = useRouter();
 
     useEffect(() => {
         if (props.interview) {
             setQuestions(props.interview.questions.map(q => {
-                return {question: q.prompt, answer: ""}
+                return {question: q.prompt, answer: "", id: q.id}
             }))
         }
     }, [props.interview]);
 
-    const handleSave = () => {
-        // Save the answer
+    const handleSave = async () => {
+
     };
 
     const handlePrevious = () => {
@@ -55,8 +58,14 @@ export default function InterviewPage(props: any) {
         setCurrentQuestionIndex((prev) => prev + 1);
     };
 
-    const handleSubmit = () => {
-        // Submit the answers
+    const handleSubmit = async () => {
+        // Save the answer
+        let response = await requestSubmitTextInterview(props.interview.id, props.user.email);
+        let payload = await response.json();
+        for (const question of questions) {
+            await requestAddTextResponse(payload.id, question.id, question.answer);
+        }
+        await router.push(`/applicant/dash`)
     };
 
     const handleChange = (e: any) => {
