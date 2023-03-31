@@ -46,7 +46,7 @@ function InterviewList(props: { user: UserProfile }) {
             switch (res) {
               case -1:
                 path = `/applicant/summary/${interview.id}`;
-                icon = <CheckCircleOutline color="success" />
+                icon = <CheckCircleOutline color="success" />;
                 break;
               case 1:
                 path =
@@ -56,7 +56,16 @@ function InterviewList(props: { user: UserProfile }) {
                     : "writtenInterview") +
                   "/" +
                   interview.id;
-                icon = <PendingActions color="warning" />
+                icon = <PendingActions color="warning" />;
+                break;
+              default:
+                path =
+                  "/applicant/" +
+                  (interview.interviewType == "recorded"
+                    ? "videoInterview"
+                    : "writtenInterview") +
+                  "/" +
+                  interview.id;
                 break;
             }
             return (

@@ -54,15 +54,15 @@ const theme = createTheme({
             <Grid item xs={12} sm={6}>
               <Box
                 sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
                   p: 2,
-                  backgroundColor: '#fff',
+                  backgroundColor: "#fff",
                   borderRadius: 2,
                   boxShadow: 1,
                   minHeight: 300,
-                  height: '100%',
+                  height: "100%",
                 }}
               >
                 <QuestionComponent
@@ -79,17 +79,21 @@ const theme = createTheme({
               <Box
                 sx={{
                   p: 2,
-                  backgroundColor: '#fff',
+                  backgroundColor: "#fff",
                   borderRadius: 2,
                   boxShadow: 1,
                   minHeight: 300,
                 }}
               >
                 <Box sx={{ mt: 2 }}>
-                <Countdown seconds={countdownSeconds} onCountdownUpdate={handleCountdownUpdate} />
+                  <Countdown
+                    totalTimeMinutes={countDownSeconds}
+                    interview={""}
+                    updater={() => {}}
+                  />
                 </Box>
-                <Box sx={{ mt: 2, width: '100%' }}>
-                <ProgressBar currentStep={progress} totalSteps={100} />
+                <Box sx={{ mt: 2, width: "100%" }}>
+                  <ProgressBar currentStep={progress} totalSteps={100} />
                 </Box>
                 <Box sx={{ mt: 2 }}>
                   <CameraComponent />
