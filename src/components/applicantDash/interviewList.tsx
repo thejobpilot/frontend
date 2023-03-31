@@ -46,7 +46,7 @@ function InterviewList(props: { user: UserProfile }) {
                 borderBottom: "1px solid #E0E0E0",
               }}
             >
-              <ListItemText primary={`${interview.name}`} />
+              <ListItemText primary={`${interview.companyName}: ${interview.name}`} />
             </ListItem>
           ))
         ) : (

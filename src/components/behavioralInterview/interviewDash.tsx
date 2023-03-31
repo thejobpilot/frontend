@@ -17,8 +17,9 @@ export default function interviewDash(props: {interview: any, user: any}) {
     console.log("interview")
     console.log(props.interview)
     if (!props.interview) return <h1>Fetching...</h1>
+
     let href = "/applicant/" + (props.interview.interviewType == "recorded" ? "videoInterview" : "writtenInterview") + "/" + props.interview.id;
-    console.log(href);
+
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <Box sx={{ 

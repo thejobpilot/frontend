@@ -31,7 +31,7 @@ const theme = createTheme({
 
 
 export default function InterviewPage(props: any) {
-    console.log(props.interview?.interviewLength);
+    const [cleared, setCleared] = useState(false);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [questions, setQuestions] = useState<QuestionData[]>([
         {question: "What is your favorite color?", answer: "", id: "0"},
@@ -39,16 +39,25 @@ export default function InterviewPage(props: any) {
     const router = useRouter();
 
     useEffect(() => {
-        if (props.interview) {
-            setQuestions(props.interview.questions.map(q => {
-                return {question: q.prompt, answer: "", id: q.id}
-            }))
-        }
+      if (props.interview) {
+        setQuestions(
+          props.interview.questions.map((q) => {
+            return { question: q.prompt, answer: "", id: q.id };
+          })
+        );
+      }
+      if (
+        props.interview?.responses.find(
+          (response: any) => response.applicantEmail === props.user.email
+        )
+      ) {
+        setCleared(false);
+        window.alert("Error: You have already responded to this interview")
+        router.push(`/applicant/summary/${props.interview.id}`)
+      } else {
+        setCleared(true);
+      }
     }, [props.interview]);
-
-    const handleSave = async () => {
-
-    };
 
     const handlePrevious = () => {
         setCurrentQuestionIndex((prev) => prev - 1);
@@ -90,9 +99,9 @@ export default function InterviewPage(props: any) {
     const currentQuestion = questions[currentQuestionIndex];
 
     return (
-      <ThemeProvider theme={theme}>
+      <>
         <ResponsiveAppBar />
-        <Box sx={{ flexGrow: 1, mt: 8, p: 2 }}>
+        <Box color="black" sx={{ flexGrow: 1, mt: 8, p: 2 }}>
           <Grid container spacing={4} alignItems="stretch">
             <Grid item xs={12} sm={6}>
               <Box
@@ -102,9 +111,24 @@ export default function InterviewPage(props: any) {
                   borderRadius: 2,
                   boxShadow: 1,
                   minHeight: 300,
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
+                <Typography sx={{mb: 2}} variant="h6" fontWeight="normal" color="grey.500">
+                  PROMPT:
+                </Typography>
                 <Typography variant="h5">{currentQuestion.question}</Typography>
+                <Typography
+                  variant="h6"
+                  color="grey.700"
+                  fontSize={"17px"}
+                  sx={{ marginTop: "auto" }}
+                >
+                  {`Question: ${currentQuestionIndex + 1} / ${
+                    questions.length
+                  }`}
+                </Typography>
               </Box>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -131,6 +155,7 @@ export default function InterviewPage(props: any) {
                 <TextField
                   fullWidth
                   multiline
+                  label="Respond Here"
                   rows={4}
                   variant="outlined"
                   value={currentQuestion.answer}
@@ -165,6 +190,6 @@ export default function InterviewPage(props: any) {
             Reset Timer
           </Button>
         </Box>
-      </ThemeProvider>
+      </>
     );
 };

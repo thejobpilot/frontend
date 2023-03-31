@@ -31,6 +31,7 @@
     "react": "18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "18.2.0",
+    "react-lite-youtube-embed": "^2.3.52",
     "react-media-recorder": "^1.6.6",
     "styled-components": "^5.3.9",
     "swr": "^2.0.4",

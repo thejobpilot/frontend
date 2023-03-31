@@ -105,176 +105,191 @@ export default function InterviewEditor(props: any) {
     };
 
     return (
-        <Box
-            sx={{
-                p: 3,
-                bgcolor: "white",
-                color: "black",
-                position: "absolute",
-                top: 55,
-                minHeight: "100vh",
-                right: "35%",
-                height: "100%",
-                width: "30%",
-                overflowY: "auto",
-            }}
+      <Box
+        sx={{
+          p: 3,
+          bgcolor: "white",
+          color: "black",
+          position: "absolute",
+          top: 55,
+          minHeight: "100vh",
+          right: "35%",
+          height: "100%",
+          width: "30%",
+          overflowY: "auto",
+        }}
+      >
+        <Typography
+          variant="h5"
+          sx={{ bgcolor: "#111E31", color: "white", p: 2, textAlign: "center" }}
         >
+          Interview Editor
+        </Typography>
+
+        {interview && (
+          <>
             <Typography
-                variant="h5"
-                sx={{bgcolor: "#111E31", color: "white", p: 2, textAlign: "center"}}
+              variant="h5"
+              sx={{
+                p: 2,
+                fontWeight: "500",
+                textAlign: "center",
+              }}
             >
-                Interview Editor
+              {interviewCache && interviewCache.name}
             </Typography>
+            <form
+              onSubmit={(e) => {
+                handleSubmit(e);
+              }}
+            >
+              <Box
+                sx={{
+                  p: 3,
+                  bgcolor: "white",
+                  color: "black",
+                  top: 55,
+                  right: 0,
+                  height: "100%",
+                  width: "100%",
+                }}
+              >
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                  <TextField
+                    label="Interview Name"
+                    variant="outlined"
+                    name="name"
+                    value={interview.name || ""}
+                    onChange={(e) => updateField(e)}
+                    inputProps={{ type: "string" }}
+                    required
+                  />
+                  <TextField
+                    label="Company Name"
+                    variant="outlined"
+                    name="companyName"
+                    value={interview.companyName || ""}
+                    onChange={(e) => updateField(e)}
+                    inputProps={{ type: "string" }}
+                    required
+                  />
+                  <TextField
+                    label="Preparation Time"
+                    variant="outlined"
+                    name="prepTime"
+                    value={interview.prepTime || ""}
+                    onChange={(e) => updateField(e)}
+                    inputProps={{ type: "number", min: 0, max: 999 }}
+                    required
+                  />
+                  <TextField
+                    label="Interview Time"
+                    variant="outlined"
+                    name="interviewLength"
+                    value={interview.interviewLength || ""}
+                    onChange={(e) => updateField(e)}
+                    inputProps={{ type: "number", min: 0, max: 999 }}
+                    required
+                  />
+                  <TextField
+                    label="# Retakes"
+                    variant="outlined"
+                    name="retakes"
+                    value={interview.retakes || ""}
+                    onChange={(e) => updateField(e)}
+                    inputProps={{ type: "number", min: 0, max: 999 }}
+                    required
+                  />
 
-            {interview && (
-                <>
-                    <Typography
-                        variant="h5"
-                        sx={{
-                            p: 2,
-                            fontWeight: "500",
-                            textAlign: "center",
-                        }}
+                  <TextField
+                    name="interviewType"
+                    label="Type"
+                    value={interview.interviewType || ""}
+                    onChange={(e) => updateField(e)}
+                    select
+                    required
+                  >
+                    <MenuItem value={"text"}>Text Interview</MenuItem>
+                    <MenuItem value={"recorded"}>Video Interview</MenuItem>
+                  </TextField>
+                  {interview.interviewType == "recorded" && (
+                    <TextField
+                      label="Video Link"
+                      variant="outlined"
+                      name="videoURL"
+                      value={interview.videoURL || ""}
+                      onChange={(e) => updateField(e)}
+                      inputProps={{ type: "url" }}
+                    />
+                  )}
+
+                  <FormControl fullWidth variant="outlined" sx={{ mt: 2 }}>
+                    <InputLabel>Pre-made Questions</InputLabel>
+                    <Select
+                      label="Pre-made Questions"
+                      value={selectedPreMadeQuestion}
+                      onChange={(e) =>
+                        setSelectedPreMadeQuestion(e.target.value)
+                      }
                     >
-                        {interviewCache && interviewCache.name}
+                      {preMadeQuestions.map((question, index) => (
+                        <MenuItem key={index} value={question}>
+                          {question}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={handleSelectPreMadeQuestion}
+                  >
+                    Add Pre-made Question
+                  </Button>
+                  {questions.length > 0 && (
+                    <Typography sx={{ mt: 2 }} variant="h6">
+                      Questions:
                     </Typography>
-                    <form
-                        onSubmit={(e) => {
-                            handleSubmit(e);
-                        }}
+                  )}
+                  {questions.map((question, index) => (
+                    <QuestionInput
+                      index={index}
+                      question={question}
+                      updater={updateQuestion}
+                      deleter={deleteQuestion}
+                    />
+                  ))}
+
+                  <Box
+                    sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+                  >
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={addQuestion}
                     >
-                        <Box
-                            sx={{
-                                p: 3,
-                                bgcolor: "white",
-                                color: "black",
-                                top: 55,
-                                right: 0,
-                                height: "100%",
-                                width: "100%",
-                            }}
-                        >
-                            <Box sx={{display: "flex", flexDirection: "column", gap: 2}}>
-                                <TextField
-                                    label="Interview Name"
-                                    variant="outlined"
-                                    name="name"
-                                    value={interview.name || ""}
-                                    onChange={(e) => updateField(e)}
-                                    inputProps={{type: "string"}}
-                                    required
-                                />
-                                <TextField
-                                    label="Company Name"
-                                    variant="outlined"
-                                    name="companyName"
-                                    value={interview.companyName || ""}
-                                    onChange={(e) => updateField(e)}
-                                    inputProps={{type: "string"}}
-                                    required
-                                />
-                                <TextField
-                                    label="Preparation Time"
-                                    variant="outlined"
-                                    name="prepTime"
-                                    value={interview.prepTime || ""}
-                                    onChange={(e) => updateField(e)}
-                                    inputProps={{type: "number"}}
-                                    required
-                                />
-                                <TextField
-                                    label="# Retakes"
-                                    variant="outlined"
-                                    name="retakes"
-                                    value={interview.retakes || ""}
-                                    onChange={(e) => updateField(e)}
-                                    inputProps={{type: "number"}}
-                                    required
-                                />
-
-                                <TextField
-                                    name="interviewType"
-                                    label="Type"
-                                    value={interview.interviewType || ""}
-                                    onChange={(e) => updateField(e)}
-                                    select
-                                    required
-                                >
-                                    <MenuItem value={"text"}>Text Interview</MenuItem>
-                                    <MenuItem value={"recorded"}>Video Interview</MenuItem>
-                                </TextField>
-
-                                <TextField
-                                    label="Video Link"
-                                    variant="outlined"
-                                    name="videoURL"
-                                    value={interview.videoURL || ""}
-                                    onChange={(e) => updateField(e)}
-                                    inputProps={{type: "url"}}
-                                />
-                                <FormControl fullWidth variant="outlined" sx={{ mt: 2 }}>
-                                    <InputLabel>Pre-made Questions</InputLabel>
-                                    <Select
-                                        label="Pre-made Questions"
-                                        value={selectedPreMadeQuestion}
-                                        onChange={(e) => setSelectedPreMadeQuestion(e.target.value)}
-                                    >
-                                        {preMadeQuestions.map((question, index) => (
-                                            <MenuItem key={index} value={question}>
-                                                {question}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                                <Button
-                                    variant="outlined"
-                                    color="primary"
-                                    onClick={handleSelectPreMadeQuestion}
-                                >
-                                    Add Pre-made Question
-                                </Button>
-                                {questions.length > 0 && (
-                                    <Typography sx={{mt: 2}} variant="h6">
-                                        Questions:
-                                    </Typography>
-                                )}
-                                {questions.map((question, index) => (
-                                    <QuestionInput
-                                        index={index}
-                                        question={question}
-                                        updater={updateQuestion}
-                                        deleter={deleteQuestion}
-                                    />
-                                ))}
-
-                                <Box sx={{display: "flex", flexDirection: "column", gap: 2}}>
-                                    <Button
-                                        variant="outlined"
-                                        color="primary"
-                                        onClick={addQuestion}
-                                    >
-                                        Add Question
-                                    </Button>
-                                    <Button
-                                        variant="outlined"
-                                        color="secondary"
-                                        onClick={resetToDefault}
-                                    >
-                                        Reset
-                                    </Button>
-                                    <Button
-                                        type="submit"
-                                        variant="contained"
-                                        sx={{bgcolor: "#111E31", color: "white"}}
-                                    >
-                                        Save
-                                    </Button>
-                                </Box>
-                            </Box>
-                        </Box>
-                    </form>
-                </>
-            )}
-        </Box>
+                      Add Question
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      onClick={resetToDefault}
+                    >
+                      Reset
+                    </Button>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      sx={{ bgcolor: "#111E31", color: "white" }}
+                    >
+                      Save
+                    </Button>
+                  </Box>
+                </Box>
+              </Box>
+            </form>
+          </>
+        )}
+      </Box>
     );
 }

@@ -47,8 +47,6 @@ export function Interview() {
   if (interview === null)
     return <Forbidden message="You do not have access to this interview" />;
 
-  console.log(interview);
-
   return (
     interview && (
       <Behavioral interview={interview}></Behavioral>

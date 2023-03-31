@@ -40,6 +40,13 @@ export function getIdFromArray(arr: any, id: any) {
   return null;
 }
 
+export function youtubeURLToId(url: string) {
+  let rx = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/|shorts\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
+  if (!url) return null;
+  let m = url.match(rx);
+  if (!m || m.length < 2) return null;
+  return m[1];
+}
 
 export function userHasInterviewByID(user: any, id: any) {
   if (!user || !id) return false;

@@ -14,12 +14,12 @@ export default async function updateUser(
         name: body.name,
         prepTime: parseInt(body.prepTime),
         retakes: parseInt(body.retakes),
+        interviewLength: parseInt(body.interviewLength),
         videoURL: body.videoURL,
         interviewType: body.interviewType,
         companyName: body.companyName,
         questions: body.questions
     };
-    console.log(formattedInterview);
 
     const response: ApiErrorResponse<unknown> | ApiOkResponse<unknown> =
         await api.patch(`/position/${positionId}/interview/${id}`, formattedInterview);
@@ -28,6 +28,7 @@ export default async function updateUser(
         res.status(200).json(response.data);
     } else {
         console.log("fail", response?.data);
+        console.log(formattedInterview);
         res.status(500).send(`Internal Server Error: ${response?.data}`);
     }
 }

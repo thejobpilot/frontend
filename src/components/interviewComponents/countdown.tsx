@@ -35,7 +35,7 @@ const Countdown: React.FC<CountdownProps> = ({ totalTimeMinutes }) => {
 
   return (
     <div>
-      <Typography variant="h6">
+      <Typography color="black" variant="h6">
         Time remaining: {remainingTime} seconds
       </Typography>
       <LinearProgress
