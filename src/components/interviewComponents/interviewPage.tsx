@@ -114,6 +114,9 @@ export default function InterviewPage(props: any) {
     for (const question of questions) {
       await requestAddTextResponse(payload.id, question.id, question.answer);
     }
+    const storage = `end_time_${props.interview?.id}-${props.interview?.interviewLength}`;
+    let now = new Date();
+    localStorage.setItem(storage, now.toISOString());
     await router.push(`/applicant/summary/${props.interview.id}`);
   };
 

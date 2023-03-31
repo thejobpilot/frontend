@@ -16,6 +16,7 @@ export type SmartCardEntry = {
   id: string;
   gpa: string;
   name: string;
+  email: string;
   graduationYear: string;
 };
 interface SmartCardsProps {
@@ -52,6 +53,7 @@ export default function SmartCards(props: SmartCardsProps) {
             gpa: matchedUser.gpa,
             graduationYear: matchedUser.graduationDate,
             name: matchedUser.fullName,
+            email: matchedUser.email,
             id: index.toString(),
             response: response,
             };
@@ -111,6 +113,9 @@ export default function SmartCards(props: SmartCardsProps) {
                     <CardContent>
                       <Typography variant="h6" component="div">
                         {applicant.name}
+                      </Typography>
+                      <Typography variant="h6" component="div">
+                        {applicant.email}
                       </Typography>
                       <Typography>
                         GPA: {applicant.gpa} | Graduation Year:{" "}

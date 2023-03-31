@@ -169,6 +169,7 @@ const RecordedInterviewPage = (props: { user: any; interview: any }) => {
                                     }
                                     interview={props.interview}
                                     updater={setTimeLeft}
+                                    message="Recording Time"
                                 />
                             </Box>
                             <Box sx={{mt: 2}}>
@@ -200,12 +201,8 @@ const RecordedInterviewPage = (props: { user: any; interview: any }) => {
                                 {currentQuestionIndex === questions.length - 1 && (
                                     <Button
                                         variant="contained"
-                                        onClick={async () => {
-                                            let response = await requestSubmitTextInterview(
-                                                props.interview.id,
-                                                props.user.email
-                                            );
-                                            await router.push(`applicant/summary/${props.interview.id}`);
+                                        onClick={() => {
+                                            router.push(`/applicant/dash`);
                                         }}
                                     >
                                         Submit
