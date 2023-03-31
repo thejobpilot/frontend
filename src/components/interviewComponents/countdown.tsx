@@ -2,23 +2,26 @@ import React, { useEffect, useState } from "react";
 import { LinearProgress, Typography } from "@mui/material";
 
 interface CountdownProps {
-  totalTimeMinutes: number;
+  totalTimeMinutes: any;
+  interview: any;
+  updater: any;
 }
 
-const Countdown: React.FC<CountdownProps> = ({ totalTimeMinutes }) => {
+export default function Countdown(props: CountdownProps) {
   const [endTime, setEndTime] = useState<Date | null>(null);
   const [remainingTime, setRemainingTime] = useState<number>(0);
 
   useEffect(() => {
+    const storage = `end_time_${props.interview?.id}-${props.interview?.interviewLength}`;
     const savedEndTime =
-      typeof window !== "undefined" && localStorage.getItem("end_time");
+      typeof window !== "undefined" && localStorage.getItem(storage);
     const now = new Date();
     const initialEndTime = savedEndTime
       ? new Date(savedEndTime)
-      : new Date(now.getTime() + totalTimeMinutes * 60 * 1000);
+      : new Date(now.getTime() + props.totalTimeMinutes * 60 * 1000);
     setEndTime(initialEndTime);
-    localStorage.setItem("end_time", initialEndTime.toISOString());
-  }, [totalTimeMinutes]);
+    localStorage.setItem(storage, initialEndTime.toISOString());
+  }, [props.totalTimeMinutes]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -28,7 +31,10 @@ const Countdown: React.FC<CountdownProps> = ({ totalTimeMinutes }) => {
         0
       );
       setRemainingTime(timeLeft);
-      if (timeLeft === 0) clearInterval(timer);
+      if (timeLeft === 0) {
+        props.updater(0);
+        clearInterval(timer);
+      }
     }, 1000);
     return () => clearInterval(timer);
   }, [endTime]);
@@ -36,14 +42,13 @@ const Countdown: React.FC<CountdownProps> = ({ totalTimeMinutes }) => {
   return (
     <div>
       <Typography color="black" variant="h6">
-        Time remaining: {remainingTime} seconds
+        Time remaining: {Math.floor(remainingTime / 60).toFixed(0)} minutes :{" "}
+        {(remainingTime % 60).toFixed(0)} seconds
       </Typography>
       <LinearProgress
         variant="determinate"
-        value={100 - (remainingTime / (totalTimeMinutes * 60)) * 100}
+        value={100 - (remainingTime / (props.totalTimeMinutes * 60)) * 100}
       />
     </div>
   );
-};
-
-export default Countdown;
+}
