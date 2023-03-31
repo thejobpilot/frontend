@@ -17,6 +17,7 @@ export default async function updateUser(
         videoURL: body.videoURL,
         interviewType: body.interviewType,
         companyName: body.companyName,
+        questions: body.questions
     };
     console.log(formattedInterview);
 
