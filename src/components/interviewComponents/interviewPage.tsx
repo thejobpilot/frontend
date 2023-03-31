@@ -1,17 +1,30 @@
-
+import React, { useState } from "react";
+import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
-import { Box, Button, TextField } from "@mui/material";
-import Question from "@/components/interviewComponents/questions";
 import Countdown from "@/components/interviewComponents/countdown";
 import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
 import ResponsiveAppBar from "@/components/navBar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Button } from "@mui/material";
+import Question from "@/components/interviewComponents/questions";
 
 interface QuestionData {
   question: string;
   answer: string;
 }
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#6200ee",
+    },
+    secondary: {
+      main: "#03dac6",
+    },
+  },
+});
+
 
 
 export default function InterviewPage(props: any) {
@@ -23,39 +36,21 @@ export default function InterviewPage(props: any) {
         // Add more questions here
     ]);
 
-const InterviewPage: React.FC = () => {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [questions, setQuestions] = useState<QuestionData[]>([
-    { question: "What is your favorite color?", answer: "" },
-    { question: "How old are you?", answer: "" },
-    { question: "Why us?", answer: "" },
-  ]);
+    const handleSave = () => {
+        // Save the answer
+    };
 
-  
-  const handleSubmit = () => {
-    // Submit the answers
-};
+    const handlePrevious = () => {
+        setCurrentQuestionIndex((prev) => prev - 1);
+    };
 
-  
-  const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#6200ee",
-    },
-    secondary: {
-      main: "#03dac6",
-    },
-  },
-});
+    const handleNext = () => {
+        setCurrentQuestionIndex((prev) => prev + 1);
+    };
 
-  const handlePrevious = () => {
-    setCurrentQuestionIndex((prev) => prev - 1);
-  };
-
-  const handleNext = () => {
-    setCurrentQuestionIndex((prev) => prev + 1);
-  };
-
+    const handleSubmit = () => {
+        // Submit the answers
+    };
 
     const handleChange = (e: any) => {
         const newAnswer = e.target.value;
@@ -66,11 +61,10 @@ const InterviewPage: React.FC = () => {
         );
     };
 
+    const currentQuestion = questions[currentQuestionIndex];
 
-  const currentQuestion = questions[currentQuestionIndex];
-
-  return (
-    <ThemeProvider theme={theme}>
+    return (
+      <ThemeProvider theme={theme}>
       <ResponsiveAppBar />
       <Box sx={{ flexGrow: 1, mt: 8, p: 2 }}>
         <Grid container spacing={4} alignItems="stretch">
@@ -133,5 +127,5 @@ const InterviewPage: React.FC = () => {
         </Grid>
       </Box>
     </ThemeProvider>
-  );
+    );
 };
