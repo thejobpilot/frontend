@@ -23,7 +23,7 @@ import questions from "@/components/interviewComponents/questions";
 import ResponseCard from "./responseCard";
 import ResponsiveAppBar from "@/components/navBar";
 
-function userHasInterviewID(user: any, id: any, updater: any, updaterq: any) {
+function userHasInterviewID(user: any, id: any, updater: any, updaterq: any, interview: any) {
   if (!user) {
     updater(null);
     return;
@@ -48,6 +48,7 @@ function userHasInterviewID(user: any, id: any, updater: any, updaterq: any) {
 
       updater(response);
       updaterq(questions);
+      interview(user.interviews[i]);
       return;
     }
   }
@@ -57,6 +58,7 @@ function userHasInterviewID(user: any, id: any, updater: any, updaterq: any) {
 export function Summary() {
   const router = useRouter();
   const { id } = router.query;
+  const [interview, setInterview] = useState<any>(null);
   const [response, setResponse] = useState<any>(null);
   const [questions, setQuestions] = useState<any>(null);
   const { user, error, isLoading } = useUser();
@@ -68,7 +70,7 @@ export function Summary() {
     isError,
   } = useUserDB(user ? user.email! : "");
   useEffect(() => {
-    userHasInterviewID(data, id, setResponse, setQuestions);
+    userHasInterviewID(data, id, setResponse, setQuestions, setInterview);
   }, [data, id]);
 
   const handleQuestionClick = (e: any) => {
@@ -80,6 +82,15 @@ export function Summary() {
       setSelectedQuestion(question);
     }
   };
+  
+  function fetchDate(interview: any) {
+    let path = `end_time_${interview.id}-${interview.interviewLength}`;
+     const savedEndTime =
+      typeof window !== "undefined" && localStorage.getItem(path);
+      if (savedEndTime) return savedEndTime 
+      else return "<corrupted>"
+
+  }
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
@@ -98,6 +109,9 @@ export function Summary() {
           <Box sx={{ mt: 4 }}>
             <Typography variant="h4" mb={2}>
               Response Summary
+              <Typography variant="h6" mb={2}>
+                Completion date: {interview && fetchDate(interview)}
+              </Typography>
             </Typography>
             <div>
               {questions.map((ans: any) => (
