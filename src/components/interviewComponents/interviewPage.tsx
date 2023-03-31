@@ -1,40 +1,47 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Countdown from "@/components/interviewComponents/countdown";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import ResponsiveAppBar from "@/components/navBar";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Button } from "@mui/material";
-import Question from "@/components/interviewComponents/questions";
+import {createTheme, ThemeProvider} from "@mui/material/styles";
+import {Button} from "@mui/material";
 
 interface QuestionData {
-  question: string;
-  answer: string;
+    question: string;
+    answer: string;
 }
 
 const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#6200ee",
+    palette: {
+        primary: {
+            main: "#6200ee",
+        },
+        secondary: {
+            main: "#03dac6",
+        },
     },
-    secondary: {
-      main: "#03dac6",
-    },
-  },
 });
 
 
-
 export default function InterviewPage(props: any) {
+    console.log(props.interview?.interviewLength);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [questions, setQuestions] = useState<QuestionData[]>([
-        { question: "What is your favorite color?", answer: "" },
-        { question: "How old are you?", answer: "" },
-        { question: "Why us?", answer: "" },
+        {question: "What is your favorite color?", answer: ""},
+        {question: "How old are you?", answer: ""},
+        {question: "Why us?", answer: ""},
         // Add more questions here
     ]);
+
+    useEffect(() => {
+        if (props.interview) {
+            setQuestions(props.interview.questions.map(q => {
+                return {question: q.prompt, answer: ""}
+            }))
+        }
+    }, [props.interview]);
 
     const handleSave = () => {
         // Save the answer
@@ -56,76 +63,77 @@ export default function InterviewPage(props: any) {
         const newAnswer = e.target.value;
         setQuestions((prevQuestions) =>
             prevQuestions.map((q, idx) =>
-                idx === currentQuestionIndex ? { ...q, answer: newAnswer } : q
+                idx === currentQuestionIndex ? {...q, answer: newAnswer} : q
             )
         );
+        console.log(questions)
     };
 
     const currentQuestion = questions[currentQuestionIndex];
 
     return (
-      <ThemeProvider theme={theme}>
-      <ResponsiveAppBar />
-      <Box sx={{ flexGrow: 1, mt: 8, p: 2 }}>
-        <Grid container spacing={4} alignItems="stretch">
-          <Grid item xs={12} sm={6}>
-            <Box
-              sx={{
-                p: 2,
-                backgroundColor: "#fff",
-                borderRadius: 2,
-                boxShadow: 1,
-                minHeight: 300,
-              }}
-            >
-                 <Typography variant="h5">{currentQuestion.question}</Typography>
-              
+        <ThemeProvider theme={theme}>
+            <ResponsiveAppBar/>
+            <Box sx={{flexGrow: 1, mt: 8, p: 2}}>
+                <Grid container spacing={4} alignItems="stretch">
+                    <Grid item xs={12} sm={6}>
+                        <Box
+                            sx={{
+                                p: 2,
+                                backgroundColor: "#fff",
+                                borderRadius: 2,
+                                boxShadow: 1,
+                                minHeight: 300,
+                            }}
+                        >
+                            <Typography variant="h5">{currentQuestion.question}</Typography>
+
+                        </Box>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "space-between",
+                                p: 2,
+                                backgroundColor: "#fff",
+                                borderRadius: 2,
+                                boxShadow: 1,
+                                minHeight: 300,
+                                height: "100%",
+                            }}
+                        >
+                            <Countdown totalTime={props.interview == null ? 0 : props.interview.interviewLength}/>
+                            <TextField
+                                fullWidth
+                                multiline
+                                rows={4}
+                                variant="outlined"
+                                value={currentQuestion.answer}
+                                onChange={handleChange}
+                            />
+                            <Box display="flex" justifyContent="space-between">
+                                {currentQuestionIndex > 0 && (
+                                    <Button variant="contained" onClick={handlePrevious}>
+                                        Previous
+                                    </Button>
+                                )}
+                                {currentQuestionIndex < questions.length - 1 && (
+                                    <Button variant="contained" onClick={handleNext}>
+                                        Next
+                                    </Button>
+                                )}
+                                {currentQuestionIndex === questions.length - 1 && (
+                                    <Button variant="contained" onClick={handleSubmit}>
+                                        Submit
+                                    </Button>
+                                )}
+                            </Box>
+                        </Box>
+                    </Grid>
+                </Grid>
             </Box>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                p: 2,
-                backgroundColor: "#fff",
-                borderRadius: 2,
-                boxShadow: 1,
-                minHeight: 300,
-                height: "100%",
-              }}
-            >
-             <Countdown totalTime={500} />
-              <TextField
-                fullWidth
-                multiline
-                rows={4}
-                variant="outlined"
-                value={currentQuestion.answer}
-                onChange={handleChange}
-              />
-              <Box display="flex" justifyContent="space-between">
-                {currentQuestionIndex > 0 && (
-                  <Button variant="contained" onClick={handlePrevious}>
-                    Previous
-                  </Button>
-                )}
-                {currentQuestionIndex < questions.length - 1 && (
-                  <Button variant="contained" onClick={handleNext}>
-                    Next
-                  </Button>
-                )}
-                {currentQuestionIndex === questions.length - 1 && (
-                  <Button variant="contained" onClick={handleSubmit}>
-                    Submit
-                  </Button>
-                )}
-              </Box>
-            </Box>
-          </Grid>
-        </Grid>
-      </Box>
-    </ThemeProvider>
+        </ThemeProvider>
     );
 };

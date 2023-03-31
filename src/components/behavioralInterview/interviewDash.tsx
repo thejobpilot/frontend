@@ -16,6 +16,8 @@ export default function interviewDash(props: {interview: any, user: any}) {
     console.log(props.user)
     console.log("interview")
     console.log(props.interview)
+    let href = "/applicant/" + (props.interview.interviewType == "recorded" ? "videoInterview" : "writtenInterview") + "/" + props.interview.id;
+    console.log(href);
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <Box sx={{ 
@@ -66,8 +68,7 @@ export default function interviewDash(props: {interview: any, user: any}) {
 
           <Grid xs={12}>
             <Stack spacing={2} direction="row" alignItems="flex-end" justifyContent="center" sx={{mt: 5}}>
-         
-              <Button href="/applicant/videoInterview" variant="contained" sx={{ width: '25%' }}>Continue </Button>
+              <Button href={href} variant="contained" sx={{ width: '25%' }}>Continue </Button>
             </Stack>
           </Grid>
       </Grid>

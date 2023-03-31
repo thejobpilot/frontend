@@ -26,9 +26,9 @@ function userHasInterviewID(user: any, id: any, updater: any) {
 
 export function Interview() {
   const router = useRouter();
+  const { id } = router.query;
   const [interview, setInterview] = useState<any>(null);
   const { user, error, isLoading } = useUser();
-  const { id } = router.query;
 
   const {
     data,
