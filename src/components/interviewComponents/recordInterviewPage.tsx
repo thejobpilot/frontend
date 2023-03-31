@@ -205,7 +205,7 @@ const RecordedInterviewPage = (props: { user: any; interview: any }) => {
                                                 props.interview.id,
                                                 props.user.email
                                             );
-                                            await router.push(`/applicant/dash`);
+                                            await router.push(`/summary/${props.interview.id}`);
                                         }}
                                     >
                                         Submit
