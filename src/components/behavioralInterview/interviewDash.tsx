@@ -16,6 +16,7 @@ export default function interviewDash(props: {interview: any, user: any}) {
     console.log(props.user)
     console.log("interview")
     console.log(props.interview)
+    if (!props.interview) return <h1>Fetching...</h1>
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <Box sx={{ 
@@ -32,6 +33,7 @@ export default function interviewDash(props: {interview: any, user: any}) {
           <Grid xs={12}>
           {/* change font */}
           <Typography variant='h2' sx={{ 
+            mb: 2,
             alignSelf: 'flex-start', 
             textAlign: "center" }}> 
             Hello, {props.user.fullName}</Typography>
@@ -41,10 +43,9 @@ export default function interviewDash(props: {interview: any, user: any}) {
             <Typography variant='h5' sx={{ 
               alignSelf: 'flex-start', 
               textAlign: "center" }}> 
-            Welcome to the next step for your interview process w/ {props.interview.companyName}!
-             <br /> <br />This interview is for position {props.interview.name} and there will be {props.interview.questions.length} questions.
-             Each question will have {props.interview.prepTime} min prep time, {props.interview.interviewLength}min response time, and there will be {props.interview.retakes}
-             retakes for each question
+            Welcome to the next step for your interview process with {props.interview.companyName}!
+             <br /> <br />This interview is for position: {props.interview.name} and there will be {props.interview.questions?.length || 0} questions.
+             Each question will have {`${props.interview.prepTime} min` || "no"} prep time, {`${props.interview.interviewLength} min` || "no"} response time, and there will be {props.interview.retakes || "no"} retakes.
             <br />
            </Typography>
           </Grid>
