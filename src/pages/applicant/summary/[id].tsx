@@ -3,13 +3,27 @@ import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/router";
 import useUserDB from "@/components/db/useUserDB";
 import { useEffect, useState } from "react";
-import { Alert, AlertTitle } from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Alert,
+  AlertTitle,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import { Container } from "@mui/system";
 import Forbidden from "@/components/forbidden";
 import { withTitle } from "@/components/utils";
 import Behavioral from "@/pages/applicant/interviewDash";
+import questions from "@/components/interviewComponents/questions";
+import ResponseCard from "./responseCard";
+import ResponsiveAppBar from "@/components/navBar";
 
-function userHasInterviewID(user: any, id: any, updater: any) {
+function userHasInterviewID(user: any, id: any, updater: any, updaterq: any) {
   if (!user) {
     updater(null);
     return;
@@ -17,7 +31,16 @@ function userHasInterviewID(user: any, id: any, updater: any) {
   id! = parseInt(id);
   for (const i in user.interviews) {
     if (user.interviews[i].id === id) {
-      updater(user.interviews[i]);
+
+      let response = user.interviews[i].responses.find(
+        (response: any) => response.applicantEmail === user?.email
+      );
+      let questions = user.interviews[i].questions.find(
+        (response: any) => response.applicantEmail === user?.email
+      );
+
+      updater(response);
+      updaterq(questions);
       return;
     }
   }
@@ -27,8 +50,10 @@ function userHasInterviewID(user: any, id: any, updater: any) {
 export function Summary() {
   const router = useRouter();
   const { id } = router.query;
-  const [interview, setInterview] = useState<any>(null);
+  const [response, setResponse] = useState<any>(null);
+  const [questions, setQuestions] = useState<any>(null);
   const { user, error, isLoading } = useUser();
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
 
   const {
     data,
@@ -36,20 +61,54 @@ export function Summary() {
     isError,
   } = useUserDB(user ? user.email! : "");
   useEffect(() => {
-    userHasInterviewID(data, id, setInterview);
-    console.log(data)
+    userHasInterviewID(data, id, setResponse, setQuestions);
   }, [data, id]);
+
+  const handleQuestionClick = (e: any) => {
+    e.preventDefault();
+    const { value: question } = e.target;
+    if (selectedQuestion === question) {
+      setSelectedQuestion(null);
+    } else {
+      setSelectedQuestion(question);
+    }
+  };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
   if (isLoadingDB) return <div>Loading...</div>;
   if (isError) return <div>{isError.message}</div>;
 
-  if (interview === null)
+  if (response === null)
     return <Forbidden message="You do not have access to this interview" />;
 
-    console.log(interview)
-  return interview && <h1>hi</h1>
+  console.log(response);
+  return (
+    response && (
+      <>
+        <ResponsiveAppBar />
+        <Container maxWidth="md" sx={{ mt: 15 }}>
+          <Box sx={{ mt: 4 }}>
+            <Typography variant="h4" mb={2}>
+              List of Questions
+            </Typography>
+            <div>
+              {response.textAnswer && response.textAnswers.map((answer: any) => (
+                <Accordion key={answer.id}>
+                  <AccordionSummary>
+                    <Typography variant="body1">{answer.answer}</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <ResponseCard question={answer.answer} />
+                  </AccordionDetails>
+                </Accordion>
+              ))}
+            </div>
+          </Box>
+        </Container>
+      </>
+    )
+  );
 }
 
 export const getServerSideProps = withPageAuthRequired();

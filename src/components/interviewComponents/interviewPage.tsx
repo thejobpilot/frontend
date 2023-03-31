@@ -114,7 +114,7 @@ export default function InterviewPage(props: any) {
     for (const question of questions) {
       await requestAddTextResponse(payload.id, question.id, question.answer);
     }
-    await router.push(`/summary/${props.interview.id}`);
+    await router.push(`/applicant/summary/${props.interview.id}`);
   };
 
   const handleChange = (e: any) => {
