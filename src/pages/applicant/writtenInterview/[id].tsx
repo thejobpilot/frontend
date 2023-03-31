@@ -13,16 +13,14 @@ export function Written(props: any) {
   const { user, error, isLoading } = useUser();
   const [interview, setInterview] = useState<any>(null);
 
-  const {
-    data,
-    isLoading: isLoadingDB,
-    isError,
-  } = useUserDB(user ? user.email! : "");
-
-  useEffect(() => {
-    if (data && data.interviews) {
-      setInterview(
-        data.interviews.find((interview: any) => interview.id == id)
+    const {
+        data,
+        isLoading: isLoadingDB,
+        isError,
+    } = useUserDB(user ? user.email! : "");
+    useEffect(() => {
+        if (data && data.interviews) {
+            setInterview(data.interviews.find((interview: any) => interview.id == id)
       );
     }
   }, [data]);
