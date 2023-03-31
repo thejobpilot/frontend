@@ -1,36 +1,33 @@
 import React, {useEffect, useState} from "react";
-import {Box, Card, CardContent, Typography} from "@mui/material";
+import {Box, Button, Card, CardActions, CardContent, Typography} from "@mui/material";
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import {SelectedInterview} from "@/pages/recruiter/grade";
-import useUserDB from "@/components/db/useUserDB";
-import useSearchUsers from "@/components/db/useSearchUsers";
 
 export type SmartCardEntry = {
+    response: any,
     id: string;
     gpa: string,
     name: string,
     graduationYear: string
 };
-const initialApplicants: SmartCardEntry[] = [];
+let initialApplicants: SmartCardEntry[] = [];
 
-const SmartCards = (props: { selected: SelectedInterview }) => {
+const SmartCards = (props: { selected: SelectedInterview, responseSelector: any, data: any }) => {
     const [applicants, setApplicants] = useState(initialApplicants);
-    let {data} = useSearchUsers()
     useEffect(() => {
         if (props.selected.interview) {
-            console.log(props.selected.interview)
             let smartCards: SmartCardEntry[] = props.selected.interview?.responses.map((response: any, index: number) => {
-                let matchedUser = data.find((user: any) => user.email == response.applicantEmail);
-                console.log(matchedUser);
+                let matchedUser = props.data.find((user: any) => user.email == response.applicantEmail);
                 let entry: SmartCardEntry = {
                     gpa: matchedUser.gpa,
                     graduationYear: matchedUser.graduationDate,
                     name: matchedUser.fullName,
-                    id: index.toString()
+                    id: index.toString(),
+                    response: response
                 };
                 return entry
             });
-            setApplicants(smartCards)
+            setApplicants(smartCards);
         }
     }, [props.selected]);
 
@@ -69,7 +66,7 @@ const SmartCards = (props: { selected: SelectedInterview }) => {
                                         {...provided.dragHandleProps}
                                         sx={{
                                             margin: 2,
-                                            width: "30%",
+                                            width: "100%",
                                         }}
                                     >
                                         <CardContent>
@@ -80,6 +77,21 @@ const SmartCards = (props: { selected: SelectedInterview }) => {
                                                 GPA: {applicant.gpa} | Graduation Year: {applicant.graduationYear}
                                             </Typography>
                                         </CardContent>
+                                        <CardActions>
+                                            <Box
+                                                sx={{
+                                                    display: "flex",
+                                                    justifyContent: "center",
+                                                    width: "100%",
+                                                }}
+                                            >
+                                                <Button variant="contained" color="primary"
+                                                        onClick={() => props.responseSelector(applicant.response)}
+                                                >
+                                                    Select
+                                                </Button>
+                                            </Box>
+                                        </CardActions>
                                     </Card>
                                 )}
                             </Draggable>
