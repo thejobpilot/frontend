@@ -3,7 +3,7 @@ import useSWR from "swr";
 const fetcher = (url: RequestInfo | URL) =>
   fetch(url).then((res) => res.json());
 
-export default function userSearchUsers(
+export default function useSearchUsers(
   search?: string | undefined | null,
   fields?: string | undefined | null,
   filter?: string | undefined | null,

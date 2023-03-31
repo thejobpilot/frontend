@@ -1,6 +1,9 @@
-import React, { useState } from "react";
-import Box from "@mui/material/Box";
+
 import Typography from "@mui/material/Typography";
+import { useState } from "react";
+import { Box, Button, TextField } from "@mui/material";
+import Question from "@/components/interviewComponents/questions";
+
 import Countdown from "@/components/interviewComponents/countdown";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
@@ -13,16 +16,15 @@ interface QuestionData {
   answer: string;
 }
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#6200ee",
-    },
-    secondary: {
-      main: "#03dac6",
-    },
-  },
-});
+
+export default function InterviewPage(props: any) {
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [questions, setQuestions] = useState<QuestionData[]>([
+        { question: "What is your favorite color?", answer: "" },
+        { question: "How old are you?", answer: "" },
+        { question: "Why us?", answer: "" },
+        // Add more questions here
+    ]);
 
 const InterviewPage: React.FC = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -40,6 +42,17 @@ const InterviewPage: React.FC = () => {
       )
     );
   };
+  
+  const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#6200ee",
+    },
+    secondary: {
+      main: "#03dac6",
+    },
+  },
+});
 
   const handlePrevious = () => {
     setCurrentQuestionIndex((prev) => prev - 1);
@@ -49,9 +62,16 @@ const InterviewPage: React.FC = () => {
     setCurrentQuestionIndex((prev) => prev + 1);
   };
 
-  const handleSubmit = () => {
-    // Submit the answers
-  };
+
+    const handleChange = (e: any) => {
+        const newAnswer = e.target.value;
+        setQuestions((prevQuestions) =>
+            prevQuestions.map((q, idx) =>
+                idx === currentQuestionIndex ? { ...q, answer: newAnswer } : q
+            )
+        );
+    };
+
 
   const currentQuestion = questions[currentQuestionIndex];
 
@@ -121,5 +141,3 @@ const InterviewPage: React.FC = () => {
     </ThemeProvider>
   );
 };
-
-export default InterviewPage;

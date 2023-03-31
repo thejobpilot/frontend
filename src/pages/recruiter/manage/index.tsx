@@ -42,7 +42,9 @@ export function InterviewManager() {
   }, []);
 
   if (isLoading) return <div>Loading...</div>;
+  if (isLoadingDB) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
+  if (isError) return <div>{isError.message}</div>;
   return (
     user && (
       <div style={{ backgroundColor: "#EFEFEF" }}>
