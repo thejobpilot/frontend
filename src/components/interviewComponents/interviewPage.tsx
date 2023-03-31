@@ -3,13 +3,10 @@ import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import Question from "@/components/interviewComponents/questions";
-
 import Countdown from "@/components/interviewComponents/countdown";
 import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
 import ResponsiveAppBar from "@/components/navBar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Button } from "@mui/material";
 
 interface QuestionData {
   question: string;
@@ -34,14 +31,11 @@ const InterviewPage: React.FC = () => {
     { question: "Why us?", answer: "" },
   ]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newAnswer = e.target.value;
-    setQuestions((prevQuestions) =>
-      prevQuestions.map((q, idx) =>
-        idx === currentQuestionIndex ? { ...q, answer: newAnswer } : q
-      )
-    );
-  };
+  
+  const handleSubmit = () => {
+    // Submit the answers
+};
+
   
   const theme = createTheme({
   palette: {
