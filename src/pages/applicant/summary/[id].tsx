@@ -91,7 +91,12 @@ export function Summary() {
       else return "<corrupted>"
 
   }
-
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
   if (isLoadingDB) return <div>Loading...</div>;
@@ -100,7 +105,6 @@ export function Summary() {
   if (response === null)
     return <Forbidden message="You do not have access to this interview" />;
 
-    console.log(questions)
   return (
     questions && (
       <>
@@ -112,7 +116,7 @@ export function Summary() {
               <Typography variant="h6" mb={2}>
                 Completion date:{" "}
                 {interview &&
-                  new Date(fetchDate(interview)).toLocaleDateString()}
+                  new Date(fetchDate(interview)).toLocaleDateString(undefined, options)}
               </Typography>
             </Typography>
             <div>
