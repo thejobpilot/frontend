@@ -1,14 +1,27 @@
-import React, {useEffect} from "react";
-import {Box, Button, List, ListItem, ListItemText, Typography,} from "@mui/material";
-import useSearchUsers from "@/components/db/useSearchUsers";
+import React, {useEffect, useState} from "react";
+import {Box, Button, Card, CardContent, CardHeader, List, ListItem, TextField, Typography,} from "@mui/material";
 import requestSetUser from "@/components/db/requestSendEmailResponse";
+import requestUpdateScore from "@/components/db/requestUpdateScore";
 
 export default function ResponseReview(props: { selected: any, data: any }) {
-    // let {data} = useSearchUsers()
-    let responseData: any = null;
-    console.log(props.selected.response);
-    // useEffect(() => {
-    // }, [props.selected.response])
+    const [score, setScore] = useState<number | "">();
+
+    const handleScoreChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = parseInt(event.target.value, 10);
+        if (value >= 0 && value <= 10) {
+            setScore(value);
+            await requestUpdateScore(props.selected.response.applicantEmail, props.selected.interview.id, props.selected.response.id, value.toString());
+        } else {
+            setScore("");
+        }
+    };
+
+    useEffect(() => {
+        if (props.selected.response) {
+            setScore(props.selected.response.score);
+        }
+    }, [props.selected.response])
+
     return (
         <Box
             sx={{
@@ -39,24 +52,47 @@ export default function ResponseReview(props: { selected: any, data: any }) {
                         <Button
                             variant="contained"
                             sx={{bgcolor: "green", color: "white"}}
-                            onClick={() => requestSetUser(props.selected.response.applicantEmail, true)}
+                            onClick={() =>
+                                requestSetUser(props.selected.response.applicantEmail, true)
+                            }
                         >
                             Accept
                         </Button>
                         <Button
                             variant="contained"
                             sx={{bgcolor: "red", color: "white"}}
-                            onClick={() => requestSetUser(props.selected.response.applicantEmail, false)}
+                            onClick={() =>
+                                requestSetUser(props.selected.response.applicantEmail, false)
+                            }
                         >
                             Denied
                         </Button>
                     </Box>
+                    <Box sx={{mb: 2, ml: 3, mt: 4}}>
+                        <TextField
+                            type="number"
+                            label="Score"
+                            variant="outlined"
+                            value={score}
+                            onChange={handleScoreChange}
+                            inputProps={{
+                                min: 0,
+                                max: 10,
+                            }}
+                        />
+                    </Box>
                     <List>
                         {props.selected.response.textAnswers.map((answer: any, index: any) => (
                             <ListItem key={index}>
-                                <ListItemText
-                                    primary={`Question ${index + 1}: ${answer.answer}`}
-                                />
+                                <Card sx={{mb: 1, width: "100%"}}>
+                                    <CardHeader
+                                        title={`Question ${index + 1}`}
+                                        sx={{bgcolor: "#f5f5f5"}}
+                                    />
+                                    <CardContent>
+                                        <Typography>{answer.answer}</Typography>
+                                    </CardContent>
+                                </Card>
                             </ListItem>
                         ))}
                     </List>
