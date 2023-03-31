@@ -112,10 +112,10 @@ export default function SmartCards(props: SmartCardsProps) {
                   >
                     <CardContent>
                       <Typography variant="h6" component="div">
-                        {applicant.name}
+                        Name: {applicant.name}
                       </Typography>
-                      <Typography variant="h6" component="div">
-                        {applicant.email}
+                      <Typography variant="body1" component="div">
+                        Email: {applicant.email}
                       </Typography>
                       <Typography>
                         GPA: {applicant.gpa} | Graduation Year:{" "}
