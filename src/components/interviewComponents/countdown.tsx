@@ -16,6 +16,8 @@ export default function Countdown(props: CountdownProps) {
     const savedEndTime =
       typeof window !== "undefined" && localStorage.getItem(storage);
     const now = new Date();
+    console.log("savedEndTime")
+    console.log(props.totalTimeMinutes)
     const initialEndTime = savedEndTime
       ? new Date(savedEndTime)
       : new Date(now.getTime() + props.totalTimeMinutes * 60 * 1000);

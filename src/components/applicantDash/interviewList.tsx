@@ -43,6 +43,7 @@ function InterviewList(props: { user: UserProfile }) {
               interview.interviewLength,
               `end_time_${interview.id}-${interview.interviewLength}`
             );
+            console.log(res)
             switch (res) {
               case -1:
                 path = `/applicant/summary/${interview.id}`;
