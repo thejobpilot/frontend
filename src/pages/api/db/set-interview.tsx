@@ -8,21 +8,20 @@ export default async function updateUser(
 ) {
   const id: number = parseInt(req.query.id as string);
   const positionId: number = parseInt(req.query.positionId as string);
-  console.log(req.body);
-  const interview = JSON.parse(req.body);
-  const formattedInterview = {
-    name: interview.name,
-    prepTime: parseInt(interview.prepTime),
-    retakes: parseInt(interview.retakes),
-  };
+  // const interview = JSON.parse(req.body);
+  // const formattedInterview = {
+  //   name: interview.name,
+  //   prepTime: parseInt(interview.prepTime),
+  //   retakes: parseInt(interview.retakes),
+  // };
 
   const response: ApiErrorResponse<unknown> | ApiOkResponse<unknown> =
-    await api.patch(`/position/${positionId}/interview/${id}`, formattedInterview);
+    await api.patch(`/position/${positionId}/interview/${id}`, req.body);
 
   if (response.ok) {
     res.status(200).json(response.data);
   } else {
-    console.log(response?.data);
+    console.log("fail", response?.data);
     res.status(500).send(`Internal Server Error: ${response?.data}`);
   }
 }

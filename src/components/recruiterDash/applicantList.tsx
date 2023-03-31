@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -7,24 +6,10 @@ import {
   ListItemText,
   Chip,
 } from "@mui/material";
-import useUserDB from "../db/useUserDB";
-import useAllUsers from "../db/useAllUsers";
 import requestAssignInterview from "../db/requestAssignInterview";
 import requestRemoveInterview from "../db/requestRemoveInterview";
 import useApplicants from "../db/useApplicants";
 import { userHasInterviewByID } from "../utils";
-
-// function searchInterviewForEmail(user: User, email: string) {
-//   for (const pos of user.positions || []) {
-//     const intersection = pos.interviews?.filter((element) =>
-//       user.interviews?.includes(element)
-//     );
-//     if (intersection) {
-//       console.log("intersection", intersection);
-//       return intersection[0].id;
-//     }
-//   }
-// }
 
 export default function ApplicantList(props: any) {
   const { applicants, isLoading, isError, mutate } = useApplicants();
@@ -34,8 +19,8 @@ export default function ApplicantList(props: any) {
   if (!applicants) return <div>Failed to load</div>;
 
   const addToInterview = (selectedEmail: string) => {
-    if (props.selected.interview) {
-      requestAssignInterview(selectedEmail, props.selected.interview.id);
+    if (props.selected.interviewId) {
+      requestAssignInterview(selectedEmail, props.selected.interviewId);
       window.alert(`Assigned interview to: ${selectedEmail}`);
       props.mutater();
       mutate();
@@ -43,17 +28,13 @@ export default function ApplicantList(props: any) {
   };
 
   const handleDelete = (selectedEmail: string) => {
-    if (props.selected.interview) {
-      requestRemoveInterview(selectedEmail, props.selected.interview.id);
+    if (props.selected.interviewId) {
+      requestRemoveInterview(selectedEmail, props.selected.interviewId);
       window.alert(`Removed interview from: ${selectedEmail}`);
       props.mutater();
       mutate();
     }
   };
-
-  // const checkIfSent = (email: any) => {
-  //   return searchInterviewForEmail(props.user, email)
-  // }
 
   return (
     <Box
@@ -80,17 +61,12 @@ export default function ApplicantList(props: any) {
             <ListItem
               key={applicant.email}
               button={
-                props.selected.interview &&
-                !userHasInterviewByID(applicant, props.selected.interview.id)
+                props.selected.interviewId &&
+                !userHasInterviewByID(applicant, props.selected.interviewId)
               }
               onClick={(e) => {
                 if (
-                  !userHasInterviewByID(
-                    applicant,
-                    props.selected.interview
-                      ? props.selected.interview.id
-                      : null
-                  )
+                  !userHasInterviewByID(applicant, props.selected?.interviewId)
                 )
                   addToInterview(applicant.email);
               }}
@@ -114,10 +90,10 @@ export default function ApplicantList(props: any) {
                         {applicant.email}
                       </Typography>
                       </div>
-                      {props.selected.interview &&
+                      {props.selected.interviewId &&
                         userHasInterviewByID(
                           applicant,
-                          props.selected.interview.id
+                          props.selected.interviewId
                         ) && (
                           <Chip
                             label="Assigned"
