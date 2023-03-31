@@ -1,41 +1,67 @@
-import { withAuth0, WithAuth0Props } from "@auth0/auth0-react";
 import { useUser } from "@auth0/nextjs-auth0/client";
-
 import ResponsiveAppBar from "@/components/navBar";
-import Button from "@mui/material/Button";
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
+import PositionList from "@/components/recruiterDash/positionList";
+import ApplicantList from "@/components/recruiterDash/applicantList";
+import InterviewEditor from "@/components/recruiterDash/interviewEditor";
+import useUserDB from "@/components/db/useUserDB";
+import ApplicantListContainer from "@/components/dragAndDrop";
 import { withTitle } from "@/components/utils";
+import SmartCards from "@/components/recruiterReview/smartCards";
 
-export function Grader() {
-  const { user, error, isLoading } = useUser();
+export function InterviewManager() {
+    const [selected, setSelected] = useState({
+        interview: null,
+        position: null,
+    });
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
+    const interviewSelector = (id: any) => {
+        setSelected((prev: any) => {
+            return { ...prev, interview: id };
+        })
+        mutate()
+    }
 
-  return (
-    user && (
-      <div>
-        {user.picture && user.name && (
-          <img src={user.picture} alt={user.name} />
-        )}
-        <h1>Recruiter/grade</h1>
-        <h2>{user.name}</h2>
-        <p>{user.email}</p>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-          href="/api/auth/logout"
-        >
-          Sign Out
-        </Button>
-      </div>
-    )
-  );
+    const positionSelector = (id: any) => {
+        setSelected((prev: any) => {
+            return { ...prev, position: id };
+        })
+        mutate();
+    }
+
+    const { user, error, isLoading } = useUser();
+    const {
+        data,
+        isLoading: isLoadingDB,
+        isError,
+        mutate,
+    } = useUserDB(user ? user.email! : "");
+
+    useEffect(() => {
+        document.body.style.backgroundColor = "#EFEFEF";
+    }, []);
+
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <div>{error.message}</div>;
+    return (
+        user && (
+            <div style={{ backgroundColor: "#EFEFEF" }}>
+                <ResponsiveAppBar />
+                <PositionList
+                    user={user}
+                    data={data}
+                    isLoading={isLoading}
+                    isError={isError}
+                    selected={selected}
+                    positionSelector={positionSelector}
+                    interviewSelector={interviewSelector}
+                />
+                <SmartCards></SmartCards>
+            </div>
+        )
+    );
 }
 
 export const getServerSideProps = withPageAuthRequired();
-
-export default withTitle("Recruiter Grade Manager")(Grader);
+export default withTitle("Interview Manager")(InterviewManager);

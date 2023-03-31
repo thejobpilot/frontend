@@ -61,16 +61,15 @@ export function Dashboard() {
               Manage Interviews
             </Button>
             <Button
-              style={{
-                backgroundColor: "#111E31",
-                color: "white",
-                opacity: "60%",
-                margin: "25px",
-                padding: "25px 50px",
-                borderRadius: 9,
-              }}
-              disabled
+                style={{
+                    backgroundColor: "#111E31",
+                    color: "white",
+                    margin: "25px",
+                    padding: "25px 50px",
+                    borderRadius: 9,
+                }}
               variant="contained"
+              href="/recruiter/grade"
             >
               Review Applicants
             </Button>
