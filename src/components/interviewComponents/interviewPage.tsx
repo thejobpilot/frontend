@@ -225,12 +225,12 @@ export default function InterviewPage(props: any) {
           </Grid>
         </Grid>
         <Button
-          color="secondary"
+          color="primary"
           sx={{ mt: 5 }}
           variant="contained"
-          onClick={resetTimer}
+          href={"/dash"}
         >
-          Reset Timer
+          Exit
         </Button>
       </Box>
     </>
