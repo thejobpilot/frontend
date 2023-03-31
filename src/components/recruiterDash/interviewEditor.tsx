@@ -9,7 +9,9 @@ import requestSetInterview from "../db/requestSetInterview";
 
 export default function InterviewEditor(props: any) {
   const [interview, setInterview] = useState(props.selected.interview);
-  const [questions, setQuestions] = useState([]);
+  // const [questions, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState<string[]>([]);
+
   const [, updateState] = React.useState();
   useEffect(() => {
     setInterview(props.selected.interview);
