@@ -36,12 +36,13 @@ export function InterviewManager() {
   const setInterviewId = (id: any) => {
     if (selected.interviewId === id) {
       setSelected((prev: any) => {
-        return { ...prev, interview: null };
+        return { ...prev, interviewId: null };
+      });
+    } else {
+      setSelected((prev: any) => {
+        return { ...prev, interviewId: id };
       });
     }
-    setSelected((prev: any) => {
-      return { ...prev, interviewId: id };
-    });
     mutate();
   };
 

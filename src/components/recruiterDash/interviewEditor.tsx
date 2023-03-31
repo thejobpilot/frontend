@@ -26,8 +26,8 @@ export default function InterviewEditor(props: any) {
     setInterviewCache(interviewCache);
   }, [
     props.data.positions,
-    props.selected?.positionId,
-    props.selected?.interviewId,
+    props.selected.positionId,
+    props.selected.interviewId,
   ]);
 
   const handleSubmit = (e: any) => {
