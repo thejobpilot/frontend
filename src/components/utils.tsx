@@ -54,7 +54,7 @@ export function validateLocalStorageTime(len: number, storage: string) {
   const now = new Date();
   const saved = typeof window !== "undefined" && localStorage.getItem(storage); 
   // 0 == no saved
-  if (!saved) return 0;
+  if (!saved) return 1;
   // -1 == in the past == finish
   if (now > new Date(saved)) return -1;
   // 1 == valid
