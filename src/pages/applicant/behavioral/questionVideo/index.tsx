@@ -87,9 +87,8 @@ const theme = createTheme({
               >
                 <Box sx={{ mt: 2 }}>
                   <Countdown
-                    totalTimeMinutes={countDownSeconds}
-                    interview={""}
-                    updater={() => {}}
+                    seconds={countdownSeconds}
+                    onCountdownUpdate={() => {}}
                   />
                 </Box>
                 <Box sx={{ mt: 2, width: "100%" }}>

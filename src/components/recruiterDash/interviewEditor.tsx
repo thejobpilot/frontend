@@ -20,21 +20,6 @@ export default function InterviewEditor(props: any) {
     const [questions, setQuestions] = useState<any>([]);
     const [selectedPreMadeQuestion, setSelectedPreMadeQuestion] = useState("");
 
-    if (props.isLoading || !props.data || !props.selected)
-        return <div>Loading...</div>;
-    if (props.error) return <div>{props.error.message}</div>;
-    const handleSelectPreMadeQuestion = async () => {
-        if (selectedPreMadeQuestion) {
-            setQuestions([selectedPreMadeQuestion, ...questions]);
-            //scuffed asf
-            let response = await requestCreateQuestion(interview.id);
-            let body = await response.json();
-            await requestChangeQuestion(body.id, interview.id, selectedPreMadeQuestion);
-            setSelectedPreMadeQuestion("");
-            props.mutate();
-        }
-    };
-
     useEffect(() => {
         let positionCache = getIdFromArray(
             props.data.positions,
@@ -55,6 +40,21 @@ export default function InterviewEditor(props: any) {
         props.selected.interviewId,
     ]);
 
+    if (props.isLoading || !props.data || !props.selected)
+        return <div>Loading...</div>;
+    if (props.error) return <div>{props.error.message}</div>;
+    const handleSelectPreMadeQuestion = async () => {
+        if (selectedPreMadeQuestion) {
+            setQuestions([selectedPreMadeQuestion, ...questions]);
+            //scuffed asf
+            let response = await requestCreateQuestion(interview.id);
+            let body = await response.json();
+            await requestChangeQuestion(body.id, interview.id, selectedPreMadeQuestion);
+            setSelectedPreMadeQuestion("");
+            props.mutate();
+        }
+    };
+
     const handleSubmit = (e: any) => {
         e.preventDefault();
         if (interview) {
@@ -64,7 +64,7 @@ export default function InterviewEditor(props: any) {
                 interview
             );
 
-            questions.forEach((question, index) => {
+            questions.forEach((question: any, index: any) => {
                 requestChangeQuestion(interview.questions[index].id, interview.id, question);
             })
 
@@ -97,11 +97,11 @@ export default function InterviewEditor(props: any) {
     const deleteQuestion = async (index: number) => {
         await requestDeleteQuestion(interview.questions[index].id, interview.id);
         props.mutate();
-        setQuestions(questions.filter((_, i) => i !== index));
+        setQuestions(questions.filter((_: any, i: any) => i !== index));
     };
 
     const updateQuestion = async (index: number, value: string) => {
-        setQuestions(questions.map((q, i) => (i === index ? value : q)));
+        setQuestions(questions.map((q: any, i: any) => (i === index ? value : q)));
     };
 
     return (
@@ -126,7 +126,7 @@ export default function InterviewEditor(props: any) {
           Interview Editor
         </Typography>
 
-        {interview && (
+        {interview ? (
           <>
             <Typography
               variant="h5"
@@ -251,9 +251,10 @@ export default function InterviewEditor(props: any) {
                       Questions:
                     </Typography>
                   )}
-                  {questions.map((question, index) => (
+                  {questions.map((question: any, index: any) => (
                     <QuestionInput
                       index={index}
+                      key={index}
                       question={question}
                       updater={updateQuestion}
                       deleter={deleteQuestion}
@@ -289,6 +290,19 @@ export default function InterviewEditor(props: any) {
               </Box>
             </form>
           </>
+        ) : (
+          <Typography
+            variant="h6"
+            sx={{
+              mt: 20,
+              p: 2,
+              textAlign: "center",
+              color: "grey.500"
+            }}
+            fontWeight="normal"
+          >
+            No interview selected
+          </Typography>
         )}
       </Box>
     );

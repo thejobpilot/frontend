@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Typography, List, ListItem, ListItemText } from "@mui/material";
+import { Box, Typography, List, ListItem, ListItemText, ListItemButton } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
 import { getIdFromArray } from "../utils";
 
@@ -36,6 +36,13 @@ export default function PositionList(props: any) {
     props.setInterviewId(null);
     props.setPositionId(null);
   };
+
+  const compareSelection = (selected: any, interview: any) => {
+    if (selected && selected.interview && interview) {
+      return interview === selected.interview
+    }
+    return false
+  }
 
   // @ts-ignore
   // @ts-ignore
@@ -83,19 +90,16 @@ export default function PositionList(props: any) {
               </ListItem>
             ))
           : selected.position.interviews?.map((interview: any) => (
-              <ListItem
+              <ListItemButton
                 key={interview.id}
-                button
-                selected={
-                  selected.interview && interview === selected.interview
-                }
+                selected={compareSelection(selected, interview)}
                 onClick={() => {
                   props.setInterviewId(interview.id);
                 }}
                 sx={{ borderBottom: "1px solid #E0E0E0" }}
               >
                 <ListItemText primary={interview.name} />
-              </ListItem>
+              </ListItemButton>
             ))}
       </List>
     </Box>

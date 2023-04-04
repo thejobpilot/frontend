@@ -40,7 +40,7 @@ function userHasInterviewID(
       let response = user.interviews[i].responses.find(
         (response: any) => response.applicantEmail === user?.email
       );
-      let questions = [];
+      let questions: any = [];
       response.textAnswers.forEach((answer: any) => {
         let question = user.interviews[i].questions.find(
           (q: any) => q.id === answer.questionId

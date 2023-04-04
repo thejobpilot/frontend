@@ -5,7 +5,7 @@ interface CountdownProps {
   totalTimeMinutes: any;
   interview: any;
   updater: any;
-  message: any;
+  message?: any;
 }
 
 export default function Countdown(props: CountdownProps) {
@@ -30,7 +30,7 @@ export default function Countdown(props: CountdownProps) {
     const timer = setInterval(() => {
       const now = new Date();
       const timeLeft = Math.max(
-        Math.round((endTime.getTime() - now.getTime()) / 1000),
+        Math.round((endTime ? endTime.getTime() : 0 - now.getTime()) / 1000),
         0
       );
       setRemainingTime(timeLeft);

@@ -17,10 +17,6 @@ export default function Behavioral(props: { interview: any }) {
   const router = useRouter();
   const { user, error, isLoading } = useUser();
   const { data, isError, isLoading: loading, mutate } = useUserDB(user?.email);
-  if (isLoading) return <div>Loading Auth0...</div>;
-  if (loading) return <div>Loading DB...</div>;
-  if (isError) return <h1>404 Error </h1>;
-  if (error) return <div>Error: {error.message}</div>;
 
   useEffect(() => {
     let ignore = false;
@@ -68,6 +64,10 @@ export default function Behavioral(props: { interview: any }) {
   }, [props.interview, user?.email]);
 
   if (!cleared) return <ResponsiveAppBar />;
+  if (isLoading) return <div>Loading Auth0...</div>;
+  if (loading) return <div>Loading DB...</div>;
+  if (isError) return <h1>404 Error </h1>;
+  if (error) return <div>Error: {error.message}</div>;
   return (
     <>
       <ResponsiveAppBar></ResponsiveAppBar>

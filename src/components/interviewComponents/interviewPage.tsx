@@ -42,7 +42,7 @@ export default function InterviewPage(props: any) {
   useEffect(() => {
     if (props.interview) {
       setQuestions(
-        props.interview.questions.map((q) => {
+        props.interview.questions.map((q: any) => {
           return { question: q.prompt, answer: "", id: q.id };
         })
       );
