@@ -70,7 +70,7 @@ export default function interviewDash(props: {interview: any, user: any}) {
 
           <Grid xs={12}>
             <Stack spacing={2} direction="row" alignItems="flex-end" justifyContent="center" sx={{mt: 5}}>
-              <Button href={href} variant="contained" sx={{ width: '25%' }}>Continue </Button>
+              <Button href={href} variant="contained" sx={{ width: '25%', "&:hover": { bgcolor: "#8549a8" } }}>Continue </Button>
             </Stack>
           </Grid>
       </Grid>
