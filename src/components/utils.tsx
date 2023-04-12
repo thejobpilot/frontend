@@ -40,6 +40,26 @@ export function getIdFromArray(arr: any, id: any) {
   return null;
 }
 
+export function youtubeURLToId(url: string) {
+  let rx = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/|shorts\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
+  if (!url) return null;
+  let m = url.match(rx);
+  if (!m || m.length < 2) return null;
+  return m[1];
+}
+
+export function validateLocalStorageTime(len: number, storage: string) {
+  // bad input; ignore
+  if (!len) return -2;
+  const now = new Date();
+  const saved = typeof window !== "undefined" && localStorage.getItem(storage); 
+  // 0 == no saved
+  if (!saved) return 0;
+  // -1 == in the past == finish
+  if (now > new Date(saved)) return -1;
+  // 1 == valid
+  return 1;
+}
 
 export function userHasInterviewByID(user: any, id: any) {
   if (!user || !id) return false;

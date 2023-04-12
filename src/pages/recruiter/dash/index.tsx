@@ -23,7 +23,7 @@ export function Dashboard() {
   if (isError) return <div>{isError.message}</div>;
 
   /* TODO: ENABLE THIS BEFORE FRIDAY TO PROTECT PATHS */
-//  if (data.userType != "recruiter") router.push(`/${data.userType}/dash`);
+  if (data.userType != "recruiter") router.push(`/${data.userType}/dash`);
 
   return (
     user && (

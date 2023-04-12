@@ -6,21 +6,26 @@ import requestUpdateScore from "@/components/db/requestUpdateScore";
 export default function ResponseReview(props: { selected: any, data: any }) {
     const [score, setScore] = useState<number | "">();
 
-    const handleScoreChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const value = parseInt(event.target.value, 10);
-        if (value >= 0 && value <= 10) {
-            setScore(value);
-            await requestUpdateScore(props.selected.response.applicantEmail, props.selected.interview.id, props.selected.response.id, value.toString());
-        } else {
-            setScore("");
-        }
+    const handleScoreChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = parseInt(event.target.value, 10);
+      if (value >= 0 && value <= 10) {
+        setScore(value);
+        requestUpdateScore(
+          props.selected.response.applicantEmail,
+          props.selected.interviewId,
+          props.selected.responseId,
+          value.toString()
+        );
+      } else {
+        setScore("");
+      }
     };
 
     useEffect(() => {
-        if (props.selected.response) {
-            setScore(props.selected.response.score);
-        }
-    }, [props.selected.response])
+      if (props.selected.response) {
+        setScore(props.selected.response.score);
+      }
+    }, [props.selected.response]);
 
     return (
         <Box

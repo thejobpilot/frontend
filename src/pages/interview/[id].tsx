@@ -7,6 +7,7 @@ import { Alert, AlertTitle } from "@mui/material";
 import { Container } from "@mui/system";
 import Forbidden from "@/components/forbidden";
 import { withTitle } from "@/components/utils";
+import Behavioral from "@/pages/applicant/interviewDash";
 
 function userHasInterviewID(user: any, id: any, updater: any) {
   if (!user) {
@@ -25,9 +26,9 @@ function userHasInterviewID(user: any, id: any, updater: any) {
 
 export function Interview() {
   const router = useRouter();
+  const { id } = router.query;
   const [interview, setInterview] = useState<any>(null);
   const { user, error, isLoading } = useUser();
-  const { id } = router.query;
 
   const {
     data,
@@ -46,15 +47,9 @@ export function Interview() {
   if (interview === null)
     return <Forbidden message="You do not have access to this interview" />;
 
-  console.log(interview);
-
   return (
     interview && (
-      <>
-        <h1>Found your interview! Interview {id}</h1>
-        <h3>Name: {interview.name!}</h3>
-        <h3>prepTime: {interview.prepTime!}</h3>
-      </>
+      <Behavioral interview={interview}></Behavioral>
     )
   );
 }
