@@ -165,7 +165,7 @@ function AccountDetails(props: { user: UserProfile }) {
           <Button
             type="submit"
             variant="contained"
-            sx={{ bgcolor: "#111E31", color: "white" }}
+            sx={{ bgcolor: "#111E31", color: "white", "&:hover": { bgcolor: "#8549a8" } }}
           >
             Save
           </Button>
