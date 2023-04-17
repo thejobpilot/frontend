@@ -209,17 +209,17 @@ export default function InterviewPage(props: any) {
               />
               <Box display="flex" justifyContent="space-between">
                 {currentQuestionIndex > 0 && (
-                  <Button variant="contained" onClick={handlePrevious}>
+                  <Button variant="contained" onClick={handlePrevious} sx={{ mt: 3, mb: 2, bgcolor: "#111E31", "&:hover": { bgcolor: "#8549a8" } }}>
                     Previous
                   </Button>
                 )}
                 {currentQuestionIndex < questions.length - 1 && (
-                  <Button variant="contained" onClick={handleNext}>
+                  <Button variant="contained" onClick={handleNext} sx={{ mt: 3, mb: 2, bgcolor: "#111E31", "&:hover": { bgcolor: "#8549a8" } }}>
                     Next
                   </Button>
                 )}
                 {currentQuestionIndex === questions.length - 1 && (
-                  <Button variant="contained" onClick={handleSubmit}>
+                  <Button variant="contained" onClick={handleSubmit} sx={{ mt: 3, mb: 2, bgcolor: "#111E31", "&:hover": { bgcolor: "#8549a8" } }}>
                     Submit
                   </Button>
                 )}
@@ -229,7 +229,7 @@ export default function InterviewPage(props: any) {
         </Grid>
         <Button
           color="primary"
-          sx={{ mt: 5 }}
+          sx={{ mt: 5, mb: 2, bgcolor: "#111E31", "&:hover": { bgcolor: "#8549a8" } }}
           variant="contained"
           href={"/dash"}
         >
