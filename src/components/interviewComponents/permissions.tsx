@@ -56,10 +56,17 @@ const Permissions: React.FC = () => {
         <Typography variant="h4" mb={3}>
           Permissions Test Page
         </Typography>
+        <Box mb={3} sx={{ textAlign: 'center' }}>
+          <Typography variant="body1">
+            Applicant must allow video and microphone permissions. 
+            Record a video and say a few words. Make sure the replay caputures
+            the video and picks up the words clearly. 
+          </Typography>
+        </Box>
         <Box mb={3}>
           <video ref={videoRef} autoPlay playsInline muted controls width="100%" />
         </Box>
-        <Box mb={3}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
           {!isRecording && (
             <Button variant="contained" color="primary" onClick={handleStartRecording}>
               Start Recording
@@ -70,6 +77,9 @@ const Permissions: React.FC = () => {
               Stop Recording
             </Button>
           )}
+          <Button variant="contained" color="primary" sx={{ ml: 2 }}>
+            Next
+          </Button>
         </Box>
       </Box>
     </Container>
