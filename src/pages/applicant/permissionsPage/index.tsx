@@ -16,6 +16,7 @@ const theme = createTheme({
   });
   
   const PermissionsPage: React.FC = () => {
+    
     const [currentQuestion, setCurrentQuestion] = useState(1);
     const totalQuestions = 3;
     const [progress, setProgress] = useState(0);
