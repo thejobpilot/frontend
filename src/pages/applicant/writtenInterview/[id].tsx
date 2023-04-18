@@ -23,7 +23,7 @@ export function Written(props: any) {
             setInterview(data.interviews.find((interview: any) => interview.id == id)
       );
     }
-  }, [data]);
+  }, [data, id]);
 
   return (
     <>

@@ -25,7 +25,6 @@ function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   let router = useRouter();
-
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -43,7 +42,9 @@ function ResponsiveAppBar() {
   };
 
   const pressUserMenuButton = async (buttonPressed: string) => {
-    const setting = settings.find((s) => s.label === buttonPressed);
+      debugger;
+
+      const setting = settings.find((s) => s.label === buttonPressed);
     if (setting) {
       await router.push(setting.path);
     }

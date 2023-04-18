@@ -26,7 +26,6 @@ export default function Behavioral(props: { interview: any }) {
       )
     ) {
       setCleared(false);
-      window.alert("Error: You have already responded to this interview");
       router.push(`/applicant/summary/${props.interview.id}`);
       return () => {
         ignore = true;

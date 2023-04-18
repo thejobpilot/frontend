@@ -10,7 +10,6 @@ export function Dashboard() {
   const { user, isLoading, error } = useUser();
   if (error) return <div>Failed to load</div>;
   if (isLoading) return <div>Loading...</div>;
-
   return (
     user && (
         <div>

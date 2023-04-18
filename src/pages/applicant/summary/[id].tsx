@@ -108,10 +108,6 @@ export function Summary() {
   if (error) return <div>{error.message}</div>;
   if (isLoadingDB) return <div>Loading...</div>;
   if (isError) return <div>{isError.message}</div>;
-
-  if (response === null)
-    return <Forbidden message="You do not have access to this interview" />;
-
   return (
     questions && (
       <>
