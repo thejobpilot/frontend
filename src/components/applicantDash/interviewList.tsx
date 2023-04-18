@@ -65,7 +65,6 @@ function InterviewList(props: { user: UserProfile }) {
                                 break;
                         }
                         if(interview.questions.length == 0) {
-                            debugger;
                             return (<div key={interview.id}></div>)
                         }
                         return (
