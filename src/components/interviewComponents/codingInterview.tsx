@@ -7,6 +7,7 @@ const MainContainer = styled(Box)({
     height: '100vh',
     background: '#111E31',
     color: 'white',
+    marginTop: '60px',
 });
 
 const LeftContainer = styled(Paper)({
