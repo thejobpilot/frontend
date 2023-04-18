@@ -1,5 +1,5 @@
 import { useUser } from "@auth0/nextjs-auth0/client";
-import ResponsiveAppBar from "@/components/navBar";
+import ResponsiveAppBar from "@/components/recruiterDash/navBarRecruiter";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
 import React from "react";
@@ -47,32 +47,6 @@ export function Dashboard() {
               alignItems: "center",
             }}
           >
-            <Button
-              style={{
-                backgroundColor: "#111E31",
-                color: "white",
-                margin: "25px",
-                padding: "25px 50px",
-                borderRadius: 9,
-              }}
-              variant="contained"
-              href="/recruiter/manage"
-            >
-              Manage Interviews
-            </Button>
-            <Button
-                style={{
-                    backgroundColor: "#111E31",
-                    color: "white",
-                    margin: "25px",
-                    padding: "25px 50px",
-                    borderRadius: 9,
-                }}
-              variant="contained"
-              href="/recruiter/grade"
-            >
-              Review Applicants
-            </Button>
           </div>
           <div style={{ flexGrow: 1 }}>
             <AccountDetails user={user} />
