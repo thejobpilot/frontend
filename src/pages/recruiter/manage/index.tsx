@@ -1,5 +1,5 @@
 import { useUser } from "@auth0/nextjs-auth0/client";
-import ResponsiveAppBar from "@/components/navBar";
+import ResponsiveAppBar from "@/components/recruiterDash/navBarRecruiter";
 import React, { useEffect, useState } from "react";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import PositionList from "@/components/recruiterDash/positionList";

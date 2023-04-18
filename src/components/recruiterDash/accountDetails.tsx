@@ -48,14 +48,15 @@ export default function AccountDetails(props: any) {
     >
       <Box
         sx={{
-          p: 3,
-          bgcolor: "white",
-          color: "black",
-          position: "absolute",
-          top: 55,
-          right: 0,
-          height: "100%",
-          width: "60%", // Set the width to 70% of the available space
+            p: 3,
+            bgcolor: "white",
+            color: "black",
+            position: "absolute",
+            top: 55,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            alignItems: "center",
         }}
       >
         <Typography
@@ -64,7 +65,7 @@ export default function AccountDetails(props: any) {
             mb: 2,
             bgcolor: "#111E31",
             color: "white",
-            borderRadius: 9,
+            borderRadius: 2,
             p: 2,
             textAlign: "center",
           }}
