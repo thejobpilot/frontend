@@ -7,13 +7,17 @@ import {
   ListItemText,
   ListItemButton,
   Button,
+  IconButton,
 } from "@mui/material";
-import { ArrowBack } from "@mui/icons-material";
+import { ArrowBack, Delete } from "@mui/icons-material";
 import { getIdFromArray } from "../utils";
 import CreateObjectDialog from "@/components/manage-interviews/createObjectDialog";
 import requestNewPosition from "@/components/db/requestNewPosition";
 import requestNewInterview from "@/components/db/requestNewInterview";
 import { useSWRConfig } from "swr";
+import deleteInterview from "@/pages/api/db/delete-interview";
+import requestDeleteInterview from "@/components/db/requestDeleteInterview";
+import requestDeletePosition from "@/components/db/requestDeletePosition";
 
 export default function PositionList(props: any) {
   const [selected, setSelected] = useState({
@@ -67,10 +71,28 @@ export default function PositionList(props: any) {
   };
   const handleDialogClose = async (name: string) => {
     setOpenDialog(false);
+    if (name.trim() === "") return;
     if (!selected.position) {
       await requestNewPosition(name, props.user.email);
     } else {
       await requestNewInterview(name, selected.position.id.toString());
+    }
+    //very scuffed but i'd have to do a lot of refactoring to properly mutate only the positions/interviews
+    await mutate(`/api/db/get-user?email=${props.user.email}`);
+  };
+
+  const handleDeleteItem = async (item: number, event: any) => {
+    event.stopPropagation();
+    if (!selected.position) {
+      let response = await requestDeletePosition(item, props.user.email);
+      let string = await response.text();
+      if (string.includes("violates foreign key constraint")) {
+        window.alert(
+          "This position still has interviews associated with it. Please delete those first."
+        );
+      }
+    } else {
+      await requestDeleteInterview(item, selected.position.id);
     }
     //very scuffed but i'd have to do a lot of refactoring to properly mutate only the positions/interviews
     await mutate(`/api/db/get-user?email=${props.user.email}`);
@@ -148,6 +170,11 @@ export default function PositionList(props: any) {
                 sx={{ borderBottom: "1px solid #E0E0E0" }}
               >
                 <ListItemText primary={position.name} />
+                <IconButton
+                  onClick={(event) => handleDeleteItem(position.id, event)}
+                >
+                  <Delete color="error" />
+                </IconButton>
               </ListItem>
             ))
           : selected.position.interviews?.map((interview: any) => (
@@ -160,6 +187,11 @@ export default function PositionList(props: any) {
                 sx={{ borderBottom: "1px solid #E0E0E0" }}
               >
                 <ListItemText primary={interview.name} />
+                <IconButton
+                  onClick={(event) => handleDeleteItem(interview.id, event)}
+                >
+                  <Delete color="error" />
+                </IconButton>
               </ListItemButton>
             ))}
       </List>
