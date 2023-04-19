@@ -1,13 +1,15 @@
-// Countdown.tsx
-import React, { useEffect, useState } from 'react';
-import Typography from '@mui/material/Typography';
+import React, { useEffect, useState } from "react";
+import Typography from "@mui/material/Typography";
 
 interface CountdownProps {
   seconds: number;
   onCountdownUpdate: (progress: number) => void;
 }
 
-const Countdown: React.FC<CountdownProps> = ({ seconds, onCountdownUpdate }) => {
+const Countdown: React.FC<CountdownProps> = ({
+  seconds,
+  onCountdownUpdate,
+}) => {
   const [timeLeft, setTimeLeft] = useState(seconds);
 
   useEffect(() => {
@@ -33,7 +35,10 @@ const Countdown: React.FC<CountdownProps> = ({ seconds, onCountdownUpdate }) => 
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+      2,
+      "0"
+    )}`;
   };
 
   return (

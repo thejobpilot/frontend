@@ -1,3 +1,4 @@
+import { Interview } from "@/pages/interview/[id]";
 import Head from "next/head";
 
 export const UserType = {
@@ -5,6 +6,13 @@ export const UserType = {
   Recruiter: "recruiter",
   Employer: "employer",
 } as const;
+
+export enum InterviewState {
+  BAD_STATE,
+  NOT_STARTED,
+  FINISHED,
+  IN_PROGRESS
+}
 
 export function capitalizeFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -46,6 +54,13 @@ export function youtubeURLToId(url: string) {
   let m = url.match(rx);
   if (!m || m.length < 2) return null;
   return m[1];
+}
+
+export function getInterviewState(startTime: any, endTime: any) {
+  if (!startTime && !endTime) return InterviewState.NOT_STARTED;
+  if (startTime >= endTime) return InterviewState.FINISHED;
+  if (startTime < endTime) InterviewState.IN_PROGRESS;
+  return InterviewState.BAD_STATE;
 }
 
 export function validateLocalStorageTime(len: number, storage: string) {
