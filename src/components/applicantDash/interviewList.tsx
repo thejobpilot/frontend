@@ -44,7 +44,7 @@ export default function InterviewList(props: { user: UserProfile }) {
               return 0;
             })
             .map((i: any) => {
-              return <InterviewListItem interview={i} />;
+              return <InterviewListItem key={i.id} interview={i} />;
             })
         ) : (
           <ListItemButton disabled>

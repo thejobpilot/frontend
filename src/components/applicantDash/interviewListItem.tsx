@@ -1,5 +1,5 @@
 import { InterviewState, getInterviewState } from "../utils";
-import { CheckCircleOutline, Error, PendingActions } from "@mui/icons-material";
+import { CheckCircleOutline, Sync , PendingActions } from "@mui/icons-material";
 import {
   IconButton,
   ListItemButton,
@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import useUserDB from "../db/useUserDB";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import requestNewResponse from "../db/requestNewResponse";
 
@@ -18,23 +17,23 @@ export default function InterviewListItem({ interview }: any) {
   let icon = null;
   const [response, setResponse] = useState<any>(null);
   const { user } = useUser();
-  const { data } = useUserDB(user ? user.email! : "");
 
   useEffect(() => {
-    if (data && data.interviews) {
+    if (interview) {
       setResponse(
-        data.interviews.responses?.find(
-          (res: any) => res?.applicantEmail === user?.email
+        interview.responses?.find(
+          (res: any) => res?.applicantEmail === user?.email 
         )
       );
     }
-  }, [data, user]);
+  }, [interview]);
+
   let state = getInterviewState(response);
-  console.log("response ", response);
   switch (state) {
     case (InterviewState.BAD_STATE):
-      requestNewResponse(interview.id, user?.email);
-      icon = <Error color="error" />
+      if (!response)
+        requestNewResponse(interview.id, user?.email);
+      icon = <Sync color="primary" />
       break;
     case (InterviewState.FINISHED):
       path = `/applicant/summary/${interview.id}`;

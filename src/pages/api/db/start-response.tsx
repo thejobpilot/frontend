@@ -2,21 +2,27 @@ import { NextApiRequest, NextApiResponse } from "next";
 import api from "@/utils/utils";
 import { ApiErrorResponse, ApiOkResponse } from "apisauce";
 
-export default async function newResponse(
+export default async function startResponse(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const id: number = parseInt(req.query.interviewId as string);
+  const responseId: number = parseInt(req.query.responseId as string);
+  const interviewId: number = parseInt(req.query.interviewId as string);
   const email = req.query.applicantEmail as string;
   const body = {
     score: 0,
     aiRating: "ungraded",
-    endTime: 0,
-    startTime: 0,
+    startTime: req.query.startTime,
+    endTime: req.query.endTime,
   };
 
   const response: ApiErrorResponse<unknown> | ApiOkResponse<unknown> =
-    await api.post(`/interview/${id}/response/${encodeURIComponent(email)}`, body);
+    await api.patch(
+      `/interview/${interviewId}/response/${encodeURIComponent(
+        email
+      )}/${responseId}`,
+      body
+    );
 
   if (response.ok) {
     res.status(200).send(response.data);

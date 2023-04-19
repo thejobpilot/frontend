@@ -48,6 +48,10 @@ export function getIdFromArray(arr: any, id: any) {
   return null;
 }
 
+export function parseDBDate(date: number) {
+  return new Date(date * 1000);
+}
+
 export function youtubeURLToId(url: string) {
   let rx = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/|shorts\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
   if (!url) return null;
@@ -60,8 +64,8 @@ export function getInterviewState(response: any) {
   if (!response) return InterviewState.BAD_STATE;
   let startTime = parseInt(response.startTime); 
   let endTime = parseInt(response.endTime); 
-  if (startTime === 0 && endTime === 0) return InterviewState.NOT_STARTED;
-  if (startTime >= endTime) return InterviewState.FINISHED;
+  if (startTime == 0 && endTime == 0) return InterviewState.NOT_STARTED;
+  if (Date.now() > endTime * 1000) return InterviewState.FINISHED;
   if (startTime < endTime) return InterviewState.IN_PROGRESS;
   return InterviewState.BAD_STATE;
 }

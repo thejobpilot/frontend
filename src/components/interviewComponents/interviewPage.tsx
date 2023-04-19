@@ -31,7 +31,6 @@ const theme = createTheme({
 });
 
 export default function InterviewPage(props: any) {
-    const [cleared, setCleared] = useState(false);
     const [timeLeft, setTimeLeft] = useState(-1);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [questions, setQuestions] = useState<QuestionData[]>([
@@ -40,60 +39,13 @@ export default function InterviewPage(props: any) {
     const router = useRouter();
 
     useEffect(() => {
-        if (props.interview) {
-            let map = props.interview.questions.map((q: any) => {
-                return {question: q.prompt, answer: "", id: q.id};
-            });
-            setQuestions(
-                map
-            );
-        }
-        if (
-            props.interview?.responses.find(
-                (response: any) => response.applicantEmail === props.user.email
-            )
-        ) {
-            setCleared(false);
-            router.push(`/applicant/summary/${props.interview.id}`);
-        }
+      if (props.interview) {
+        let map = props.interview.questions.map((q: any) => {
+          return { question: q.prompt, answer: "", id: q.id };
+        });
+        setQuestions(map);
+      }
     }, [props.interview]);
-
-    useEffect(() => {
-        let ignore = false;
-        let res = validateLocalStorageTime(
-            props.interview?.interviewLength,
-            `end_time_${props.interview?.id}-${props.interview?.interviewLength}`
-        );
-        switch (res) {
-            case -1:
-                setCleared(false);
-                window.alert("Error: This interview has no time left");
-                // TODO uncomment
-                router.push(`/applicant/summary/${props.interview?.id}`);
-                return () => {
-                    ignore = true;
-                };
-            case 1:
-                setCleared(false);
-                let href =
-                    "/applicant/" +
-                    (props.interview.interviewType == "recorded"
-                        ? "videoInterview"
-                        : "writtenInterview") +
-                    "/" +
-                    props.interview.id;
-                router.push(href);
-                return () => {
-                    ignore = true;
-                };
-            default:
-                break;
-        }
-        setCleared(true);
-        return () => {
-            ignore = true;
-        };
-    }, [props.interview, timeLeft]);
 
     const handlePrevious = () => {
         setCurrentQuestionIndex((prev) => prev - 1);
