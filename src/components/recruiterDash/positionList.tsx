@@ -1,13 +1,27 @@
 import { useEffect, useState } from "react";
-import { Box, Typography, List, ListItem, ListItemText, ListItemButton } from "@mui/material";
+import {
+  Box,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemButton,
+  Button,
+} from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
 import { getIdFromArray } from "../utils";
+import CreateObjectDialog from "@/components/manage-interviews/createObjectDialog";
+import requestNewPosition from "@/components/db/requestNewPosition";
+import requestNewInterview from "@/components/db/requestNewInterview";
+import { useSWRConfig } from "swr";
 
 export default function PositionList(props: any) {
   const [selected, setSelected] = useState({
     position: getIdFromArray(props.data.positions, props.selected?.positionId),
     interview: null,
   });
+  const [isDialogOpen, setOpenDialog] = useState(false);
+  const { mutate } = useSWRConfig();
 
   useEffect(() => {
     let positionCache = getIdFromArray(
@@ -37,12 +51,30 @@ export default function PositionList(props: any) {
     props.setPositionId(null);
   };
 
+  const handleCreatePositionClick = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCreateInterviewClick = () => {
+    setOpenDialog(true);
+  };
+
   const compareSelection = (selected: any, interview: any) => {
     if (selected && selected.interview && interview) {
-      return interview === selected.interview
+      return interview === selected.interview;
     }
-    return false
-  }
+    return false;
+  };
+  const handleDialogClose = async (name: string) => {
+    setOpenDialog(false);
+    if (!selected.position) {
+      await requestNewPosition(name, props.user.email);
+    } else {
+      await requestNewInterview(name, selected.position.id.toString());
+    }
+    //very scuffed but i'd have to do a lot of refactoring to properly mutate only the positions/interviews
+    await mutate(`/api/db/get-user?email=${props.user.email}`);
+  };
 
   // @ts-ignore
   // @ts-ignore
@@ -75,6 +107,35 @@ export default function PositionList(props: any) {
           "Positions"
         )}
       </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          mb: 2,
+          mt: 2,
+          mx: "auto",
+        }}
+      >
+        {!selected.position && (
+          <Button
+            variant="contained"
+            onClick={handleCreatePositionClick}
+            sx={{ bgcolor: "#111E31" }}
+          >
+            Create Position
+          </Button>
+        )}
+        {selected.position && (
+          <Button
+            variant="contained"
+            onClick={handleCreateInterviewClick}
+            sx={{ bgcolor: "#111E31" }}
+          >
+            Create Interview
+          </Button>
+        )}
+      </Box>
+
       <List>
         {selected.position == null
           ? props.data.positions.map((position: any) => (
@@ -102,6 +163,12 @@ export default function PositionList(props: any) {
               </ListItemButton>
             ))}
       </List>
+      <CreateObjectDialog
+        isPosition={!selected.position}
+        email={props.user.email}
+        open={isDialogOpen}
+        onClose={handleDialogClose}
+      ></CreateObjectDialog>
     </Box>
   );
 }
