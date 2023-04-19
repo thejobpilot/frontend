@@ -15,10 +15,13 @@ export default function CreateObjectDialog(props: {
   open: boolean;
   onClose: (name: string) => void;
 }) {
-  const [name, setName] = useState(""); // Declare a state variable...
-
+  const [name, setName] = useState(""); // Declare a state variable..
+  const onClose = () => {
+    props.onClose(name);
+    setName("");
+  };
   return (
-    <Dialog open={props.open} onClose={() => props.onClose(name)}>
+    <Dialog open={props.open} onClose={onClose}>
       <DialogTitle>
         New {props.isPosition ? "Position" : "Interview"}
       </DialogTitle>
@@ -39,8 +42,10 @@ export default function CreateObjectDialog(props: {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => props.onClose(name)}>Cancel</Button>
-        <Button onClick={() => props.onClose(name)}>Create</Button>
+        <Button onClick={onClose}>Cancel</Button>
+        <Button disabled={name.trim() === ""} onClick={onClose}>
+          Create
+        </Button>
       </DialogActions>
     </Dialog>
   );
