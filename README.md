@@ -4,7 +4,7 @@ To install all dependencies:
 ```
 yarn install
 ```
-
+ 
 \
 To run the development server:
 
