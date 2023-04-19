@@ -42,8 +42,6 @@ function ResponsiveAppBar() {
   };
 
   const pressUserMenuButton = async (buttonPressed: string) => {
-      debugger;
-
       const setting = settings.find((s) => s.label === buttonPressed);
     if (setting) {
       await router.push(setting.path);
