@@ -16,10 +16,9 @@ import { useRouter } from "next/router";
 import Stack from '@mui/material/Stack';
 
 const settings = [
-  { label: "Account", path: "/dash" },
-  { label: "Dashboard", path: "/dash" },
-    {label: "Manage Interviews", path: "/recruiter/manage"},
+  { label: "Dashboard", path: "/recruiter/manage" },
     {label: "Review Applicants", path: "/recruiter/grade"},
+    { label: "Account", path: "/dash" },
     { label: "Logout", path: "/api/auth/logout" },
 ];
 

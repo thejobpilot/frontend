@@ -104,6 +104,7 @@ export default function InterviewPage(props: any) {
     };
 
     const handleSubmit = async () => {
+        debugger;
         // Save the answer
         let response = await requestSubmitTextInterview(
             props.interview.id,
