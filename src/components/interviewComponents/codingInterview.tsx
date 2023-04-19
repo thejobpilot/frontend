@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Box, Typography, Paper, Divider, TextField, Button } from '@mui/material';
 import { styled } from '@mui/system';
+import CodeMirror from '@uiw/react-codemirror';
+import { javascript } from '@codemirror/lang-javascript';
 
 const MainContainer = styled(Box)({
     display: 'flex',
@@ -34,55 +36,75 @@ const IDEInput = styled(TextField)({
     height: '100%',
 });
 
-const SubmitButton = styled(Button)({
-    marginTop: '1rem',
+const NavigationButton = styled(Button)({
+    margin: '0.5rem',
     background: 'white',
     color: '#111E31',
 });
 
+interface CodingQuestion {
+    title: string;
+    description: string;
+    code: string;
+}
+
 const CodingInterviewPage = () => {
+    const [questionIndex, setQuestionIndex] = useState(0);
+    const [questions, setQuestions] = useState<CodingQuestion[]>([
+        {title: "Question 1", description: "", code: "Code Here"},
+        {title: "Question 2", description: "", code: "Code Here"},
+    ]);
+
+    const onChange = (value: any) => {
+        const newAnswer = value;
+        setQuestions((prevQuestions) =>
+            prevQuestions.map((q, idx) => {
+                    return idx === questionIndex ? {...q, code: newAnswer} : q;
+                }
+            )
+        );
+    };
+
+    const isLastQuestion = questionIndex === questions.length - 1;
+    const isFirstQuestion = questionIndex === 0;
+    console.log(questions)
     return (
         <MainContainer>
             <LeftContainer>
                 <Typography variant="h5" gutterBottom>
-                    Question Title
+                    {questions[questionIndex].title}
                 </Typography>
                 <Typography variant="body1">
-                    Here is the description of the coding question. It should be detailed and provide all of the necessary information for the candidate to understand and solve the problem.
-                </Typography>
-                <Divider sx={{ marginY: '1rem' }} />
-                <Typography variant="h6">Input</Typography>
-                <Typography variant="body1">
-                    This section describes the input format and any constraints that apply to the input.
-                </Typography>
-                <Typography variant="h6">Output</Typography>
-                <Typography variant="body1">
-                    This section describes the expected output format and any constraints that apply to the output.
-                </Typography>
-                <Typography variant="h6">Examples</Typography>
-                <Typography variant="body1">
-                    Example 1:
-                    <br />
-                    Input: ...
-                    <br />
-                    Output: ...
-                </Typography>
-                <Typography variant="body1">
-                    Example 2:
-                    <br />
-                    Input: ...
-                    <br />
-                    Output: ...
+                    {questions[questionIndex].description}
                 </Typography>
             </LeftContainer>
             <RightContainer>
-                <IDEInput
-                    multiline
-                    rows={20}
-                    variant="outlined"
-                    placeholder="Type your code here..."
+                <CodeMirror
+                    value={questions[questionIndex].code}
+                    height="500px"
+                    theme="dark"
+                    extensions={[javascript({ jsx: true })]}
+                    onChange={onChange}
                 />
-                <SubmitButton variant="contained">Submit</SubmitButton>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    {!isFirstQuestion && (
+                        <NavigationButton
+                            variant="contained"
+                            onClick={() => setQuestionIndex(questionIndex - 1)}
+                        >
+                            Previous
+                        </NavigationButton>
+                    )}
+                    {isLastQuestion ? (
+                        <NavigationButton variant="contained">Submit</NavigationButton>
+                    ) : (
+                        <NavigationButton
+                            variant="contained"
+                            onClick={() => setQuestionIndex(questionIndex + 1)}
+                        >Next
+                        </NavigationButton>
+                    )}
+                </Box>
             </RightContainer>
         </MainContainer>
     );
