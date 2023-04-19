@@ -1,5 +1,5 @@
 import { InterviewState, getInterviewState } from "../utils";
-import { CheckCircleOutline, PendingActions } from "@mui/icons-material";
+import { CheckCircleOutline, Error, PendingActions } from "@mui/icons-material";
 import {
   IconButton,
   ListItemButton,
@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useUserDB from "../db/useUserDB";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import requestNewResponse from "../db/requestNewResponse";
 
 export default function InterviewListItem({ interview }: any) {
   let router = useRouter();
@@ -22,14 +23,19 @@ export default function InterviewListItem({ interview }: any) {
   useEffect(() => {
     if (data && data.interviews) {
       setResponse(
-        data.interviews.find(
-          (res: any) => res?.interviewId === response?.interviewId
+        data.interviews.responses?.find(
+          (res: any) => res?.applicantEmail === user?.email
         )
       );
     }
-  }, [data]);
-
-  switch (getInterviewState(response?.startTime, response?.endTime)) {
+  }, [data, user]);
+  let state = getInterviewState(response);
+  console.log("response ", response);
+  switch (state) {
+    case (InterviewState.BAD_STATE):
+      requestNewResponse(interview.id, user?.email);
+      icon = <Error color="error" />
+      break;
     case (InterviewState.FINISHED):
       path = `/applicant/summary/${interview.id}`;
       icon = <CheckCircleOutline color="success" />;
@@ -49,7 +55,7 @@ export default function InterviewListItem({ interview }: any) {
       break;
   }
 
-  if (interview.questions.length == 0) {
+  if (interview.questions.length === 0) {
     return <div key={interview.id}></div>;
   }
 

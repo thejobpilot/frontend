@@ -9,7 +9,7 @@ import useUserDB from "../db/useUserDB";
 import { UserProfile } from "@auth0/nextjs-auth0/client";
 import InterviewListItem from "./interviewListItem";
 
-function InterviewList(props: { user: UserProfile }) {
+export default function InterviewList(props: { user: UserProfile }) {
   const { data, isLoading, isError, mutate } = useUserDB(props.user.email!);
 
   if (isError) return <div>Failed to load</div>;
@@ -55,5 +55,3 @@ function InterviewList(props: { user: UserProfile }) {
     </Box>
   );
 }
-
-export default InterviewList;

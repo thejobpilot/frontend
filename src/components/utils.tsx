@@ -9,9 +9,9 @@ export const UserType = {
 
 export enum InterviewState {
   BAD_STATE,
+  IN_PROGRESS,
   NOT_STARTED,
   FINISHED,
-  IN_PROGRESS
 }
 
 export function capitalizeFirstLetter(string: string) {
@@ -56,10 +56,13 @@ export function youtubeURLToId(url: string) {
   return m[1];
 }
 
-export function getInterviewState(startTime: any, endTime: any) {
-  if (!startTime && !endTime) return InterviewState.NOT_STARTED;
+export function getInterviewState(response: any) {
+  if (!response) return InterviewState.BAD_STATE;
+  let startTime = parseInt(response.startTime); 
+  let endTime = parseInt(response.endTime); 
+  if (startTime === 0 && endTime === 0) return InterviewState.NOT_STARTED;
   if (startTime >= endTime) return InterviewState.FINISHED;
-  if (startTime < endTime) InterviewState.IN_PROGRESS;
+  if (startTime < endTime) return InterviewState.IN_PROGRESS;
   return InterviewState.BAD_STATE;
 }
 
