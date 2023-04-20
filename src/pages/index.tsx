@@ -1,6 +1,6 @@
 import { Inter } from "@next/font/google";
 import { Box, Button } from "@mui/material";
-import ResponsiveAppBar from "@/components/navBar";
+import ResponsiveAppBar from "@/components/navBarDefault";
 import { display } from "@mui/system";
 import { withTitle } from "@/components/utils";
 
