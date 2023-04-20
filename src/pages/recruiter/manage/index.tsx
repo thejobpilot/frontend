@@ -17,7 +17,7 @@ export function InterviewManager() {
   });
   const { user, error, isLoading } = useUser();
   const {
-    data,
+  data,
     isLoading: isLoadingDB,
     isError,
     mutate,
@@ -88,7 +88,6 @@ export function InterviewManager() {
         />
         <ApplicantList
           user={user}
-          mutater={mutate}
           selected={selected}
           setSelected={setSelected}
         />

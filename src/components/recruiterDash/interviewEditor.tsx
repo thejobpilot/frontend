@@ -66,7 +66,12 @@ export default function InterviewEditor(props: any) {
     return <div>Loading...</div>;
   if (props.error) return <div>{props.error.message}</div>;
   const handleSelectPreMadeQuestion = async () => {
-    if (selectedPreMadeQuestion) {
+    if (selectedPreMadeQuestion && interview) {
+      await requestSetInterview(
+        props.selected.interviewId,
+        props.selected.positionId,
+        interview
+      );
       setQuestions([selectedPreMadeQuestion, ...questions]);
       //scuffed asf
       let response = await requestCreateQuestion(interview.id);
@@ -77,11 +82,11 @@ export default function InterviewEditor(props: any) {
         selectedPreMadeQuestion
       );
       setSelectedPreMadeQuestion("");
-      props.mutate();
+      await props.mutate();
     }
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (interview) {
       requestSetInterview(
@@ -98,8 +103,8 @@ export default function InterviewEditor(props: any) {
         );
       });
 
-      props.mutate();
       props.toggleSnackbar();
+      await props.mutate();
     }
   };
 
@@ -119,14 +124,21 @@ export default function InterviewEditor(props: any) {
   }
 
   const addQuestion = async () => {
-    await requestCreateQuestion(interview.id);
-    props.mutate();
-    setQuestions([...questions, ""]);
+    if (interview) {
+      await requestSetInterview(
+        props.selected.interviewId,
+        props.selected.positionId,
+        interview
+      );
+      await requestCreateQuestion(interview.id);
+      await props.mutate();
+      setQuestions([...questions, ""]);
+    }
   };
 
   const deleteQuestion = async (index: number) => {
     await requestDeleteQuestion(interview.questions[index].id, interview.id);
-    props.mutate();
+    await props.mutate();
     setQuestions(questions.filter((_: any, i: any) => i !== index));
   };
 

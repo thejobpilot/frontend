@@ -18,21 +18,17 @@ export default function ApplicantList(props: any) {
   if (isError) return <div>{isError.message}</div>;
   if (!applicants) return <div>Failed to load</div>;
 
-  const addToInterview = (selectedEmail: string) => {
+  const addToInterview = async (selectedEmail: string) => {
     if (props.selected.interviewId) {
-      requestAssignInterview(selectedEmail, props.selected.interviewId);
-      window.alert(`Assigned interview to: ${selectedEmail}`);
-      props.mutater();
-      mutate();
+      await requestAssignInterview(selectedEmail, props.selected.interviewId);
+      await mutate();
     }
   };
 
-  const handleDelete = (selectedEmail: string) => {
+  const handleDelete = async (selectedEmail: string) => {
     if (props.selected.interviewId) {
-      requestRemoveInterview(selectedEmail, props.selected.interviewId);
-      window.alert(`Removed interview from: ${selectedEmail}`);
-      props.mutater();
-      mutate();
+      await requestRemoveInterview(selectedEmail, props.selected.interviewId);
+      await mutate();
     }
   };
 
@@ -57,55 +53,69 @@ export default function ApplicantList(props: any) {
       </Typography>
       <List style={{ maxHeight: "90%", overflow: "auto" }}>
         {applicants.length > 0 ? (
-          applicants.map((applicant: any) => (
-            <ListItem
-              key={applicant.email}
-              button={
-                props.selected.interviewId &&
-                !userHasInterviewByID(applicant, props.selected.interviewId)
-              }
-              onClick={(e) => {
-                if (
-                  !userHasInterviewByID(applicant, props.selected?.interviewId)
-                )
-                  addToInterview(applicant.email);
-              }}
-              sx={{ borderBottom: `1px solid #E0E0E0` }}
-            >
-              <ListItemText
-                primary={
-                  <>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        my: "8px",
-                      }}
-                    >
-                      <div>
-                      <Typography variant="body1">
-                        {applicant.fullName}
-                      </Typography>
-                      <Typography fontWeight="normal" color="grey.500" variant="subtitle2">
-                        {applicant.email}
-                      </Typography>
-                      </div>
-                      {props.selected.interviewId &&
-                        userHasInterviewByID(
-                          applicant,
-                          props.selected.interviewId
-                        ) && (
-                          <Chip
-                            label="Assigned"
-                            onDelete={(e) => handleDelete(applicant.email)}
-                          />
-                        )}
-                    </Box>
-                  </>
+          applicants
+            .sort((a: any, b: any) => {
+              // Sort the interviews by companyName
+              if (a.fullName < b.fullName) return -1;
+              if (a.fullName > b.fullName) return 1;
+              return 0;
+            })
+            .map((applicant: any) => (
+              <ListItem
+                key={applicant.email}
+                button={
+                  props.selected.interviewId &&
+                  !userHasInterviewByID(applicant, props.selected.interviewId)
                 }
-              />
-            </ListItem>
-          ))
+                onClick={(e) => {
+                  if (
+                    !userHasInterviewByID(
+                      applicant,
+                      props.selected?.interviewId
+                    )
+                  )
+                    addToInterview(applicant.email);
+                }}
+                sx={{ borderBottom: `1px solid #E0E0E0` }}
+              >
+                <ListItemText
+                  primary={
+                    <>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          my: "8px",
+                        }}
+                      >
+                        <div>
+                          <Typography variant="body1">
+                            {applicant.fullName}
+                          </Typography>
+                          <Typography
+                            fontWeight="normal"
+                            color="grey.500"
+                            variant="subtitle2"
+                          >
+                            {applicant.email}
+                          </Typography>
+                        </div>
+                        {props.selected.interviewId &&
+                          userHasInterviewByID(
+                            applicant,
+                            props.selected.interviewId
+                          ) && (
+                            <Chip
+                              label="Assigned"
+                              onDelete={(e) => handleDelete(applicant.email)}
+                            />
+                          )}
+                      </Box>
+                    </>
+                  }
+                />
+              </ListItem>
+            ))
         ) : (
           <ListItem disabled sx={{ borderBottom: "1px solid #E0E0E0" }}>
             <ListItemText primary={"No applicants found"} />
