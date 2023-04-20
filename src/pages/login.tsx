@@ -1,6 +1,6 @@
 import {Inter} from '@next/font/google'
 import SignIn from "@/components/signIn";
-import ResponsiveAppBar from "@/components/navBar";
+import ResponsiveAppBar from "@/components/navBarDefault";
 import Router from 'next/router';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
