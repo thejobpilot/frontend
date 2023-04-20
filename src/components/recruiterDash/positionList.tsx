@@ -10,7 +10,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { ArrowBack, Delete } from "@mui/icons-material";
-import { getIdFromArray } from "../utils";
+import { getApplicantsFromInterviewId, getIdFromArray } from "../utils";
 import CreateObjectDialog from "@/components/manage-interviews/createObjectDialog";
 import requestNewPosition from "@/components/db/requestNewPosition";
 import requestNewInterview from "@/components/db/requestNewInterview";
@@ -18,6 +18,8 @@ import { useSWRConfig } from "swr";
 import deleteInterview from "@/pages/api/db/delete-interview";
 import requestDeleteInterview from "@/components/db/requestDeleteInterview";
 import requestDeletePosition from "@/components/db/requestDeletePosition";
+import useApplicants from "../db/useApplicants";
+import requestRemoveInterview from "../db/requestRemoveInterview";
 
 export default function PositionList(props: any) {
   const [selected, setSelected] = useState({
@@ -27,6 +29,7 @@ export default function PositionList(props: any) {
   const [style, setStyle] = useState({ opacity: "0" });
   const [isDialogOpen, setOpenDialog] = useState(false);
   const { mutate } = useSWRConfig();
+  const { applicants, isLoading, isError } = useApplicants();
 
   useEffect(() => {
     let positionCache = getIdFromArray(
@@ -93,6 +96,16 @@ export default function PositionList(props: any) {
         );
       }
     } else {
+      let apps = getApplicantsFromInterviewId(applicants, item);
+      if (apps && apps.length != 0) {
+        const clearApplicants = confirm(
+          "This interview is currently assigned to applicants. Do you want to proceed with deletion?"
+        );
+        if (!clearApplicants) return;
+        for (const i in apps) {
+          await requestRemoveInterview(apps[i].email, item);
+        }
+      }
       await requestDeleteInterview(item, selected.position.id);
     }
     //very scuffed but i'd have to do a lot of refactoring to properly mutate only the positions/interviews
@@ -177,7 +190,7 @@ export default function PositionList(props: any) {
                 <ListItemText primary={position.name} />
                 <IconButton
                   onClick={(event) => handleDeleteItem(position.id, event)}
-                  sx={{...style, transition: "opacity 0.12s"}}
+                  sx={{ ...style, transition: "opacity 0.12s" }}
                 >
                   <Delete color="error" />
                 </IconButton>
@@ -201,7 +214,7 @@ export default function PositionList(props: any) {
                 <ListItemText primary={interview.name} />
                 <IconButton
                   onClick={(event) => handleDeleteItem(interview.id, event)}
-                  sx={{...style, transition: "opacity 0.12s"}}
+                  sx={{ ...style, transition: "opacity 0.12s" }}
                 >
                   <Delete color="error" />
                 </IconButton>

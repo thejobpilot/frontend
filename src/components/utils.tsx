@@ -93,3 +93,13 @@ export function userHasInterviewByID(user: any, id: any) {
   }
   return false
 }
+
+export function getApplicantsFromInterviewId(users: any, id: any) {
+  if (!users || !id) return [];
+  id = parseInt(id);
+  let matches = [];
+  for (const i in users) {
+    if (userHasInterviewByID(users[i], id)) matches.push(users[i]);
+  }
+  return matches;
+}
