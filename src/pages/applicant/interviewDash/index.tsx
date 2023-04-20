@@ -8,50 +8,70 @@ import useUserDB from "@/components/db/useUserDB";
 import React, { useEffect, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useRouter } from "next/router";
-import { validateLocalStorageTime } from "@/components/utils";
+import {
+  InterviewState,
+  getInterviewState,
+} from "@/components/utils";
+import requestStartResponse from "@/components/db/requestStartResponse";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Behavioral(props: { interview: any }) {
+export default function Behavioral({ interview }: any) {
   const [cleared, setCleared] = useState(false);
   const router = useRouter();
+  const [response, setResponse] = useState<any>(null);
   const { user, error, isLoading } = useUser();
   const { data, isError, isLoading: loading, mutate } = useUserDB(user?.email);
 
+  const handleStart = (e: any) => {
+    e.preventDefault();
+    requestStartResponse(
+      response.id,
+      interview.id,
+      user?.email,
+      interview.interviewLength
+    );
+    let href =
+      "/applicant/" +
+      (interview.interviewType == "recorded"
+        ? "videoInterview"
+        : "writtenInterview") +
+      "/" +
+      interview.id;
+    router.push(href);
+  };
+
+  useEffect(() => {
+    if (interview) {
+      setResponse(
+        interview.responses?.find(
+          (res: any) => res?.applicantEmail === user?.email
+        )
+      );
+    }
+  }, [interview]);
+
   useEffect(() => {
     let ignore = false;
-    if (
-      props.interview?.responses.find(
-        (response: any) => response.applicantEmail === user?.email
-      )
-    ) {
-      setCleared(false);
-      router.push(`/applicant/summary/${props.interview.id}`);
-      return () => {
-        ignore = true;
-      };
-    }
-    let res = validateLocalStorageTime(
-      props.interview.interviewLength,
-      `end_time_${props.interview.id}-${props.interview.interviewLength}`
-    );
-    switch (res) {
-      case -1:
+    let state = getInterviewState(response);
+    console.log(state);
+    switch (state) {
+      case InterviewState.FINISHED:
         setCleared(false);
         window.alert("Error: This interview has no time left");
-        router.push(`/applicant/summary/${props.interview.id}`);
+        router.push(`/applicant/summary/${interview.id}`);
         return () => {
           ignore = true;
         };
-      case 1:
+      case InterviewState.IN_PROGRESS:
         setCleared(false);
         let href =
           "/applicant/" +
-          (props.interview.interviewType == "recorded"
+          (interview.interviewType == "recorded"
             ? "videoInterview"
             : "writtenInterview") +
           "/" +
-          props.interview.id;
+          interview.id;
         router.push(href);
         return () => {
           ignore = true;
@@ -59,18 +79,25 @@ export default function Behavioral(props: { interview: any }) {
       default:
         break;
     }
+
     setCleared(true);
-  }, [props.interview, user?.email]);
+  }, [interview, response]);
 
   if (!cleared) return <ResponsiveAppBar />;
   if (isLoading) return <div>Loading Auth0...</div>;
   if (loading) return <div>Loading DB...</div>;
   if (isError) return <h1>404 Error </h1>;
   if (error) return <div>Error: {error.message}</div>;
+  console.log("response", response);
+  console.log("interview", interview);
   return (
     <>
       <ResponsiveAppBar></ResponsiveAppBar>
-      <InterviewDash interview={props.interview} user={data}></InterviewDash>
+      <InterviewDash
+        handleStart={handleStart}
+        interview={interview}
+        user={data}
+      ></InterviewDash>
     </>
   );
 }

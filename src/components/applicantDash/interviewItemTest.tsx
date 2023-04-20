@@ -1,4 +1,4 @@
-import interviewItem from "./interviewItem";
+import interviewItem from "./interviewListItem";
 
 const names = [
   "Harry",

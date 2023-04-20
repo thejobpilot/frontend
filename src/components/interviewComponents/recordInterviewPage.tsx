@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import requestSubmitTextInterview from "@/components/db/requestSubmitTextInterview";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
-import { validateLocalStorageTime, youtubeURLToId } from "../utils";
+import { youtubeURLToId } from "../utils";
 import requestAddTextResponse from "@/components/db/requestAddTextResponse";
 import requestUploadVideoResponse from "@/components/db/requestUploadVideoResponse";
 
@@ -32,9 +32,8 @@ const theme = createTheme({
   },
 });
 
-const RecordedInterviewPage = (props: { user: any; interview: any }) => {
+const RecordedInterviewPage = (props: any) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(-1);
   const [blob, setBlob] = useState<Blob | undefined>(undefined);
   const [questions, setQuestions] = useState<QuestionData[]>([
     { question: "Question 1 prompt", answer: "", id: "" },
@@ -79,45 +78,7 @@ const RecordedInterviewPage = (props: { user: any; interview: any }) => {
     setBlob(blob);
   };
 
-  useEffect(() => {
-    let ignore = false;
-    let res = validateLocalStorageTime(
-      props.interview?.interviewLength,
-      `end_time_${props.interview?.id}-${props.interview?.interviewLength}`
-    );
-    switch (res) {
-      case -1:
-        setCleared(false);
-        window.alert("Error: This interview has no time left");
-        // TODO uncomment
-        //router.push(`/applicant/summary/${props.interview?.id}`);
-        return () => {
-          ignore = true;
-        };
-      case 1:
-        setCleared(false);
-        let href =
-          "/applicant/" +
-          (props.interview.interviewType == "recorded"
-            ? "videoInterview"
-            : "writtenInterview") +
-          "/" +
-          props.interview.id;
-        router.push(href);
-        return () => {
-          ignore = true;
-        };
-      default:
-        break;
-    }
-    setCleared(true);
-    return () => {
-      ignore = true;
-    };
-  }, [props.interview, timeLeft]);
-
   const currentQuestion = questions[currentQuestionIndex];
-
   return (
     <ThemeProvider theme={theme}>
       <ResponsiveAppBar />
@@ -182,13 +143,10 @@ const RecordedInterviewPage = (props: { user: any; interview: any }) => {
             >
               <Box sx={{ mt: 2 }}>
                 <Countdown
-                  totalTimeMinutes={
-                    props.interview == null
-                      ? 0
-                      : props.interview.interviewLength
-                  }
-                  interview={props.interview}
-                  updater={setTimeLeft}
+                  totalMinutes={props.interview.interviewLength}
+                  startTime={props.response.startTime}
+                  endTime={props.response.endTime}
+                  onEnd={handleSubmit}
                   message="Recording Time"
                 />
               </Box>

@@ -92,18 +92,12 @@ export function Summary() {
     }
   };
 
-  function fetchDate(interview: any) {
-    let path = `end_time_${interview.id}-${interview.interviewLength}`;
-    const savedEndTime =
-      typeof window !== "undefined" && localStorage.getItem(path);
-    if (savedEndTime) return savedEndTime;
-    else return "<corrupted>";
-  }
   const options: Intl.DateTimeFormatOptions = {
     month: "long",
     day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
+    year: "numeric",
     hour12: true,
     timeZone: "EST",
   };
@@ -134,7 +128,7 @@ export function Summary() {
               >
                 Completed:{" "}
                 {interview &&
-                  new Date(fetchDate(interview)).toLocaleDateString(
+                  new Date(response.endTime * 1000).toLocaleDateString(
                     undefined,
                     options
                   )}
