@@ -19,7 +19,7 @@ import { Container } from "@mui/system";
 import Forbidden from "@/components/forbidden";
 import { withTitle } from "@/components/utils";
 import Behavioral from "@/pages/applicant/interviewDash";
-import questions from "@/components/interviewComponents/questions";
+// import questions from "@/components/interviewComponents/questions";
 import ResponseCard from "./responseCard";
 import ResponsiveAppBar from "@/components/navBar";
 
@@ -45,15 +45,29 @@ function userHasInterviewID(
         return;
       }
       let questions: any = [];
-      response.textAnswers.forEach((answer: any) => {
-        let question = user.interviews[i].questions.find(
-          (q: any) => q.id === answer.questionId
-        );
-        questions.push({
-          question: question,
-          answer: answer,
+      if (user.interviews[i].InterviewType === "recorded") {
+        response.videoAnswers.forEach((answer: any) => {
+          let question = user.interviews[i].questions.find(
+            (q: any) => q.id === answer.questionId
+          );
+          questions.push({
+            question: question,
+            answer: answer,
+          });
         });
-      });
+      }
+      //else if (interview.InterviewType == "text") {
+        else {
+        response.textAnswers.forEach((answer: any) => {
+          let question = user.interviews[i].questions.find(
+            (q: any) => q.id === answer.questionId
+          );
+          questions.push({
+            question: question,
+            answer: answer,
+          });
+        });
+      }
 
       updater(response);
       updaterq(questions);
@@ -112,7 +126,10 @@ export function Summary() {
   if (error) return <div>{error.message}</div>;
   if (isLoadingDB) return <div>Loading...</div>;
   if (isError) return <div>{isError.message}</div>;
+  console.log("yes")
+
   return (
+    
     questions && (
       <>
         <ResponsiveAppBar />
@@ -149,7 +166,13 @@ export function Summary() {
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <ResponseCard question={ans.answer} />
+                  {
+                    interview.interviewType === "recorded" ? (
+                      <ResponseCard question={ans.videoURL} />
+                    ) : (
+                      <ResponseCard question={ans.answer} />
+                    )
+                  }
                   </AccordionDetails>
                 </Accordion>
               ))}
