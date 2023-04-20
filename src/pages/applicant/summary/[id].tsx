@@ -45,7 +45,7 @@ function userHasInterviewID(
         return;
       }
       let questions: any = [];
-      if (user.interviews[i].InterviewType === "recorded") {
+      if (user.interviews[i].interviewType === "recorded") {
         response.videoAnswers.forEach((answer: any) => {
           let question = user.interviews[i].questions.find(
             (q: any) => q.id === answer.questionId
@@ -56,8 +56,8 @@ function userHasInterviewID(
           });
         });
       }
-      //else if (interview.InterviewType == "text") {
-        else {
+      else if (user.interviews[i].interviewType === "text") {
+        // else {
         response.textAnswers.forEach((answer: any) => {
           let question = user.interviews[i].questions.find(
             (q: any) => q.id === answer.questionId
