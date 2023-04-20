@@ -146,7 +146,7 @@ const RecordedInterviewPage = (props: any) => {
                   totalMinutes={props.interview.interviewLength}
                   startTime={props.response.startTime}
                   endTime={props.response.endTime}
-                  onEnd={handleRecordingComplete}
+                  onEnd={handleSubmit}
                   message="Recording Time"
                 />
               </Box>
