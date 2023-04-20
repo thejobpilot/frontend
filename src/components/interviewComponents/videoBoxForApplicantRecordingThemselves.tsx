@@ -30,6 +30,7 @@ const VideoRecorder: React.FC<VideoRecorderProps> = ({ onRecordingComplete, rese
         };
 
         resetVideo();
+        return () => mediaRecorder?.stop()
     }, [currentQuestionIndex]);
 
 
@@ -45,6 +46,7 @@ const VideoRecorder: React.FC<VideoRecorderProps> = ({ onRecordingComplete, rese
         };
 
         initMediaRecorder();
+        return () => mediaRecorder?.stop()
     }, [mediaRecorder, currentQuestionIndex]);
 
     useEffect(() => {
@@ -71,6 +73,7 @@ const VideoRecorder: React.FC<VideoRecorderProps> = ({ onRecordingComplete, rese
                 }
             };
         }
+        return () => mediaRecorder?.stop()
     }, [mediaRecorder, onRecordingComplete, currentQuestionIndex]);
 
     useEffect(() => {
@@ -82,6 +85,7 @@ const VideoRecorder: React.FC<VideoRecorderProps> = ({ onRecordingComplete, rese
                 videoRef.current.load();
             }
         }
+        return () => mediaRecorder?.stop()
     }, [reset]);
 
     const handleStartRecording = async () => {
