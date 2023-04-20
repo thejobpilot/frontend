@@ -7,6 +7,7 @@ import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import AccountDetails from "@/components/recruiterDash/accountDetails";
 import useUserDB from "@/components/db/useUserDB";
 import { withTitle } from "@/components/utils";
+import Box from "@mui/material/Box";
 
 export function Dashboard() {
   const router = useRouter();
@@ -35,7 +36,6 @@ export function Dashboard() {
             flexDirection: "row",
             justifyContent: "flex-start",
             alignItems: "center",
-            height: "100vh",
           }}
         >
           <div
@@ -48,9 +48,9 @@ export function Dashboard() {
             }}
           >
           </div>
-          <div style={{ flexGrow: 1 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center' , width: 835 }}>
             <AccountDetails user={user} />
-          </div>
+          </Box>
         </div>
       </div>
     )
@@ -58,6 +58,5 @@ export function Dashboard() {
 }
 
 export const getServerSideProps = withPageAuthRequired();
-
 
 export default withTitle("Recruiter Dashboard")(Dashboard);

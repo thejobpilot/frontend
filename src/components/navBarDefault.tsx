@@ -16,17 +16,14 @@ import { useRouter } from "next/router";
 import Stack from '@mui/material/Stack';
 
 const settings = [
-  { label: "Dashboard", path: "/recruiter/manage" },
-    {label: "Review Applicants", path: "/recruiter/grade"},
-    { label: "Account", path: "/dash" },
-    { label: "Logout", path: "/api/auth/logout" },
+  { label: "Dashboard", path: "/dash" },
+  { label: "Logout", path: "/api/auth/logout" },
 ];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   let router = useRouter();
-
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -44,7 +41,7 @@ function ResponsiveAppBar() {
   };
 
   const pressUserMenuButton = async (buttonPressed: string) => {
-    const setting = settings.find((s) => s.label === buttonPressed);
+      const setting = settings.find((s) => s.label === buttonPressed);
     if (setting) {
       await router.push(setting.path);
     }
@@ -72,7 +69,7 @@ function ResponsiveAppBar() {
             JobPilot
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          {/* <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -100,8 +97,8 @@ function ResponsiveAppBar() {
               sx={{
                 display: { xs: "block", md: "none" },
               }}
-            ></Menu>
-          </Box>
+            ></Menu> */}
+          {/* </Box> */}
           <Typography
             variant="h5"
             noWrap
@@ -124,24 +121,24 @@ function ResponsiveAppBar() {
           </Box>
           <Box sx={{ m: 2 }}>
             <Stack spacing={2} direction="row">
-              {settings.map((setting) => (
-                  <Button
-                      key={setting.label}
-                      variant="outlined"
-                      sx={{ minWidth: '120px', color: 'white' }}
-                      onClick={() => pressUserMenuButton(setting.label)}
-                  >
-                      {setting.label}
-                  </Button>
-              ))}
+              {/* {settings.map((setting) => (
+                <Button
+                  key={setting.label}
+                  variant="outlined"
+                  sx={{ width: '100px', color: 'white' }}
+                  onClick={() => pressUserMenuButton(setting.label)}
+                >
+                  {setting.label}
+                </Button>
+              ))} */}
             </Stack>
           </Box>
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="">
-              <IconButton  sx={{ p: 0 }}>
+            {/* <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Job Pilot" src="/images/solidb.jpeg" />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
             <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"
