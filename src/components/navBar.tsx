@@ -134,8 +134,8 @@ function ResponsiveAppBar() {
             </Stack>
           </Box>
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+            <Tooltip title="">
+              <IconButton sx={{ p: 0 }}>
                 <Avatar alt="Job Pilot" src="/images/solidb.jpeg" />
               </IconButton>
             </Tooltip>
