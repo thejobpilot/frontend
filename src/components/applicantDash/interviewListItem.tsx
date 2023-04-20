@@ -1,5 +1,5 @@
 import { InterviewState, getInterviewState } from "../utils";
-import { CheckCircleOutline, Sync , PendingActions } from "@mui/icons-material";
+import { CheckCircleOutline, Sync, PendingActions } from "@mui/icons-material";
 import {
   IconButton,
   ListItemButton,
@@ -22,7 +22,7 @@ export default function InterviewListItem({ interview }: any) {
     if (interview) {
       setResponse(
         interview.responses?.find(
-          (res: any) => res?.applicantEmail === user?.email 
+          (res: any) => res?.applicantEmail === user?.email
         )
       );
     }
@@ -30,16 +30,24 @@ export default function InterviewListItem({ interview }: any) {
 
   let state = getInterviewState(response);
   switch (state) {
-    case (InterviewState.BAD_STATE):
-      if (!response)
+    case InterviewState.BAD_STATE:
+      if (
+        interview &&
+        interview.responses &&
+        user?.email &&
+        !interview.responses?.find(
+          (res: any) => res?.applicantEmail === user?.email
+        )
+      ) {
         requestNewResponse(interview.id, user?.email);
-      icon = <Sync color="primary" />
+      }
+      icon = <Sync color="primary" />;
       break;
-    case (InterviewState.FINISHED):
+    case InterviewState.FINISHED:
       path = `/applicant/summary/${interview.id}`;
       icon = <CheckCircleOutline color="success" />;
       break;
-    case (InterviewState.IN_PROGRESS):
+    case InterviewState.IN_PROGRESS:
       path =
         "/applicant/" +
         (interview.interviewType == "recorded"

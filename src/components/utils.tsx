@@ -65,9 +65,9 @@ export function getInterviewState(response: any) {
   let startTime = parseInt(response.startTime); 
   let endTime = parseInt(response.endTime); 
   if (startTime == 0 && endTime == 0) return InterviewState.NOT_STARTED;
+  if (startTime === endTime) return InterviewState.IN_PROGRESS;
   if (Date.now() > endTime * 1000) return InterviewState.FINISHED;
-  if (startTime < endTime) return InterviewState.IN_PROGRESS;
-  return InterviewState.BAD_STATE;
+  return InterviewState.IN_PROGRESS;
 }
 
 export function validateLocalStorageTime(len: number, storage: string) {
