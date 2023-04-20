@@ -46,7 +46,10 @@ function userHasInterviewID(
       }
       let questions: any = [];
       if (user.interviews[i].interviewType === "recorded") {
+        console.log("enter");
         response.videoAnswers.forEach((answer: any) => {
+          //answer is a videoAnswer object, not an answer object 
+          
           let question = user.interviews[i].questions.find(
             (q: any) => q.id === answer.questionId
           );
@@ -56,8 +59,8 @@ function userHasInterviewID(
           });
         });
       }
-      else if (user.interviews[i].interviewType === "text") {
-        // else {
+       else if (user.interviews[i].interviewType === "text") {
+        //  else {
         response.textAnswers.forEach((answer: any) => {
           let question = user.interviews[i].questions.find(
             (q: any) => q.id === answer.questionId
@@ -126,7 +129,6 @@ export function Summary() {
   if (error) return <div>{error.message}</div>;
   if (isLoadingDB) return <div>Loading...</div>;
   if (isError) return <div>{isError.message}</div>;
-  console.log("yes")
 
   return (
     
@@ -168,7 +170,7 @@ export function Summary() {
                   <AccordionDetails>
                   {
                     interview.interviewType === "recorded" ? (
-                      <ResponseCard question={ans.videoURL} />
+                      <ResponseCard question={ans.answer.videoURL} />
                     ) : (
                       <ResponseCard question={ans.answer} />
                     )
