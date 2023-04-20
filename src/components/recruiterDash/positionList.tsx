@@ -101,10 +101,7 @@ export default function PositionList(props: any) {
           for (const j in apps) {
             await requestRemoveInterview(apps[j].email, item.interviews[i].id);
           }
-          await requestDeleteInterview(
-            item.interviews[i].id,
-            item.id
-          );
+          await requestDeleteInterview(item.interviews[i].id, item.id);
         }
       }
       await requestDeletePosition(item.id, props.user.email);
@@ -188,53 +185,67 @@ export default function PositionList(props: any) {
 
       <List>
         {selected.position == null
-          ? props.data.positions.map((position: any) => (
-              <ListItemButton
-                key={position.id}
-                onClick={() => {
-                  props.setPositionId(position.id);
-                }}
-                sx={{ borderBottom: "1px solid #E0E0E0" }}
-                onMouseEnter={(e) => {
-                  setStyle({ opacity: "1" });
-                }}
-                onMouseLeave={(e) => {
-                  setStyle({ opacity: "0" });
-                }}
-              >
-                <ListItemText primary={position.name} />
-                <IconButton
-                  onClick={(event) => handleDeleteItem(position, event)}
-                  sx={{ ...style, transition: "opacity 0.12s" }}
+          ? props.data.positions
+              ?.sort((a: any, b: any) => {
+                // Sort the interviews by companyName
+                if (a.name < b.name) return -1;
+                if (a.name > b.name) return 1;
+                return 0;
+              })
+              .map((position: any) => (
+                <ListItemButton
+                  key={position.id}
+                  onClick={() => {
+                    props.setPositionId(position.id);
+                  }}
+                  sx={{ borderBottom: "1px solid #E0E0E0" }}
+                  onMouseEnter={(e) => {
+                    setStyle({ opacity: "1" });
+                  }}
+                  onMouseLeave={(e) => {
+                    setStyle({ opacity: "0" });
+                  }}
                 >
-                  <Delete color="error" />
-                </IconButton>
-              </ListItemButton>
-            ))
-          : selected.position.interviews?.map((interview: any) => (
-              <ListItemButton
-                key={interview.id}
-                selected={compareSelection(selected, interview)}
-                onClick={() => {
-                  props.setInterviewId(interview.id);
-                }}
-                onMouseEnter={(e) => {
-                  setStyle({ opacity: "1" });
-                }}
-                onMouseLeave={(e) => {
-                  setStyle({ opacity: "0" });
-                }}
-                sx={{ borderBottom: "1px solid #E0E0E0" }}
-              >
-                <ListItemText primary={interview.name} />
-                <IconButton
-                  onClick={(event) => handleDeleteItem(interview, event)}
-                  sx={{ ...style, transition: "opacity 0.12s" }}
+                  <ListItemText primary={position.name} />
+                  <IconButton
+                    onClick={(event) => handleDeleteItem(position, event)}
+                    sx={{ ...style, transition: "opacity 0.12s" }}
+                  >
+                    <Delete color="error" />
+                  </IconButton>
+                </ListItemButton>
+              ))
+          : selected.position.interviews
+              ?.sort((a: any, b: any) => {
+                // Sort the interviews by companyName
+                if (a.name < b.name) return -1;
+                if (a.name > b.name) return 1;
+                return 0;
+              })
+              .map((interview: any) => (
+                <ListItemButton
+                  key={interview.id}
+                  selected={compareSelection(selected, interview)}
+                  onClick={() => {
+                    props.setInterviewId(interview.id);
+                  }}
+                  onMouseEnter={(e) => {
+                    setStyle({ opacity: "1" });
+                  }}
+                  onMouseLeave={(e) => {
+                    setStyle({ opacity: "0" });
+                  }}
+                  sx={{ borderBottom: "1px solid #E0E0E0" }}
                 >
-                  <Delete color="error" />
-                </IconButton>
-              </ListItemButton>
-            ))}
+                  <ListItemText primary={interview.name} />
+                  <IconButton
+                    onClick={(event) => handleDeleteItem(interview, event)}
+                    sx={{ ...style, transition: "opacity 0.12s" }}
+                  >
+                    <Delete color="error" />
+                  </IconButton>
+                </ListItemButton>
+              ))}
       </List>
       <CreateObjectDialog
         isPosition={!selected.position}
