@@ -11,7 +11,6 @@ import { useRouter } from "next/router";
 import {
   InterviewState,
   getInterviewState,
-  validateLocalStorageTime,
 } from "@/components/utils";
 import requestStartResponse from "@/components/db/requestStartResponse";
 

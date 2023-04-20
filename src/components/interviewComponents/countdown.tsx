@@ -26,22 +26,21 @@ export default function Countdown(props: CountdownProps) {
     return () => clearInterval(timer);
   }, [props.endTime]);
 
-  console.log(props);
   return (
     <div>
       <Typography color="black" variant="h6">
         {props.message ? props.message : "Time remaining"}:
-        <Typography
-          color="grey.600"
-          variant="subtitle1"
-          sx={{ mb: 0.5 }}
-          fontFamily="Orbitron, Roboto"
-        >
-          {props.startTime === props.endTime
-            ? `UNLIMITED`
-            : `${Math.floor(remainingTime / 60).toFixed(0)} MINUTES : 
+      </Typography>
+      <Typography
+        color="grey.600"
+        variant="subtitle1"
+        sx={{ mb: 0.5 }}
+        fontFamily="Orbitron, Roboto"
+      >
+        {props.startTime === props.endTime
+          ? `UNLIMITED`
+          : `${Math.floor(remainingTime / 60).toFixed(0)} MINUTES : 
             ${(remainingTime % 60).toFixed(0)} SECONDS`}
-        </Typography>
       </Typography>
       <LinearProgress
         variant="determinate"

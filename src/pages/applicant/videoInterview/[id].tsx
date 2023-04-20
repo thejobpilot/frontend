@@ -44,11 +44,15 @@ export default function RecruiterSignUp() {
     let state = getInterviewState(response);
     switch (state) {
       case InterviewState.FINISHED:
-        window.alert("Error: This interview has no time left");
-        router.push(`/applicant/summary/${interview.id}`);
-        return () => {
-          ignore = true;
-        };
+        if (response.endTime) {
+            console.log("error", response)
+            window.alert("Error: This interview has no time left");
+            router.push(`/applicant/summary/${interview.id}`);
+            return () => {
+            ignore = true;
+            };
+        }
+        break;
       case InterviewState.IN_PROGRESS:
         let href =
           "/applicant/" +

@@ -11,7 +11,6 @@ import requestSubmitTextInterview from "@/components/db/requestSubmitTextIntervi
 import requestAddTextResponse from "@/components/db/requestAddTextResponse";
 import {router} from "next/client";
 import {useRouter} from "next/router";
-import {validateLocalStorageTime} from "../utils";
 import requestEndResponse from "../db/requestEndResponse";
 
 interface QuestionData {
@@ -77,16 +76,6 @@ export default function InterviewPage(props: any) {
                 idx === currentQuestionIndex ? {...q, answer: newAnswer} : q
             )
         );
-    };
-
-    const resetTimer = () => {
-        const storage = `end_time_${props.interview?.id}-${props.interview?.interviewLength}`;
-        const now = new Date();
-        const initialEndTime = new Date(
-            now.getTime() + props.interview.interviewLength * 60 * 1000
-        );
-        localStorage.setItem(storage, initialEndTime.toISOString());
-        window.location.reload();
     };
 
     const currentQuestion = questions[currentQuestionIndex];
