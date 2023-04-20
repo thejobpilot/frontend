@@ -85,28 +85,41 @@ export default function PositionList(props: any) {
     await mutate(`/api/db/get-user?email=${props.user.email}`);
   };
 
-  const handleDeleteItem = async (item: number, event: any) => {
+  const handleDeleteItem = async (item: any, event: any) => {
     event.stopPropagation();
     if (!selected.position) {
-      let response = await requestDeletePosition(item, props.user.email);
-      let string = await response.text();
-      if (string.includes("violates foreign key constraint")) {
-        window.alert(
-          "This position still has interviews associated with it. Please delete those first."
+      if (item.interviews && item.interviews.length != 0) {
+        const clearInterviews = confirm(
+          "This position still has interviews associated with it. Do you want to proceed with deletion?"
         );
+        if (!clearInterviews) return;
+        for (const i in item.interviews) {
+          let apps = getApplicantsFromInterviewId(
+            applicants,
+            item.interviews[i].id
+          );
+          for (const j in apps) {
+            await requestRemoveInterview(apps[j].email, item.interviews[i].id);
+          }
+          await requestDeleteInterview(
+            item.interviews[i].id,
+            item.id
+          );
+        }
       }
+      await requestDeletePosition(item.id, props.user.email);
     } else {
-      let apps = getApplicantsFromInterviewId(applicants, item);
+      let apps = getApplicantsFromInterviewId(applicants, item.id);
       if (apps && apps.length != 0) {
         const clearApplicants = confirm(
           "This interview is currently assigned to applicants. Do you want to proceed with deletion?"
         );
         if (!clearApplicants) return;
         for (const i in apps) {
-          await requestRemoveInterview(apps[i].email, item);
+          await requestRemoveInterview(apps[i].email, item.id);
         }
       }
-      await requestDeleteInterview(item, selected.position.id);
+      await requestDeleteInterview(item.id, selected.position.id);
     }
     //very scuffed but i'd have to do a lot of refactoring to properly mutate only the positions/interviews
     await mutate(`/api/db/get-user?email=${props.user.email}`);
@@ -189,7 +202,7 @@ export default function PositionList(props: any) {
               >
                 <ListItemText primary={position.name} />
                 <IconButton
-                  onClick={(event) => handleDeleteItem(position.id, event)}
+                  onClick={(event) => handleDeleteItem(position, event)}
                   sx={{ ...style, transition: "opacity 0.12s" }}
                 >
                   <Delete color="error" />
@@ -213,7 +226,7 @@ export default function PositionList(props: any) {
               >
                 <ListItemText primary={interview.name} />
                 <IconButton
-                  onClick={(event) => handleDeleteItem(interview.id, event)}
+                  onClick={(event) => handleDeleteItem(interview, event)}
                   sx={{ ...style, transition: "opacity 0.12s" }}
                 >
                   <Delete color="error" />
