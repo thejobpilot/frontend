@@ -45,15 +45,36 @@ function userHasInterviewID(
         return;
       }
       let questions: any = [];
-      response.textAnswers.forEach((answer: any) => {
-        let question = user.interviews[i].questions.find(
-          (q: any) => q.id === answer.questionId
-        );
-        questions.push({
-          question: question,
-          answer: answer,
+      console.log("i:" + i);
+      console.log(user.interviews[i]);
+      console.log(response);
+      if (user.interviews[i].interviewType === "recorded") {
+        console.log("enter");
+        response.videoAnswers.forEach((answer: any) => {
+          //answer is a videoAnswer object, not an answer object 
+          
+          let question = user.interviews[i].questions.find(
+            (q: any) => q.id === answer.questionId
+          );
+          questions.push({
+            question: question,
+            answer: answer,
+          });
         });
-      });
+      }
+       else if (user.interviews[i].interviewType === "text") {
+        //  else {
+        response.textAnswers.forEach((answer: any) => {
+          let question = user.interviews[i].questions.find(
+            (q: any) => q.id === answer.questionId
+          );
+          questions.push({
+            question: question,
+            answer: answer,
+          });
+        });
+      }
+      console.log(questions);
 
       updater(response);
       updaterq(questions);
@@ -106,6 +127,7 @@ export function Summary() {
   if (error) return <div>{error.message}</div>;
   if (isLoadingDB) return <div>Loading...</div>;
   if (isError) return <div>{isError.message}</div>;
+  console.log(questions);
   return (
     questions && (
       <>
@@ -143,7 +165,13 @@ export function Summary() {
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <ResponseCard question={ans.answer} />
+                  {
+                    interview.interviewType === "recorded" ? (
+                      <ResponseCard question={ans.videoURL} />
+                    ) : (
+                      <ResponseCard question={ans.answer} />
+                    )
+                  }
                   </AccordionDetails>
                 </Accordion>
               ))}
