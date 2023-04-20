@@ -108,6 +108,7 @@ export default function PositionList(props: any) {
         }
       }
       await requestDeletePosition(item.id, props.user.email);
+      props.setPositionId(null);
     } else {
       let apps = getApplicantsFromInterviewId(applicants, item.id);
       if (apps && apps.length != 0) {
@@ -120,6 +121,7 @@ export default function PositionList(props: any) {
         }
       }
       await requestDeleteInterview(item.id, selected.position.id);
+      props.setInterviewId(null);
     }
     //very scuffed but i'd have to do a lot of refactoring to properly mutate only the positions/interviews
     await mutate(`/api/db/get-user?email=${props.user.email}`);
