@@ -13,7 +13,7 @@ export default function ResponseReview(props: { selected: any, data: any }) {
         requestUpdateScore(
           props.selected.response.applicantEmail,
           props.selected.interviewId,
-          props.selected.responseId,
+          props.selected.response.id,
           value.toString()
         );
       } else {

@@ -16,7 +16,6 @@ import { useRouter } from "next/router";
 import Stack from '@mui/material/Stack';
 
 const settings = [
-  { label: "Account", path: "/dash" },
   { label: "Dashboard", path: "/dash" },
   { label: "Logout", path: "/api/auth/logout" },
 ];
@@ -42,8 +41,6 @@ function ResponsiveAppBar() {
   };
 
   const pressUserMenuButton = async (buttonPressed: string) => {
-      debugger;
-
       const setting = settings.find((s) => s.label === buttonPressed);
     if (setting) {
       await router.push(setting.path);

@@ -2,7 +2,7 @@ import {NextApiRequest, NextApiResponse} from "next";
 import api from "@/utils/utils";
 import {ApiErrorResponse, ApiOkResponse} from "apisauce";
 
-export default async function setUser(
+export default async function updateResponse(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
@@ -11,9 +11,11 @@ export default async function setUser(
     const responseId = req.query.responseId as string;
     const score = req.query.score as string;
 
+    let url = `/interview/${interviewId}/response/${encodeURIComponent(email)}/${responseId}`;
+    console.log(url);
     const response: ApiErrorResponse<unknown> | ApiOkResponse<unknown> =
         await api.patch(
-            `/interview/${interviewId}/response/${encodeURIComponent(email)}/${responseId}`,
+            url,
             {
               score: score
             }
