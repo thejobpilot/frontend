@@ -45,7 +45,7 @@ function userHasInterviewID(
         return;
       }
       let questions: any = [];
-      response.textAnswers.forEach((answer: any) => {
+      response.videoAnswers.forEach((answer: any) => {
         let question = user.interviews[i].questions.find(
           (q: any) => q.id === answer.questionId
         );
@@ -149,7 +149,7 @@ export function Summary() {
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <ResponseCard question={ans.answer} />
+                    <ResponseCard question={ans.videoURL} />
                   </AccordionDetails>
                 </Accordion>
               ))}

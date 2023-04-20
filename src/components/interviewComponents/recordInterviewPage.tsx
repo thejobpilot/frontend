@@ -70,7 +70,7 @@ const RecordedInterviewPage = (props: { user: any; interview: any }) => {
                 setCleared(false);
                 window.alert("Error: This interview has no time left");
                 // TODO uncomment
-                //router.push(`/applicant/summary/${props.interview?.id}`);
+                router.push(`/applicant/videoSummary/${props.interview?.id}`);
                 return () => {
                     ignore = true;
                 };

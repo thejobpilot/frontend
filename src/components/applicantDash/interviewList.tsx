@@ -45,7 +45,18 @@ function InterviewList(props: { user: UserProfile }) {
                         console.log(res)
                         switch (res) {
                             case -1:
+                                // if (interview.interviewType == "recorded") {
+                                //     path = `/applicant/videoSummary/${interview.id}`;
+                                // } 
+                                // else if (interview.interviewType == "coding") {
+                                //     path = `/applicant/codingSummary/${interview.id}`;
+                                // }
+                                // else {
+                                //     path = `/applicant/summary/${interview.id}`;
+
+                                // }
                                 path = `/applicant/summary/${interview.id}`;
+
                                 icon = <CheckCircleOutline color="success"/>;
                                 break;
                             case 1:
