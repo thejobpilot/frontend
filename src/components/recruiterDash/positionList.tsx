@@ -24,6 +24,7 @@ export default function PositionList(props: any) {
     position: getIdFromArray(props.data.positions, props.selected?.positionId),
     interview: null,
   });
+  const [style, setStyle] = useState({ opacity: "0" });
   const [isDialogOpen, setOpenDialog] = useState(false);
   const { mutate } = useSWRConfig();
 
@@ -138,7 +139,7 @@ export default function PositionList(props: any) {
           mx: "auto",
         }}
       >
-        {!selected.position && (
+        {!selected.position ? (
           <Button
             variant="contained"
             onClick={handleCreatePositionClick}
@@ -146,8 +147,7 @@ export default function PositionList(props: any) {
           >
             Create Position
           </Button>
-        )}
-        {selected.position && (
+        ) : (
           <Button
             variant="contained"
             onClick={handleCreateInterviewClick}
@@ -161,21 +161,27 @@ export default function PositionList(props: any) {
       <List>
         {selected.position == null
           ? props.data.positions.map((position: any) => (
-              <ListItem
+              <ListItemButton
                 key={position.id}
-                button
                 onClick={() => {
                   props.setPositionId(position.id);
                 }}
                 sx={{ borderBottom: "1px solid #E0E0E0" }}
+                onMouseEnter={(e) => {
+                  setStyle({ opacity: "1" });
+                }}
+                onMouseLeave={(e) => {
+                  setStyle({ opacity: "0" });
+                }}
               >
                 <ListItemText primary={position.name} />
                 <IconButton
                   onClick={(event) => handleDeleteItem(position.id, event)}
+                  sx={{...style, transition: "opacity 0.12s"}}
                 >
                   <Delete color="error" />
                 </IconButton>
-              </ListItem>
+              </ListItemButton>
             ))
           : selected.position.interviews?.map((interview: any) => (
               <ListItemButton
@@ -184,11 +190,18 @@ export default function PositionList(props: any) {
                 onClick={() => {
                   props.setInterviewId(interview.id);
                 }}
+                onMouseEnter={(e) => {
+                  setStyle({ opacity: "1" });
+                }}
+                onMouseLeave={(e) => {
+                  setStyle({ opacity: "0" });
+                }}
                 sx={{ borderBottom: "1px solid #E0E0E0" }}
               >
                 <ListItemText primary={interview.name} />
                 <IconButton
                   onClick={(event) => handleDeleteItem(interview.id, event)}
+                  sx={{...style, transition: "opacity 0.12s"}}
                 >
                   <Delete color="error" />
                 </IconButton>
