@@ -337,7 +337,7 @@ export default function InterviewEditor(props: any) {
                   <Button
                     type="submit"
                     variant="contained"
-                    sx={{ bgcolor: "#111E31", color: "white" }}
+                    sx={{ bgcolor: "#111E31", color: "white", mb: 5 }}
                   >
                     Save
                   </Button>

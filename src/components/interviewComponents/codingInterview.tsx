@@ -23,6 +23,7 @@ import requestSubmitTextInterview from "@/components/db/requestSubmitTextIntervi
 import requestAddTextResponse from "@/components/db/requestAddTextResponse";
 import requestEndResponse from "@/components/db/requestEndResponse";
 import { useRouter } from "next/router";
+import Countdown from "./countdown";
 
 const MainContainer = styled(Box)({
   display: "flex",
@@ -40,6 +41,9 @@ const LeftContainer = styled(Paper)({
   color: "white",
   overflowY: "auto",
   maxWidth: "30%",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between"
 });
 
 const MiddleContainer = styled(Paper)({
@@ -267,18 +271,49 @@ const CodingInterviewPage = (props: {
   return (
     <MainContainer>
       <LeftContainer>
-        <Typography variant="h5" gutterBottom>
-          {question.find((q) => q.language === selectedLanguage)!!.title}
-        </Typography>
-        <Typography variant="body1">
-          {question.find((q) => q.language === selectedLanguage)!!.description}
-        </Typography>
+        <Box>
+          <Typography variant="h5" gutterBottom>
+            {question.find((q) => q.language === selectedLanguage)!!.title}
+          </Typography>
+          <Typography variant="body1">
+            {
+              question.find((q) => q.language === selectedLanguage)!!
+                .description
+            }
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            borderRadius: 2,
+            fontFamily: "monospace",
+            mb: 15,
+            px: 2,
+            py: 1.4,
+            border: "1px solid",
+            background: "white",
+          }}
+        >
+          <Countdown
+            totalMinutes={props.interview.interviewLength}
+            startTime={props.response.startTime}
+            endTime={props.response.endTime}
+            onEnd={handleSubmit}
+          />
+        </Box>
       </LeftContainer>
       <MiddleContainer>
         <Select
+          variant="outlined"
           value={selectedLanguage}
           onChange={handleLanguageChange}
-          sx={{ background: "white", color: "#111E31", marginBottom: "1rem" }}
+          sx={{
+            border: "1px solid grey",
+            color: "white",
+            marginBottom: "1rem",
+            "& .MuiSvgIcon-root": {
+              color: "white",
+            },
+          }}
         >
           <MenuItem value="javascript">JavaScript</MenuItem>
           <MenuItem value="python">Python</MenuItem>
@@ -295,14 +330,20 @@ const CodingInterviewPage = (props: {
           />
         </Box>
         <Box sx={{ display: "flex", justifyContent: "center", mt: "10px" }}>
-          <LoadingButton variant="contained" onClick={handleSubmit}>
+          <LoadingButton
+            variant="contained"
+            loading={submitting}
+            color="error"
+            onClick={handleSubmit}
+            sx={{width: "100%"}}
+          >
             Submit
           </LoadingButton>
         </Box>
       </MiddleContainer>
       <RightContainer>
         <Typography variant="h6" gutterBottom>
-          Console
+          Testing
         </Typography>
         <Terminal
           name="Terminal"
