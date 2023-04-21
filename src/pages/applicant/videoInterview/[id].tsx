@@ -70,11 +70,11 @@ export default function RecruiterSignUp() {
     }
   }, [interview, response]);
 
-  console.log(response);
   if (error) return <div>Failed to load</div>;
   if (isError) return <div>Failed to load</div>;
   if (isLoading) return <div>Loading...</div>;
   if (isLoadingDB || !response || !interview) return <div>Loading...</div>;
+  if (data.userType != "applicant") router.push(`/${data.userType}/dash`);
 
   return (
     <>

@@ -73,6 +73,7 @@ export function Written(props: any) {
   if (isError) return <div>Failed to load</div>;
   if (isLoading) return <div>Loading...</div>;
   if (isLoadingDB || !response || !interview) return <div>Loading...</div>;
+  if (data.userType != "applicant") router.push(`/${data.userType}/dash`);
 
   return (
     <>

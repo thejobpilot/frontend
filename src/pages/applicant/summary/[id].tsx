@@ -127,7 +127,7 @@ export function Summary() {
   if (error) return <div>{error.message}</div>;
   if (isLoadingDB) return <div>Loading...</div>;
   if (isError) return <div>{isError.message}</div>;
-  console.log(questions);
+  if (data.userType != "applicant") router.push(`/${data.userType}/dash`);
   return (
     questions && (
       <>

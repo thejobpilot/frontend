@@ -76,7 +76,7 @@ function AccountDetails(props: { user: UserProfile }) {
         Account details ({capitalizeFirstLetter(data.userType)})
       </Typography>
       <form onSubmit={(e) => handleSubmit(e)}>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        <Box sx={{ pt: 2, display: "flex", flexDirection: "column", gap: 2 }}>
           <TextField
             id="outlined-username"
             label="Username"
