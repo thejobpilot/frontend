@@ -8,11 +8,10 @@ import { Button, Typography } from "@mui/material";
 import Question from "@/components/interviewComponents/questions";
 import VideoRecorder from "@/components/interviewComponents/videoBoxForApplicantRecordingThemselves";
 import { useRouter } from "next/router";
-import requestSubmitTextInterview from "@/components/db/requestSubmitTextInterview";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import { youtubeURLToId } from "../utils";
-import requestAddTextResponse from "@/components/db/requestAddTextResponse";
+import requestSubmitTextInterview from "@/components/db/requestSubmitTextInterview";
 import requestUploadVideoResponse from "@/components/db/requestUploadVideoResponse";
 
 interface QuestionData {
@@ -34,7 +33,7 @@ const theme = createTheme({
 
 const RecordedInterviewPage = (props: any) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [blob, setBlob] = useState<Blob | undefined>(undefined);
+  const [blobs, setBlobs] = useState<any[]>([]);
   const [questions, setQuestions] = useState<QuestionData[]>([
     { question: "Question 1 prompt", answer: "", id: "" },
     // Add more questions here
@@ -48,17 +47,26 @@ const RecordedInterviewPage = (props: any) => {
   };
 
   const handleSubmit = async () => {
-    if (!blob) {
-      window.alert("You cannot submit without recording a video!");
+    let anyEmptyQuestions = false;
+    console.log("SUBMITTED");
+    blobs.forEach((b) => {
+      if (!b || !b.blob) {
+        anyEmptyQuestions = true;
+      }
+    });
+    if (anyEmptyQuestions) {
+      window.alert(
+        "You cannot submit without recording a video for every question!"
+      );
       return;
     }
-    let response = await requestSubmitTextInterview(
-      props.interview.id,
-      props.user.email
-    );
-    let payload = await response.json();
     for (const question of questions) {
-      await requestUploadVideoResponse(payload.id, question.id, blob!!);
+      let blob = blobs.find((blob: any) => blob.questionId === question.id);
+      await requestUploadVideoResponse(
+        props.response.id,
+        question.id,
+        blob.blob!!
+      );
     }
     await router.push(`/applicant/summary/${props.interview.id}`);
   };
@@ -70,12 +78,29 @@ const RecordedInterviewPage = (props: any) => {
           return { question: q.prompt, answer: "", id: q.id };
         })
       );
+      setBlobs(
+        props.interview.questions.map((q: any) => {
+          return { questionId: q.id, blob: undefined };
+        })
+      );
     }
   }, [props.interview]);
 
   const handleRecordingComplete = (blob: Blob) => {
     // Save the recorded video
-    setBlob(blob);
+    setBlobs((prevBlobs: any) => {
+      const updatedBlobs = [...prevBlobs];
+      const targetBlob = updatedBlobs.find(
+        (blobObj: any) =>
+          blobObj.questionId === questions[currentQuestionIndex].id
+      );
+
+      if (targetBlob) {
+        targetBlob.blob = blob;
+      }
+
+      return updatedBlobs;
+    });
   };
 
   const currentQuestion = questions[currentQuestionIndex];

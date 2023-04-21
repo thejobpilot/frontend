@@ -110,7 +110,9 @@ const CodingInterviewPage = (props: {
     },
   ]);
   const [terminalLineData, setTerminalLineData] = useState([
-    <TerminalOutput key={1}>{`To test your code, type "runtests".`}</TerminalOutput>,
+    <TerminalOutput
+      key={1}
+    >{`To test your code, type "runtests".`}</TerminalOutput>,
   ]);
 
   useEffect(() => {
@@ -168,7 +170,6 @@ const CodingInterviewPage = (props: {
   const router = useRouter();
 
   const handleSubmit = async () => {
-    debugger;
     let selectedQuestion = question.find(
       (q) => q.language === selectedLanguage
     );
