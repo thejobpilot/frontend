@@ -65,42 +65,33 @@ export default function InterviewEditor(props: any) {
   if (props.isLoading || !props.data || !props.selected)
     return <div>Loading...</div>;
   if (props.error) return <div>{props.error.message}</div>;
-  const handleSelectPreMadeQuestion = async () => {
+
+  const handleSelectPreMadeQuestion = () => {
     if (selectedPreMadeQuestion && interview) {
-      await requestSetInterview(
-        props.selected.interviewId,
-        props.selected.positionId,
-        interview
-      );
-      setQuestions([selectedPreMadeQuestion, ...questions]);
-      //scuffed asf
-      let response = await requestCreateQuestion(interview.id);
-      let body = await response.json();
-      await requestChangeQuestion(
-        body.id,
-        interview.id,
-        selectedPreMadeQuestion
-      );
+      setQuestions([...questions, selectedPreMadeQuestion]);
       setSelectedPreMadeQuestion("");
-      await props.mutate();
     }
   };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (interview) {
-      requestSetInterview(
+      await requestSetInterview(
         props.selected.interviewId,
         props.selected.positionId,
         interview
       );
 
-      questions.forEach((question: any, index: any) => {
-        requestChangeQuestion(
-          interview.questions[index].id,
+      questions.forEach(async (question: any, index: any) => {
+        let response = await requestCreateQuestion(interview.id);
+        let body = await response.json();
+        await requestChangeQuestion(
+          body.id,
           interview.id,
           question
         );
+
+        await props.mutate();
       });
 
       props.toggleSnackbar();
@@ -123,15 +114,8 @@ export default function InterviewEditor(props: any) {
     setQuestions([]);
   }
 
-  const addQuestion = async () => {
+  const addQuestion = () => {
     if (interview) {
-      await requestSetInterview(
-        props.selected.interviewId,
-        props.selected.positionId,
-        interview
-      );
-      await requestCreateQuestion(interview.id);
-      await props.mutate();
       setQuestions([...questions, ""]);
     }
   };
