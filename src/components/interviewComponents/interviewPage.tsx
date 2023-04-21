@@ -205,7 +205,6 @@ export default function InterviewPage(props: any) {
                       sx={{
                         mt: 3,
                         mb: 2,
-                        bgcolor: "#111E31",
                         "&:hover": { bgcolor: "#8549a8" },
                       }}
                     >
