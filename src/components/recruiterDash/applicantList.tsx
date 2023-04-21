@@ -10,10 +10,29 @@ import {
 import requestAssignInterview from "../db/requestAssignInterview";
 import requestRemoveInterview from "../db/requestRemoveInterview";
 import useApplicants from "../db/useApplicants";
-import { userHasInterviewByID } from "../utils";
+import { getIdFromArray, userHasInterviewByID } from "../utils";
+import newResponse from "@/pages/api/db/new-response";
+import { useState, useEffect } from "react";
+import requestDeleteResponse from "../db/requestDeleteResponse";
 
 export default function ApplicantList(props: any) {
   const { applicants, isLoading, isError, mutate } = useApplicants();
+  const [responses, setResponses] = useState<any>(null);
+
+  useEffect(() => {
+    let positionCache = getIdFromArray(
+      props.data.positions,
+      props.selected?.positionId
+    );
+    let interviewCache = getIdFromArray(
+      positionCache?.interviews,
+      props.selected?.interviewId
+    );
+    if (interviewCache) {
+      console.log("effect", responses);
+      setResponses(interviewCache.responses);
+    }
+  }, [props.data.positions, props.selected.interviewId]);
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>{isError.message}</div>;
@@ -28,6 +47,15 @@ export default function ApplicantList(props: any) {
 
   const handleDelete = async (selectedEmail: string) => {
     if (props.selected.interviewId) {
+      const responseMatches = responses.filter(
+        (res: any) => res.applicantEmail === selectedEmail
+      );
+      if (responseMatches.length > 0) {
+        for (const i in responseMatches) {
+          await requestDeleteResponse(selectedEmail, responseMatches[i]);
+          await mutate();
+        }
+      }
       await requestRemoveInterview(selectedEmail, props.selected.interviewId);
       await mutate();
     }
@@ -56,14 +84,29 @@ export default function ApplicantList(props: any) {
       );
       if (!ok) return;
       for (const i in applicants) {
+        if (!userHasInterviewByID(applicants[i], props.selected.interviewId)) {
+          continue;
+        }
+        const responseMatches = responses.filter(
+          (res: any) => res.applicantEmail === applicants[i].email
+        );
+        if (responseMatches.length > 0) {
+          for (const i in responseMatches) {
+            await requestDeleteResponse(
+              responseMatches[i].applicantEmail,
+              responseMatches[i]
+            );
+          }
+        }
         await requestRemoveInterview(
           applicants[i].email,
           props.selected.interviewId
         );
+        await mutate();
       }
       await mutate();
     }
-  }
+  };
 
   return (
     <Box
