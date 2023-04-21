@@ -110,7 +110,7 @@ const CodingInterviewPage = (props: {
     },
   ]);
   const [terminalLineData, setTerminalLineData] = useState([
-    <TerminalOutput>To test your code, type "runtests".</TerminalOutput>,
+    <TerminalOutput key={1}>{`To test your code, type "runtests".`}</TerminalOutput>,
   ]);
 
   useEffect(() => {
