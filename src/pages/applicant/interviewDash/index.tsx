@@ -27,7 +27,8 @@ export default function Behavioral({ interview }: any) {
     );
     let href: string;
     if (interview.interviewType === "recorded") {
-      href = "/applicant/" + "videoInterview" + "/" + interview.id;
+      // href = "/applicant/" + "videoInterview" + "/" + interview.id;
+      href = "/applicant/permissionsPage/" + interview.id;
     } else if (interview.interviewType === "coding") {
       href = "/applicant/" + "codingInterview" + "/" + interview.id;
     } else {

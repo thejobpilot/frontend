@@ -1,50 +1,24 @@
-import React, { useState } from 'react';
-import Permissions from "@/components/interviewComponents/permissions";
+// Import React and necessary components from Material UI
+import React from 'react';
+import { Box, Typography } from '@mui/material';
 import ResponsiveAppBar from "@/components/navBar";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-
-const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#6200ee',
-      },
-      secondary: {
-        main: '#03dac6',
-      },
-    },
-  });
-  
-  const PermissionsPage: React.FC = () => {
+// Define a functional React component
+const IndexPage: React.FC = () => {
+  return (
     
-    const [currentQuestion, setCurrentQuestion] = useState(1);
-    const totalQuestions = 3;
-    const [progress, setProgress] = useState(0);
-    const prompt =
-      'Tell us about the education, and work experiences that have helped prepare you for this position.';
-    const countdownSeconds = 120;
-  
-    const onStartRecording = () => {
-      console.log('Recording started');
-    };
-  
-    const onStopRecording = () => {
-      console.log('Recording stopped');
-    };
-  
-    const onSubmit = () => {
-      console.log('Interview submitted');
-    };
-    const handleCountdownUpdate = (progress: number) => {
-      setProgress(progress);
-    };
-  
-    return (
-      <ThemeProvider theme={theme}>
+
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '100vh', justifyContent: 'center' }}>
         <ResponsiveAppBar></ResponsiveAppBar>
-        <Permissions></Permissions>
-      </ThemeProvider>
-    );
-  };
-  
-  export default PermissionsPage;
+      <Typography variant="h4" mb={3}>
+        Dummy Index Page
+      </Typography>
+      <Typography variant="body1">
+        This is a simple dummy index page created as a placeholder.
+      </Typography>
+    </Box>
+  );
+};
+
+// Export the component as default
+export default IndexPage;
