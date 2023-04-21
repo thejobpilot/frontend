@@ -144,12 +144,20 @@ export function Summary() {
             <Typography variant="h4" mb={2} fontSize="30px">
               Summary of Responses
             </Typography>
+            {!interview.showScoreToUser && (
+              <Typography variant="h5" mb={2} fontSize="30px">
+                `Graded Score: ${response.score}`
+              </Typography>
+            )}
             <div>
               {questions.map((ans: any) => (
                 <Accordion key={ans.answer.id}>
                   <AccordionSummary>
                     <Typography variant="body1">
-                      Question: {ans.question?.prompt ? ans.question.prompt : "PROMPT_NOT_FOUND"}
+                      Question:{" "}
+                      {ans.question?.prompt
+                        ? ans.question.prompt
+                        : "PROMPT_NOT_FOUND"}
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>

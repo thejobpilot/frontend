@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, MenuItem, TextField, Typography } from "@mui/material";
+import { Box, Button, Checkbox, FormControlLabel, MenuItem, TextField, Typography } from "@mui/material";
 import requestSetInterview from "../db/requestSetInterview";
 import QuestionInput from "./questionInput";
 import { getIdFromArray } from "../utils";
@@ -202,11 +202,7 @@ export default function InterviewEditor(props: any) {
                   required
                 />
                 {interview.prepTime == 0 && (
-                  <Typography
-                    variant="h6"
-                    fontSize={"12px"}
-                    color="#b23c17"
-                  >
+                  <Typography variant="h6" fontSize={"12px"} color="#b23c17">
                     NO TIME LIMIT
                   </Typography>
                 )}
@@ -220,11 +216,7 @@ export default function InterviewEditor(props: any) {
                   required
                 />
                 {interview.interviewLength == 0 && (
-                  <Typography
-                    variant="h6"
-                    fontSize={"12px"}
-                    color="#b23c17"
-                  >
+                  <Typography variant="h6" fontSize={"12px"} color="#b23c17">
                     NO TIME LIMIT
                   </Typography>
                 )}
@@ -237,15 +229,36 @@ export default function InterviewEditor(props: any) {
                   inputProps={{ type: "number", min: 0, max: 999 }}
                   required
                 />
-                <TextField
-                  label="# Retakes"
-                  variant="outlined"
-                  name="retakes"
-                  value={interview.retakes || ""}
-                  onChange={(e) => updateField(e)}
-                  inputProps={{ type: "number", min: 0, max: 999 }}
-                  required
-                />
+
+                <Box sx={{ display: "flex", flexDirection: "row" }}>
+                  <TextField
+                    label="# Retakes"
+                    variant="outlined"
+                    name="retakes"
+                    value={interview.retakes}
+                    onChange={(e) => updateField(e)}
+                    inputProps={{ type: "number", min: 0, max: 999 }}
+                    sx={{ flexGrow: 1, mr: 4 }}
+                    required
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        name="showScoreToUser"
+                        checked={Boolean(interview.showScoreToUser)}
+                        onChange={(e) => {
+                          setInterview((prev: any) => {
+                            return {
+                              ...prev,
+                              showScoreToUser: !interview.showScoreToUser,
+                            };
+                          });
+                        }}
+                      />
+                    }
+                    label="Applicants can view score"
+                  />
+                </Box>
 
                 <TextField
                   name="interviewType"

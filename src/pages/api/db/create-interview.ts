@@ -16,6 +16,7 @@ export default async function createInterview(
       retakes: 0,
       prepTime: 10,
       interviewLength: 20,
+      showScoreToUser: true,
     }
   );
   handleBackendResponse(res, response);

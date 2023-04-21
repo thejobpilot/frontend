@@ -18,6 +18,7 @@ export default async function updateUser(
         videoURL: body.videoURL,
         interviewType: body.interviewType,
         companyName: body.companyName,
+        showScoreToUser: body.showScoreToUser,
         questions: body.questions
     };
 

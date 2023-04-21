@@ -13,6 +13,7 @@ import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import { youtubeURLToId } from "../utils";
 import requestSubmitTextInterview from "@/components/db/requestSubmitTextInterview";
 import requestUploadVideoResponse from "@/components/db/requestUploadVideoResponse";
+import requestEndResponse from "../db/requestEndResponse";
 
 interface QuestionData {
   question: string;
@@ -49,6 +50,7 @@ const RecordedInterviewPage = (props: any) => {
   const handleSubmit = async () => {
     let anyEmptyQuestions = false;
     console.log("SUBMITTED");
+    await requestEndResponse(props.user.email, props.response)
     blobs.forEach((b) => {
       if (!b || !b.blob) {
         anyEmptyQuestions = true;
