@@ -2,13 +2,13 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import ResponsiveAppBar from "@/components/recruiterDash/navBarRecruiter";
 import React, { useEffect, useState } from "react";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
-import PositionList from "@/components/recruiterDash/positionList";
 import useUserDB from "@/components/db/useUserDB";
 import { withTitle } from "@/components/utils";
 import SmartCards from "@/components/recruiterReview/smartCards";
 import { Box } from "@mui/material";
 import ResponseReview from "@/components/recruiterDash/responseReview";
 import useSearchUsers from "@/components/db/useSearchUsers";
+import ReviewPositionList from "@/components/recruiterDash/reviewPositionList";
 
 export type SelectedInterview = {
   positionId: any;
@@ -69,7 +69,7 @@ export function GradeManager() {
   return ((
       <div style={{ backgroundColor: "#EFEFEF" }}>
         <ResponsiveAppBar />
-        <PositionList
+        <ReviewPositionList
           user={user}
           data={userData}
           isLoading={isLoading}
