@@ -82,14 +82,15 @@ export default function InterviewEditor(props: any) {
         interview
       );
 
-      questions.forEach(async (question: any, index: any) => {
+      const newQuestions = questions.filter(
+        (o: any) =>
+          !interviewCache.questions.map((e: any) => e.prompt).includes(o)
+      );
+
+      newQuestions.forEach(async (question: any) => {
         let response = await requestCreateQuestion(interview.id);
         let body = await response.json();
-        await requestChangeQuestion(
-          body.id,
-          interview.id,
-          question
-        );
+        await requestChangeQuestion(body.id, interview.id, question);
 
         await props.mutate();
       });
