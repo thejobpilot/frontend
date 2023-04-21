@@ -7,19 +7,11 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Alert,
-  AlertTitle,
   Box,
-  List,
-  ListItem,
-  ListItemText,
   Typography,
 } from "@mui/material";
 import { Container } from "@mui/system";
-import Forbidden from "@/components/forbidden";
 import { withTitle } from "@/components/utils";
-import Behavioral from "@/pages/applicant/interviewDash";
-import questions from "@/components/interviewComponents/questions";
 import ResponseCard from "./responseCard";
 import ResponsiveAppBar from "@/components/navBar";
 
@@ -52,7 +44,6 @@ function userHasInterviewID(
         console.log("enter");
         response.videoAnswers.forEach((answer: any) => {
           //answer is a videoAnswer object, not an answer object
-
           let question = user.interviews[i].questions.find(
             (q: any) => q.id === answer.questionId
           );
@@ -162,11 +153,11 @@ export function Summary() {
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    {interview.interviewType === "recorded" ? (
-                      <ResponseCard question={ans.videoURL} />
-                    ) : (
-                      <ResponseCard question={ans.answer} />
-                    )}
+                    <Typography variant="body1">
+                      {interview.interviewType === "recorded"
+                        ? ans.answer.videoURL
+                        : ans.answer.answer}
+                    </Typography>
                   </AccordionDetails>
                 </Accordion>
               ))}

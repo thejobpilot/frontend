@@ -11,7 +11,7 @@ export const config = {
   },
 };
 
-export default async function addTextResponse(
+export default async function addVideoResponse(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -42,9 +42,12 @@ export default async function addTextResponse(
         res.status(500).send(`Internal Server Error: ${response?.data}`);
         return;
       }
-
+      console.log("VIDEO ID: ");
+      console.log(response.data);
+      // @ts-ignore
+      let id = response.data!!.id;
       const uploadResponse = await api.post(
-        `/response/${responseId}/question/${questionId}/videoanswer/upload-video`,
+        `/response/${responseId}/question/${questionId}/videoanswer/upload-video?id=${id}`,
         formData,
         {
           headers: {
