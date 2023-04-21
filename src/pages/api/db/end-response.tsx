@@ -23,7 +23,11 @@ export default async function endResponse(
       )}/${responseId}`,
       body
     );
-
+  const emailResponse: ApiErrorResponse<unknown> | ApiOkResponse<unknown> =
+    await api.post(`/user/${encodeURIComponent(email)}/send-submission`, {
+      interviewId: interviewId,
+    });
+  console.log(emailResponse);
   if (response.ok) {
     res.status(200).send(response.data);
   } else {

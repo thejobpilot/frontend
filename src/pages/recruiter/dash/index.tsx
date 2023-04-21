@@ -8,6 +8,8 @@ import AccountDetails from "@/components/recruiterDash/accountDetails";
 import useUserDB from "@/components/db/useUserDB";
 import { withTitle } from "@/components/utils";
 import Box from "@mui/material/Box";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 
 export function Dashboard() {
   const router = useRouter();
@@ -23,11 +25,21 @@ export function Dashboard() {
   if (isLoadingDB) return <div>Loading...</div>;
   if (isError) return <div>{isError.message}</div>;
 
+  const theme = createTheme({
+    palette: {
+      background: {
+        default: '#FFF',
+      },
+    },
+  });
+
   /* TODO: ENABLE THIS BEFORE FRIDAY TO PROTECT PATHS */
   //if (data.userType != "recruiter") router.push(`/${data.userType}/dash`);
 
   return (
+    
     user && (
+      
       <div style={{ backgroundColor: "#EFEFEF" }}>
         <ResponsiveAppBar />
         <div
