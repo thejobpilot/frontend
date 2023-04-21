@@ -145,8 +145,14 @@ export function Summary() {
               Summary of Responses
             </Typography>
             {interview.showScoreToUser && (
-              <Typography variant="h6" mb={2} color="orange">
-                Graded Score: {response.score} / 10
+              <Typography
+                variant="h6"
+                mb={2}
+                color="orange"
+              >
+                {response.score === 0
+                  ? `Graded Score: UNGRADED`
+                  : `Graded Score: ${response.score} / 10`}
               </Typography>
             )}
             <div>
