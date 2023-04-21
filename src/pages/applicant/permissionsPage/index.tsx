@@ -1,11 +1,15 @@
 // Import React and necessary components from Material UI
 import React from 'react';
 import { Box, Typography } from '@mui/material';
+import ResponsiveAppBar from "@/components/navBar";
 
 // Define a functional React component
 const IndexPage: React.FC = () => {
   return (
+    
+
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '100vh', justifyContent: 'center' }}>
+        <ResponsiveAppBar></ResponsiveAppBar>
       <Typography variant="h4" mb={3}>
         Dummy Index Page
       </Typography>
