@@ -34,27 +34,35 @@ export default function ApplicantList(props: any) {
   };
 
   const handleAssignAll = async () => {
-    const ok = confirm("Warning: Assign all will assign all listed applicants to this interview. Do you want to proceed?")
-    if (!ok) return;
-    for (const i in applicants) {
-      await requestAssignInterview(
-        applicants[i].email,
-        props.selected.interviewId
+    if (props.selected.interviewId) {
+      const ok = confirm(
+        "Warning: Assign all will assign all listed applicants to this interview. Do you want to proceed?"
       );
+      if (!ok) return;
+      for (const i in applicants) {
+        await requestAssignInterview(
+          applicants[i].email,
+          props.selected.interviewId
+        );
+      }
+      await mutate();
     }
-    await mutate();
-  }
+  };
 
   const handleRemoveAll = async () => {
-    const ok = confirm("Warning: Remove all will dismiss all listed applicants from this interview. Do you want to proceed?")
-    if (!ok) return;
-    for (const i in applicants) {
-      await requestRemoveInterview(
-        applicants[i].email,
-        props.selected.interviewId
+    if (props.selected.interviewId) {
+      const ok = confirm(
+        "Warning: Remove all will dismiss all listed applicants from this interview. Do you want to proceed?"
       );
+      if (!ok) return;
+      for (const i in applicants) {
+        await requestRemoveInterview(
+          applicants[i].email,
+          props.selected.interviewId
+        );
+      }
+      await mutate();
     }
-    await mutate();
   }
 
   return (
@@ -85,10 +93,20 @@ export default function ApplicantList(props: any) {
           mx: "auto",
         }}
       >
-        <Button variant="outlined" sx={{ mr: 4 }} onClick={handleAssignAll}>
+        <Button
+          disabled={!props.selected.interviewId}
+          variant="outlined"
+          sx={{ mr: 4 }}
+          onClick={handleAssignAll}
+        >
           Assign all
         </Button>
-        <Button color="error" variant="outlined" onClick={handleRemoveAll}>
+        <Button
+          disabled={!props.selected.interviewId}
+          color="error"
+          variant="outlined"
+          onClick={handleRemoveAll}
+        >
           Remove all
         </Button>
       </Box>
