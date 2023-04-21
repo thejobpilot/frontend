@@ -122,7 +122,6 @@ export function Summary() {
     minute: "2-digit",
     year: "numeric",
     hour12: true,
-    timeZone: "EST",
   };
 
   if (isLoading) return <div>Loading...</div>;
