@@ -35,7 +35,6 @@ export default function Countdown(props: CountdownProps) {
         color="grey.600"
         variant="subtitle1"
         sx={{ mb: 0.5 }}
-        fontFamily="Orbitron, Roboto"
       >
         {props.startTime === props.endTime
           ? `UNLIMITED`
