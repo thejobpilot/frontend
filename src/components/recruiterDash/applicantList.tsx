@@ -29,7 +29,6 @@ export default function ApplicantList(props: any) {
       props.selected?.interviewId
     );
     if (interviewCache) {
-      console.log("effect", responses);
       setResponses(interviewCache.responses);
     }
   }, [props.data.positions, props.selected.interviewId]);

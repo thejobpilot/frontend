@@ -6,6 +6,7 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import ResponsiveAppBar from "@/components/navBar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { LoadingButton } from "@mui/lab";
 import { Button } from "@mui/material";
 import requestSubmitTextInterview from "@/components/db/requestSubmitTextInterview";
 import requestAddTextResponse from "@/components/db/requestAddTextResponse";
@@ -32,6 +33,7 @@ const theme = createTheme({
 
 export default function InterviewPage(props: any) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
   const [questions, setQuestions] = useState<QuestionData[]>([
     { question: "What is your favorite color?", answer: "", id: "0" },
   ]);
@@ -55,6 +57,8 @@ export default function InterviewPage(props: any) {
   };
 
   const handleSubmit = async () => {
+    setSubmitting(true);
+    await requestEndResponse(props.user.email, props.response);
     for (const question of questions) {
       await requestAddTextResponse(
         props.response.id,
@@ -62,8 +66,7 @@ export default function InterviewPage(props: any) {
         question.answer
       );
     }
-    await requestEndResponse(props.user.email, props.response);
-    router.push(`/applicant/summary/${props.interview.id}`);
+    await router.push(`/applicant/summary/${props.interview.id}`);
   };
 
   const handleChange = (e: any) => {
@@ -176,8 +179,9 @@ export default function InterviewPage(props: any) {
                     </Button>
                   )}
                   {currentQuestionIndex === questions.length - 1 && (
-                    <Button
+                    <LoadingButton
                       variant="contained"
+                      loading={submitting}
                       onClick={handleSubmit}
                       sx={{
                         mt: 3,
@@ -187,7 +191,7 @@ export default function InterviewPage(props: any) {
                       }}
                     >
                       Submit
-                    </Button>
+                    </LoadingButton>
                   )}
                 </Box>
               </Box>

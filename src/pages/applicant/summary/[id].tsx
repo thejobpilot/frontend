@@ -149,7 +149,7 @@ export function Summary() {
                 <Accordion key={ans.answer.id}>
                   <AccordionSummary>
                     <Typography variant="body1">
-                      Question: {ans.question.prompt}
+                      Question: {ans.question?.prompt ? ans.question.prompt : "PROMPT_NOT_FOUND"}
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>

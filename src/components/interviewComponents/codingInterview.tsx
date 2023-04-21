@@ -13,6 +13,7 @@ import { javascript } from "@codemirror/lang-javascript";
 import { LanguageSupport } from "@codemirror/language";
 import { python } from "@codemirror/lang-python";
 import { java } from "@codemirror/lang-java";
+import {LoadingButton} from "@mui/lab";
 import Terminal, {
   ColorMode,
   TerminalInput,
@@ -82,6 +83,7 @@ const CodingInterviewPage = (props: {
   response: any;
 }) => {
   const [selectedLanguage, setSelectedLanguage] = useState("javascript");
+  const [submitting, setSubmitting] = useState(false);
   const [question, setQuestion] = useState<CodingQuestion[]>([
     {
       id: "",
@@ -170,15 +172,16 @@ const CodingInterviewPage = (props: {
   const router = useRouter();
 
   const handleSubmit = async () => {
+    setSubmitting(true);
     let selectedQuestion = question.find(
       (q) => q.language === selectedLanguage
     );
+    await requestEndResponse(props.user.email, props.response);
     await requestAddTextResponse(
       props.response.id,
       selectedQuestion!!.id,
       selectedQuestion!!.code
     );
-    await requestEndResponse(props.user.email, props.response);
     await router.push(`/applicant/summary/${props.interview.id}`);
   };
 
@@ -292,9 +295,9 @@ const CodingInterviewPage = (props: {
           />
         </Box>
         <Box sx={{ display: "flex", justifyContent: "center", mt: "10px" }}>
-          <NavigationButton variant="contained" onClick={handleSubmit}>
+          <LoadingButton variant="contained" onClick={handleSubmit}>
             Submit
-          </NavigationButton>
+          </LoadingButton>
         </Box>
       </MiddleContainer>
       <RightContainer>

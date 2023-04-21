@@ -76,6 +76,7 @@ export default function InterviewEditor(props: any) {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (interview) {
+      console.log("interview", interview)
       await requestSetInterview(
         props.selected.interviewId,
         props.selected.positionId,

@@ -8,10 +8,15 @@ export default async function addTextResponse(
 ) {
     const responseId: number = parseInt(req.query.responseId as string);
     const questionId: number = parseInt(req.query.questionId as string);
-    const answer: string = req.query.answer as string;
+    let body = JSON.parse(req.body);
+    const answer: string = body.answer as string;
+    const formatted = {
+        answer: answer,
+    }
 
+    console.log("answer", answer)
     const response: ApiErrorResponse<unknown> | ApiOkResponse<unknown> =
-        await api.post(`/response/${responseId}/question/${questionId}/textanswer`, {answer: answer});
+        await api.post(`/response/${responseId}/question/${questionId}/textanswer`, formatted);
 
     if (response.ok) {
         res.status(200).send(response.data);
