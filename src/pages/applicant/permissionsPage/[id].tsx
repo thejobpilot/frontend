@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Permissions from "@/components/interviewComponents/permissions";
 import ResponsiveAppBar from "@/components/navBar";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { useRouter } from "next/router";
 
 
 const theme = createTheme({
@@ -16,7 +18,11 @@ const theme = createTheme({
   });
   
   const PermissionsPage: React.FC = () => {
+    const router = useRouter();
+
+    const { id } = router.query;
     
+
     const [currentQuestion, setCurrentQuestion] = useState(1);
     const totalQuestions = 3;
     const [progress, setProgress] = useState(0);
@@ -42,7 +48,7 @@ const theme = createTheme({
     return (
       <ThemeProvider theme={theme}>
         <ResponsiveAppBar></ResponsiveAppBar>
-        <Permissions></Permissions>
+        <Permissions id={id}></Permissions>
       </ThemeProvider>
     );
   };
