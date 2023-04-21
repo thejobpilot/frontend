@@ -169,17 +169,11 @@ const CodingInterviewPage = (props: {
 
   const handleSubmit = async () => {
     debugger;
-    // Save the answer
-    let response = await requestSubmitTextInterview(
-      props.interview.id,
-      props.user.email
-    );
-    let payload = await response.json();
     let selectedQuestion = question.find(
       (q) => q.language === selectedLanguage
     );
     await requestAddTextResponse(
-      payload.id,
+      props.response.id,
       selectedQuestion!!.id,
       selectedQuestion!!.code
     );
