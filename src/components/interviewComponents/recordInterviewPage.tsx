@@ -7,6 +7,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Button, Typography } from "@mui/material";
 import Question from "@/components/interviewComponents/questions";
 import VideoRecorder from "@/components/interviewComponents/videoBoxForApplicantRecordingThemselves";
+import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/router";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
@@ -34,6 +35,7 @@ const theme = createTheme({
 
 const RecordedInterviewPage = (props: any) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
   const [blobs, setBlobs] = useState<any[]>([]);
   const [questions, setQuestions] = useState<QuestionData[]>([
     { question: "Question 1 prompt", answer: "", id: "" },
@@ -48,9 +50,10 @@ const RecordedInterviewPage = (props: any) => {
   };
 
   const handleSubmit = async () => {
+    setSubmitting(true);
     let anyEmptyQuestions = false;
     console.log("SUBMITTED");
-    await requestEndResponse(props.user.email, props.response)
+    await requestEndResponse(props.user.email, props.response);
     blobs.forEach((b) => {
       if (!b || !b.blob) {
         anyEmptyQuestions = true;
@@ -204,9 +207,13 @@ const RecordedInterviewPage = (props: any) => {
                   </Button>
                 )}
                 {currentQuestionIndex === questions.length - 1 && (
-                  <Button variant="contained" onClick={handleSubmit}>
-                    Submit
-                  </Button>
+                  <LoadingButton
+                    variant="contained"
+                    loading={submitting}
+                    onClick={handleSubmit}
+                  >
+                    <span>Submit</span>
+                  </LoadingButton>
                 )}
               </Box>
             </Box>

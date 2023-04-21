@@ -106,6 +106,14 @@ export function Summary() {
     }
   };
 
+
+  const getScoreColour = (score: any) => {
+    if (!score) return "orange";
+    if (score > 7) return "green";
+    if (score < 4) return "error";
+    return "orange";
+  };
+
   const options: Intl.DateTimeFormatOptions = {
     month: "long",
     day: "2-digit",
@@ -141,20 +149,22 @@ export function Summary() {
                   options
                 )}
             </Typography>
-            <Typography variant="h4" mb={2} fontSize="30px">
-              Summary of Responses
-            </Typography>
             {interview.showScoreToUser && (
               <Typography
                 variant="h6"
-                mb={2}
-                color="orange"
+                mb={3}
+                //@ts-ignore
+                color={getScoreColour(response.score)}
+                fontFamily={"Oxanium, Orbitron, Roboto"}
               >
                 {response.score === 0
-                  ? `Graded Score: UNGRADED`
-                  : `Graded Score: ${response.score} / 10`}
+                  ? `SCORE: UNGRADED`
+                  : `SCORE: ${response.score} / 10`}
               </Typography>
             )}
+            <Typography variant="h4" color="grey.200" mb={2} fontSize="30px">
+              Response Summary
+            </Typography>
             <div>
               {questions.map((ans: any) => (
                 <Accordion key={ans.answer.id}>

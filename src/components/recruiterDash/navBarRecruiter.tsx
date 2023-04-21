@@ -128,7 +128,7 @@ function ResponsiveAppBar() {
                   <Button
                       key={setting.label}
                       variant="outlined"
-                      sx={{ minWidth: '120px', color: 'white', px: 8 }}
+                      sx={{ minWidth: '120px', color: 'white', px: 3 }}
                       onClick={() => pressUserMenuButton(setting.label)}
                   >
                       {setting.label}

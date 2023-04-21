@@ -5,12 +5,10 @@ import Countdown from "@/components/interviewComponents/countdown";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import ResponsiveAppBar from "@/components/navBar";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 import { LoadingButton } from "@mui/lab";
 import { Button } from "@mui/material";
-import requestSubmitTextInterview from "@/components/db/requestSubmitTextInterview";
 import requestAddTextResponse from "@/components/db/requestAddTextResponse";
-import { router } from "next/client";
 import { useRouter } from "next/router";
 import requestEndResponse from "../db/requestEndResponse";
 
@@ -40,6 +38,7 @@ export default function InterviewPage(props: any) {
   const router = useRouter();
 
   useEffect(() => {
+    document.body.style.backgroundColor = "#EFEFEF";
     if (props.interview) {
       let map = props.interview.questions.map((q: any) => {
         return { question: q.prompt, answer: "", id: q.id };
@@ -84,7 +83,7 @@ export default function InterviewPage(props: any) {
         idx === currentQuestionIndex ? { ...q, answer: "" } : q
       )
     );
-  }
+  };
 
   const currentQuestion = questions[currentQuestionIndex];
 
@@ -94,7 +93,7 @@ export default function InterviewPage(props: any) {
       <>
         <ResponsiveAppBar />
         <Box color="black" sx={{ flexGrow: 1, mt: 8, p: 2 }}>
-          <Grid container spacing={4} alignItems="stretch">
+          <Grid container spacing={4} alignItems="stretch" sx={{mt: 1}}>
             <Grid item xs={12} sm={6}>
               <Box
                 sx={{
@@ -186,17 +185,17 @@ export default function InterviewPage(props: any) {
                       Next
                     </Button>
                   )}
-                    <Button
-                      variant="contained"
-                      onClick={handleReset}
-                      color="error"
-                      sx={{
-                        mt: 3,
-                        mb: 2,
-                      }}
-                    >
-                      Reset
-                    </Button>
+                  <Button
+                    variant="contained"
+                    onClick={handleReset}
+                    color="error"
+                    sx={{
+                      mt: 3,
+                      mb: 2,
+                    }}
+                  >
+                    Reset
+                  </Button>
                   {currentQuestionIndex === questions.length - 1 && (
                     <LoadingButton
                       variant="contained"
@@ -208,7 +207,7 @@ export default function InterviewPage(props: any) {
                         "&:hover": { bgcolor: "#8549a8" },
                       }}
                     >
-                      Submit
+                      <span>Submit</span>
                     </LoadingButton>
                   )}
                 </Box>

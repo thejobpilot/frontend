@@ -13,13 +13,12 @@ import { javascript } from "@codemirror/lang-javascript";
 import { LanguageSupport } from "@codemirror/language";
 import { python } from "@codemirror/lang-python";
 import { java } from "@codemirror/lang-java";
-import {LoadingButton} from "@mui/lab";
+import { LoadingButton } from "@mui/lab";
 import Terminal, {
   ColorMode,
   TerminalInput,
   TerminalOutput,
 } from "react-terminal-ui";
-import requestSubmitTextInterview from "@/components/db/requestSubmitTextInterview";
 import requestAddTextResponse from "@/components/db/requestAddTextResponse";
 import requestEndResponse from "@/components/db/requestEndResponse";
 import { useRouter } from "next/router";
@@ -43,7 +42,7 @@ const LeftContainer = styled(Paper)({
   maxWidth: "30%",
   display: "flex",
   flexDirection: "column",
-  justifyContent: "space-between"
+  justifyContent: "space-between",
 });
 
 const MiddleContainer = styled(Paper)({
@@ -331,13 +330,13 @@ const CodingInterviewPage = (props: {
         </Box>
         <Box sx={{ display: "flex", justifyContent: "center", mt: "10px" }}>
           <LoadingButton
-            variant="contained"
+            variant="outlined"
             loading={submitting}
             color="error"
             onClick={handleSubmit}
-            sx={{width: "100%"}}
+            sx={{ width: "100%" }}
           >
-            Submit
+            <span>Submit</span>
           </LoadingButton>
         </Box>
       </MiddleContainer>
