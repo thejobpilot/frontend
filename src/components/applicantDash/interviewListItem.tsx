@@ -63,7 +63,7 @@ export default function InterviewListItem(props: any) {
       icon = <PendingActions color="warning" />;
       break;
     default:
-      path = "/props.interview/" + props.interview.id;
+      path = "/interview/" + props.interview.id;
       break;
   }
 
