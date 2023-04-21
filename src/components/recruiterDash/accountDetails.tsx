@@ -75,7 +75,7 @@ export default function AccountDetails(props: any) {
         >
           {`Account Details (${capitalizeFirstLetter(details.userType)})`}
         </Typography>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2, pt: 2 }}>
           <TextField
             id="outlined-username"
             label="Username"

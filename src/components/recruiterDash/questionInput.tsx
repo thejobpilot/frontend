@@ -10,6 +10,7 @@ export default function QuestionInput(props: any) {
           display: "flex",
           flexDirection: "row",
           gap: 2,
+          pt: 1,
           alignItems: "center",
         }}
       >

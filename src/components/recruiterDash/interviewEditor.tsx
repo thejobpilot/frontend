@@ -182,7 +182,7 @@ export default function InterviewEditor(props: any) {
                 width: "100%",
               }}
             >
-              <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              <Box sx={{ pt: 2, display: "flex", flexDirection: "column", gap: 2.5 }}>
                 <TextField
                   label="Interview Name"
                   variant="outlined"
@@ -230,7 +230,7 @@ export default function InterviewEditor(props: any) {
                   required
                 />
 
-                <Box sx={{ display: "flex", flexDirection: "row" }}>
+                <Box sx={{ pt: 1, display: "flex", flexDirection: "row" }}>
                   <TextField
                     label="# Retakes"
                     variant="outlined"
@@ -283,7 +283,7 @@ export default function InterviewEditor(props: any) {
                   />
                 )}
 
-                <FormControl fullWidth variant="outlined" sx={{ mt: 2 }}>
+                <FormControl fullWidth variant="outlined" sx={{ mt: 1 }}>
                   <InputLabel>Pre-made Questions</InputLabel>
                   <Select
                     label="Pre-made Questions"
