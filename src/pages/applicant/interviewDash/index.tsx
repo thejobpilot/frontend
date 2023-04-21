@@ -1,17 +1,11 @@
 import { Inter } from "@next/font/google";
 import ResponsiveAppBar from "@/components/navBar";
-import Countdown from "@/components/interviewComponents/countdown";
-import InterviewPage from "@/components/interviewComponents/interviewPage";
-import Question from "@/components/interviewComponents/questions";
 import InterviewDash from "@/components/behavioralInterview/interviewDash";
 import useUserDB from "@/components/db/useUserDB";
 import React, { useEffect, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useRouter } from "next/router";
-import {
-  InterviewState,
-  getInterviewState,
-} from "@/components/utils";
+import { getInterviewState, InterviewState } from "@/components/utils";
 import requestStartResponse from "@/components/db/requestStartResponse";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -23,21 +17,22 @@ export default function Behavioral({ interview }: any) {
   const { user, error, isLoading } = useUser();
   const { data, isError, isLoading: loading, mutate } = useUserDB(user?.email);
 
-  const handleStart = (e: any) => {
+  const handleStart = async (e: any) => {
     e.preventDefault();
-    requestStartResponse(
+    await requestStartResponse(
       response.id,
       interview.id,
       user?.email,
       interview.interviewLength
     );
-    let href =
-      "/applicant/" +
-      (interview.interviewType == "recorded"
-        ? "videoInterview"
-        : "writtenInterview") +
-      "/" +
-      interview.id;
+    let href: string;
+    if (interview.interviewType === "recorded") {
+      href = "/applicant/" + "videoInterview" + "/" + interview.id;
+    } else if (interview.interviewType === "coding") {
+      href = "/applicant/" + "codingInterview" + "/" + interview.id;
+    } else {
+      href = "/applicant/" + "writtenInterview" + "/" + interview.id;
+    }
     router.push(href);
   };
 
@@ -65,13 +60,14 @@ export default function Behavioral({ interview }: any) {
         };
       case InterviewState.IN_PROGRESS:
         setCleared(false);
-        let href =
-          "/applicant/" +
-          (interview.interviewType == "recorded"
-            ? "videoInterview"
-            : "writtenInterview") +
-          "/" +
-          interview.id;
+        let href: string;
+        if (interview.interviewType == "recorded") {
+          href = "/applicant/" + "videoInterview" + "/" + interview.id;
+        } else if (interview.interviewType == "coding") {
+          href = "/applicant/" + "codingInterview" + "/" + interview.id;
+        } else {
+          href = "/applicant/" + "writtenInterview" + "/" + interview.id;
+        }
         router.push(href);
         return () => {
           ignore = true;

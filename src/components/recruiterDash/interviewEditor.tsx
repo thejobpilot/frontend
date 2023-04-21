@@ -253,6 +253,7 @@ export default function InterviewEditor(props: any) {
                 >
                   <MenuItem value={"text"}>Text Interview</MenuItem>
                   <MenuItem value={"recorded"}>Video Interview</MenuItem>
+                  <MenuItem value={"coding"}>Coding Assessment</MenuItem>
                 </TextField>
                 {interview.interviewType == "recorded" && (
                   <TextField

@@ -1,113 +1,321 @@
-import React, {useState} from 'react';
-import { Box, Typography, Paper, Divider, TextField, Button } from '@mui/material';
-import { styled } from '@mui/system';
-import CodeMirror from '@uiw/react-codemirror';
-import { javascript } from '@codemirror/lang-javascript';
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  MenuItem,
+  Paper,
+  Select,
+  Typography,
+} from "@mui/material";
+import { styled } from "@mui/system";
+import CodeMirror from "@uiw/react-codemirror";
+import { javascript } from "@codemirror/lang-javascript";
+import { LanguageSupport } from "@codemirror/language";
+import { python } from "@codemirror/lang-python";
+import { java } from "@codemirror/lang-java";
+import Terminal, {
+  ColorMode,
+  TerminalInput,
+  TerminalOutput,
+} from "react-terminal-ui";
+import requestSubmitTextInterview from "@/components/db/requestSubmitTextInterview";
+import requestAddTextResponse from "@/components/db/requestAddTextResponse";
+import requestEndResponse from "@/components/db/requestEndResponse";
+import { useRouter } from "next/router";
 
 const MainContainer = styled(Box)({
-    display: 'flex',
-    height: '100vh',
-    background: '#111E31',
-    color: 'white',
-    marginTop: '60px',
+  display: "flex",
+  height: "100vh",
+  background: "#111E31",
+  color: "white",
+  marginTop: "60px",
 });
 
 const LeftContainer = styled(Paper)({
-    flex: '1',
-    margin: '1rem',
-    padding: '1rem',
-    background: '#111E31',
-    color: 'white',
-    overflowY: 'auto',
+  flex: "1",
+  margin: "1rem",
+  padding: "1rem",
+  background: "#111E31",
+  color: "white",
+  overflowY: "auto",
+  maxWidth: "30%",
+});
+
+const MiddleContainer = styled(Paper)({
+  flex: "2",
+  margin: "1rem",
+  padding: "1rem",
+  background: "#111E31",
+  color: "white",
+  maxWidth: "40%",
 });
 
 const RightContainer = styled(Paper)({
-    flex: '1',
-    margin: '1rem',
-    padding: '1rem',
-    background: '#111E31',
-    color: 'white',
-});
-
-const IDEInput = styled(TextField)({
-    background: 'white',
-    color: '#111E31',
-    width: '100%',
-    height: '100%',
+  flex: "3",
+  margin: "1rem",
+  padding: "1rem",
+  background: "#111E31",
+  color: "white",
+  maxWidth: "30%",
+  ".react-terminal-wrapper": {
+    marginTop: "40px",
+  },
 });
 
 const NavigationButton = styled(Button)({
-    margin: '0.5rem',
-    background: 'white',
-    color: '#111E31',
+  margin: "0.5rem",
+  background: "white",
+  color: "#111E31",
 });
 
 interface CodingQuestion {
-    title: string;
-    description: string;
-    code: string;
+  title: string;
+  id: string;
+  description: string;
+  code: string;
+  language: string;
 }
 
-const CodingInterviewPage = () => {
-    const [questionIndex, setQuestionIndex] = useState(0);
-    const [questions, setQuestions] = useState<CodingQuestion[]>([
-        {title: "Question 1", description: "", code: "Code Here"},
-        {title: "Question 2", description: "", code: "Code Here"},
-    ]);
+const CodingInterviewPage = (props: {
+  user: any;
+  interview: any;
+  response: any;
+}) => {
+  const [selectedLanguage, setSelectedLanguage] = useState("javascript");
+  const [question, setQuestion] = useState<CodingQuestion[]>([
+    {
+      id: "",
+      language: "javascript",
+      title: "Instructions",
+      description: "Some instructions here",
+      code: 'console.log("Hello user!");',
+    },
+    {
+      id: "",
+      language: "python",
+      title: "Instructions",
+      description: "Some instructions here",
+      code: 'print("Hello user!")',
+    },
+    {
+      id: "",
+      language: "java",
+      title: "Instructions",
+      description: "Some instructions here",
+      code: `class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello User");
+    }
+}`,
+    },
+  ]);
+  const [terminalLineData, setTerminalLineData] = useState([
+    <TerminalOutput>To test your code, type "runtests".</TerminalOutput>,
+  ]);
 
-    const onChange = (value: any) => {
-        const newAnswer = value;
-        setQuestions((prevQuestions) =>
-            prevQuestions.map((q, idx) => {
-                    return idx === questionIndex ? {...q, code: newAnswer} : q;
-                }
-            )
-        );
+  useEffect(() => {
+    if (props.interview) {
+      setQuestion((questions) => {
+        questions.forEach((q) => {
+          q.description = props.interview.questions[0].prompt;
+          q.id = props.interview.questions[0].id;
+        });
+        return questions;
+      });
+    }
+  }, [props.interview]);
+
+  const handleLanguageChange = (event: any) => {
+    setSelectedLanguage(event.target.value as string);
+  };
+
+  const onChange = (value: any) => {
+    setQuestion((questions) => {
+      questions.find((q) => q.language === selectedLanguage)!!.code = value;
+      return questions;
+    });
+  };
+
+  let languageExtension: LanguageSupport | null = null;
+  switch (selectedLanguage) {
+    case "javascript":
+      languageExtension = javascript({ jsx: true });
+      break;
+    case "python":
+      languageExtension = python();
+      break;
+    case "java":
+      languageExtension = java();
+      break;
+  }
+
+  const onTerminalCommand = async (input: string) => {
+    let ld = [...terminalLineData];
+    ld.push(<TerminalInput>{input}</TerminalInput>);
+    if (input.toLocaleLowerCase().trim() === "clear") {
+      ld = [];
+    } else if (input.toLocaleLowerCase().trim() === "runtests") {
+      ld.push(<TerminalOutput>Running tests...</TerminalOutput>);
+      const stdout: JSX.Element = await startSubmission(
+        question.find((q) => q.language === selectedLanguage)!!.code
+      );
+      ld.push(stdout);
+    } else if (input) {
+      ld.push(<TerminalOutput>Unrecognized command</TerminalOutput>);
+    }
+    setTerminalLineData(ld);
+  };
+  const router = useRouter();
+
+  const handleSubmit = async () => {
+    debugger;
+    // Save the answer
+    let response = await requestSubmitTextInterview(
+      props.interview.id,
+      props.user.email
+    );
+    let payload = await response.json();
+    let selectedQuestion = question.find(
+      (q) => q.language === selectedLanguage
+    );
+    await requestAddTextResponse(
+      payload.id,
+      selectedQuestion!!.id,
+      selectedQuestion!!.code
+    );
+    await requestEndResponse(props.user.email, props.response);
+    await router.push(`/applicant/summary/${props.interview.id}`);
+  };
+
+  const startSubmission = async (codeInput: string): Promise<JSX.Element> => {
+    const axios = require("axios");
+    let languageId = -1;
+    switch (selectedLanguage) {
+      case "javascript":
+        languageId = 93;
+        break;
+      case "python":
+        languageId = 71;
+        break;
+      case "java":
+        languageId = 91;
+        break;
+    }
+    const data = {
+      base64_encoded: true,
+      language_id: languageId,
+      source_code: Buffer.from(codeInput).toString("base64"),
+      stdin: Buffer.from("5").toString("base64"),
     };
 
-    const isLastQuestion = questionIndex === questions.length - 1;
-    const isFirstQuestion = questionIndex === 0;
-    console.log(questions)
-    return (
-        <MainContainer>
-            <LeftContainer>
-                <Typography variant="h5" gutterBottom>
-                    {questions[questionIndex].title}
-                </Typography>
-                <Typography variant="body1">
-                    {questions[questionIndex].description}
-                </Typography>
-            </LeftContainer>
-            <RightContainer>
-                <CodeMirror
-                    value={questions[questionIndex].code}
-                    height="500px"
-                    theme="dark"
-                    extensions={[javascript({ jsx: true })]}
-                    onChange={onChange}
-                />
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    {!isFirstQuestion && (
-                        <NavigationButton
-                            variant="contained"
-                            onClick={() => setQuestionIndex(questionIndex - 1)}
-                        >
-                            Previous
-                        </NavigationButton>
-                    )}
-                    {isLastQuestion ? (
-                        <NavigationButton variant="contained">Submit</NavigationButton>
-                    ) : (
-                        <NavigationButton
-                            variant="contained"
-                            onClick={() => setQuestionIndex(questionIndex + 1)}
-                        >Next
-                        </NavigationButton>
-                    )}
-                </Box>
-            </RightContainer>
-        </MainContainer>
-    );
+    const options = {
+      method: "POST",
+      url: "https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=true",
+      params: { base64_encoded: "true", fields: "*" },
+      headers: {
+        "content-type": "application/json",
+        "Content-Type": "application/json",
+        "X-RapidAPI-Key": "32f99babe7msh7cd831db4e724c6p180762jsna66ec14a4ef9",
+        "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
+      },
+      data: JSON.stringify(data),
+    };
+    const response = await axios.request(options);
+    console.log(response.data);
+    return await pollSubmission(response.data.token);
+  };
+
+  const pollSubmission = async (token: string): Promise<JSX.Element> => {
+    const axios = require("axios");
+
+    const options = {
+      method: "GET",
+      url: `https://judge0-ce.p.rapidapi.com/submissions/${token}`,
+      params: { base64_encoded: "true", fields: "*" },
+      headers: {
+        "X-RapidAPI-Key": "32f99babe7msh7cd831db4e724c6p180762jsna66ec14a4ef9",
+        "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
+      },
+    };
+
+    let response = await axios.request(options);
+    console.log(response.data);
+    if (response.data.stderr) {
+      return (
+        <TerminalOutput>
+          ERROR: {Buffer.from(response.data.stderr, "base64").toString("utf-8")}
+        </TerminalOutput>
+      );
+    } else if (response.data.stdout) {
+      return (
+        <TerminalOutput>
+          Output:{Buffer.from(response.data.stdout, "base64").toString("utf-8")}
+        </TerminalOutput>
+      );
+    } else if (response.data.compile_output) {
+      return (
+        <TerminalOutput>
+          Compile error:
+          {Buffer.from(response.data.compile_output, "base64").toString(
+            "utf-8"
+          )}
+        </TerminalOutput>
+      );
+    } else {
+      return <TerminalOutput>Unknown error when running code.</TerminalOutput>;
+    }
+  };
+
+  return (
+    <MainContainer>
+      <LeftContainer>
+        <Typography variant="h5" gutterBottom>
+          {question.find((q) => q.language === selectedLanguage)!!.title}
+        </Typography>
+        <Typography variant="body1">
+          {question.find((q) => q.language === selectedLanguage)!!.description}
+        </Typography>
+      </LeftContainer>
+      <MiddleContainer>
+        <Select
+          value={selectedLanguage}
+          onChange={handleLanguageChange}
+          sx={{ background: "white", color: "#111E31", marginBottom: "1rem" }}
+        >
+          <MenuItem value="javascript">JavaScript</MenuItem>
+          <MenuItem value="python">Python</MenuItem>
+          <MenuItem value="java">Java</MenuItem>
+        </Select>
+
+        <Box sx={{ width: "100%" }}>
+          <CodeMirror
+            value={question.find((q) => q.language === selectedLanguage)!!.code}
+            theme="dark"
+            extensions={[languageExtension!!]}
+            onChange={onChange}
+            height="calc(100vh - 250px)"
+          />
+        </Box>
+        <Box sx={{ display: "flex", justifyContent: "center", mt: "10px" }}>
+          <NavigationButton variant="contained" onClick={handleSubmit}>
+            Submit
+          </NavigationButton>
+        </Box>
+      </MiddleContainer>
+      <RightContainer>
+        <Typography variant="h6" gutterBottom>
+          Console
+        </Typography>
+        <Terminal
+          name="Terminal"
+          colorMode={ColorMode.Dark}
+          onInput={onTerminalCommand}
+        >
+          {terminalLineData}
+        </Terminal>
+      </RightContainer>
+    </MainContainer>
+  );
 };
 
 export default CodingInterviewPage;

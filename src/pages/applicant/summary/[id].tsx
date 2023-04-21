@@ -40,7 +40,7 @@ function userHasInterviewID(
       let response = user.interviews[i].responses.find(
         (response: any) => response.applicantEmail === user?.email
       );
-      if(response == null) {
+      if (response == null) {
         //db hasn't loaded response yet
         return;
       }
@@ -51,8 +51,8 @@ function userHasInterviewID(
       if (user.interviews[i].interviewType === "recorded") {
         console.log("enter");
         response.videoAnswers.forEach((answer: any) => {
-          //answer is a videoAnswer object, not an answer object 
-          
+          //answer is a videoAnswer object, not an answer object
+
           let question = user.interviews[i].questions.find(
             (q: any) => q.id === answer.questionId
           );
@@ -61,8 +61,10 @@ function userHasInterviewID(
             answer: answer,
           });
         });
-      }
-       else if (user.interviews[i].interviewType === "text") {
+      } else if (
+        user.interviews[i].interviewType === "text" ||
+        user.interviews[i].interviewType === "coding"
+      ) {
         //  else {
         response.textAnswers.forEach((answer: any) => {
           let question = user.interviews[i].questions.find(
@@ -135,11 +137,7 @@ export function Summary() {
         <Container maxWidth="md" sx={{ mt: 15 }}>
           <Box sx={{ mt: 4 }}>
             <Typography variant="h4" mb={2} fontSize="30px">
-              <Typography
-                variant="h4"
-                mb={2}
-                sx={{fontWeight: "bold"}}
-              >
+              <Typography variant="h4" mb={2} sx={{ fontWeight: "bold" }}>
                 {interview.name}
               </Typography>
               Summary of Responses
@@ -165,13 +163,11 @@ export function Summary() {
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                  {
-                    interview.interviewType === "recorded" ? (
+                    {interview.interviewType === "recorded" ? (
                       <ResponseCard question={ans.videoURL} />
                     ) : (
                       <ResponseCard question={ans.answer} />
-                    )
-                  }
+                    )}
                   </AccordionDetails>
                 </Accordion>
               ))}

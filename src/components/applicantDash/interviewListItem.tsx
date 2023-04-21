@@ -1,5 +1,5 @@
-import { InterviewState, getInterviewState } from "../utils";
-import { CheckCircleOutline, Sync, PendingActions } from "@mui/icons-material";
+import { getInterviewState, InterviewState } from "../utils";
+import { CheckCircleOutline, PendingActions, Sync } from "@mui/icons-material";
 import {
   IconButton,
   ListItemButton,
@@ -53,20 +53,23 @@ export default function InterviewListItem(props: any) {
       icon = <CheckCircleOutline color="success" />;
       break;
     case InterviewState.IN_PROGRESS:
-      path =
-        "/applicant/" +
-        (props.interview.interviewType == "recorded"
-          ? "videoInterview"
-          : "writtenInterview") +
-        "/" +
-        props.interview.id;
+      if (props.interview.interviewType == "recorded") {
+        path = "/applicant/" + "videoInterview" + "/" + props.interview.id;
+      } else if (props.interview.interviewType == "coding") {
+        path = "/applicant/" + "codingInterview" + "/" + props.interview.id;
+      } else {
+        path = "/applicant/" + "writtenInterview" + "/" + props.interview.id;
+      }
       icon = <PendingActions color="warning" />;
       break;
     default:
-      path = "/props.interview/" + props.interview.id;
+      if (props.interview.interviewType == "coding") {
+        path = "/applicant/" + "codingInterview" + "/" + props.interview.id;
+      } else {
+        path = "/interview/" + props.interview.id;
+      }
       break;
   }
-
   if (props.interview.questions.length === 0) {
     return <div key={props.interview.id}></div>;
   }

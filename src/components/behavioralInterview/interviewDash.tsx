@@ -16,14 +16,6 @@ export default function interviewDash(props: {
   user: any;
   handleStart: any;
 }) {
-  let href =
-    "/applicant/" +
-    (props.interview.interviewType == "recorded"
-      ? "videoInterview"
-      : "writtenInterview") +
-    "/" +
-    props.interview.id;
-
   return (
     <div
       style={{
