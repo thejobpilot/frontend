@@ -11,70 +11,77 @@ import { useEffect, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import requestNewResponse from "../db/requestNewResponse";
 
-export default function InterviewListItem({ interview }: any) {
+export default function InterviewListItem(props: any) {
   let router = useRouter();
   let path = "/";
   let icon = null;
   const [response, setResponse] = useState<any>(null);
   const { user } = useUser();
 
+  const newResponse = async (id: string, email: string) => {
+    await requestNewResponse(id, email);
+    await props.mutate();
+  };
+
   useEffect(() => {
-    if (interview) {
+    if (props.interview) {
       setResponse(
-        interview.responses?.find(
+        props.interview.responses?.find(
           (res: any) => res?.applicantEmail === user?.email
         )
       );
     }
-  }, [interview]);
+  }, [props.interview]);
 
   let state = getInterviewState(response);
   switch (state) {
     case InterviewState.BAD_STATE:
       if (
-        interview &&
-        interview.responses &&
+        props.interview &&
+        props.interview.responses &&
         user?.email &&
-        !interview.responses?.find(
+        !props.interview.responses?.find(
           (res: any) => res?.applicantEmail === user?.email
         )
       ) {
-        requestNewResponse(interview.id, user?.email);
+        newResponse(props.interview.id, user?.email);
       }
       icon = <Sync color="primary" />;
       break;
     case InterviewState.FINISHED:
-      path = `/applicant/summary/${interview.id}`;
+      path = `/applicant/summary/${props.interview.id}`;
       icon = <CheckCircleOutline color="success" />;
       break;
     case InterviewState.IN_PROGRESS:
       path =
         "/applicant/" +
-        (interview.interviewType == "recorded"
+        (props.interview.interviewType == "recorded"
           ? "videoInterview"
           : "writtenInterview") +
         "/" +
-        interview.id;
+        props.interview.id;
       icon = <PendingActions color="warning" />;
       break;
     default:
-      path = "/interview/" + interview.id;
+      path = "/props.interview/" + props.interview.id;
       break;
   }
 
-  if (interview.questions.length === 0) {
-    return <div key={interview.id}></div>;
+  if (props.interview.questions.length === 0) {
+    return <div key={props.interview.id}></div>;
   }
 
   return (
     <ListItemButton
-      key={interview.id}
+      key={props.interview.id}
       onClick={() => router.push(path)}
       sx={{
         borderBottom: "1px solid #E0E0E0",
       }}
     >
-      <ListItemText primary={`${interview.companyName}: ${interview.name}`} />
+      <ListItemText
+        primary={`${props.interview.companyName}: ${props.interview.name}`}
+      />
       <ListItemSecondaryAction>
         {icon && <IconButton disabled>{icon}</IconButton>}
       </ListItemSecondaryAction>
