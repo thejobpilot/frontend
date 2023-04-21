@@ -135,23 +135,23 @@ export function Summary() {
         <ResponsiveAppBar />
         <Container maxWidth="md" sx={{ mt: 15 }}>
           <Box sx={{ mt: 4 }}>
+            <Typography variant="h4" mb={2} sx={{ fontWeight: "bold" }}>
+              {interview.name}
+            </Typography>
+            <Typography
+              variant="h6"
+              mb={2}
+              sx={{ fontWeight: "normal", opacity: "50%", mt: 1 }}
+            >
+              Completed:{" "}
+              {interview &&
+                new Date(response.endTime * 1000).toLocaleDateString(
+                  undefined,
+                  options
+                )}
+            </Typography>
             <Typography variant="h4" mb={2} fontSize="30px">
-              <Typography variant="h4" mb={2} sx={{ fontWeight: "bold" }}>
-                {interview.name}
-              </Typography>
               Summary of Responses
-              <Typography
-                variant="h6"
-                mb={2}
-                sx={{ fontWeight: "normal", opacity: "50%", mt: 1 }}
-              >
-                Completed:{" "}
-                {interview &&
-                  new Date(response.endTime * 1000).toLocaleDateString(
-                    undefined,
-                    options
-                  )}
-              </Typography>
             </Typography>
             <div>
               {questions.map((ans: any) => (
