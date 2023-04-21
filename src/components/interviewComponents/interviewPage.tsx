@@ -78,6 +78,14 @@ export default function InterviewPage(props: any) {
     );
   };
 
+  const handleReset = (e: any) => {
+    setQuestions((prevQuestions) =>
+      prevQuestions.map((q, idx) =>
+        idx === currentQuestionIndex ? { ...q, answer: "" } : q
+      )
+    );
+  }
+
   const currentQuestion = questions[currentQuestionIndex];
 
   if (!props.interview) return <h1>loading...</h1>;
@@ -178,6 +186,18 @@ export default function InterviewPage(props: any) {
                       Next
                     </Button>
                   )}
+                    <Button
+                      variant="contained"
+                      onClick={handleReset}
+                      sx={{
+                        mt: 3,
+                        mb: 2,
+                        bgcolor: "#111E31",
+                        "&:hover": { bgcolor: "#8549a8" },
+                      }}
+                    >
+                      Reset
+                    </Button>
                   {currentQuestionIndex === questions.length - 1 && (
                     <LoadingButton
                       variant="contained"
