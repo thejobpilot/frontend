@@ -96,6 +96,8 @@ export default function ResponseReview(props: { selected: any, data: any }) {
                                     />
                                     <CardContent>
                                         <Typography>{answer.answer}</Typography>
+                                        <Typography> AI Review: {answer.aiRating}</Typography>
+
                                     </CardContent>
                                 </Card>
                             </ListItem>
