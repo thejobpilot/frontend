@@ -66,41 +66,41 @@ export function GradeManager() {
   if (error) return <div>{error.message}</div>;
   if (isError) return <div>{isError.message}</div>;
   if (errorAll) return <div>{errorAll.message}</div>;
-  return ((
-      <div style={{ backgroundColor: "#EFEFEF" }}>
-        <ResponsiveAppBar />
-        <ReviewPositionList
-          user={user}
-          data={userData}
-          isLoading={isLoading}
-          isError={isError}
+  return (
+    <div style={{ backgroundColor: "#EFEFEF" }}>
+      <ResponsiveAppBar />
+      <ReviewPositionList
+        user={user}
+        data={userData}
+        isLoading={isLoading}
+        isError={isError}
+        selected={selected}
+        setPositionId={setPositionId}
+        setInterviewId={setInterviewId}
+      />
+      <Box
+        sx={{
+          p: 3,
+          position: "absolute",
+          top: 55,
+          right: "35%",
+          height: "100%",
+          width: "30%",
+        }}
+        style={{
+          maxHeight: "100%",
+          overflow: "auto",
+        }}
+      >
+        <SmartCards
           selected={selected}
-          setPositionId={setPositionId}
-          setInterviewId={setInterviewId}
-        />
-        <Box
-          sx={{
-            p: 3,
-            position: "absolute",
-            top: 55,
-            right: "35%",
-            height: "100%",
-            width: "30%",
-          }}
-        >
-          <SmartCards
-            selected={selected}
-            userData={userData}  
-            data={allUsersData}
-            setResponse={setResponse}
-          />
-        </Box>
-        <ResponseReview
+          userData={userData}
           data={allUsersData}
-          selected={selected}
-        ></ResponseReview>
-      </div>
-    )
+          setResponse={setResponse}
+        />
+      </Box>
+      <ResponseReview data={allUsersData} selected={selected}></ResponseReview>
+    </div>
   );
 }
 
