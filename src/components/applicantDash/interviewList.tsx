@@ -13,7 +13,7 @@ export default function InterviewList(props: { user: UserProfile }) {
   const { data, isLoading, isError, mutate } = useUserDB(props.user.email!);
 
   if (isError) return <div>Failed to load</div>;
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading || !data) return <div>Loading...</div>;
 
   return (
     <Box

@@ -25,27 +25,20 @@ export default function InterviewListItem(props: any) {
 
   useEffect(() => {
     if (props.interview) {
-      setResponse(
-        props.interview.responses?.find(
-          (res: any) => res?.applicantEmail === user?.email
-        )
+      const responses = props.interview.responses?.find(
+        (res: any) => res?.applicantEmail === user?.email
       );
+      setResponse(responses);
+      if (props.interview.responses && !responses && user?.email) {
+         newResponse(props.interview.id, user?.email);
+         props.mutate();
+      }
     }
   }, [props.interview]);
 
   let state = getInterviewState(response);
   switch (state) {
     case InterviewState.BAD_STATE:
-      if (
-        props.interview &&
-        props.interview.responses &&
-        user?.email &&
-        !props.interview.responses?.find(
-          (res: any) => res?.applicantEmail === user?.email
-        )
-      ) {
-        newResponse(props.interview.id, user?.email);
-      }
       icon = <Sync color="primary" />;
       break;
     case InterviewState.FINISHED:

@@ -62,7 +62,7 @@ export default function InterviewPage(props: any) {
         question.answer
       );
     }
-    requestEndResponse(props.user.email, props.response);
+    await requestEndResponse(props.user.email, props.response);
     router.push(`/applicant/summary/${props.interview.id}`);
   };
 

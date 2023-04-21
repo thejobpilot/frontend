@@ -122,7 +122,7 @@ export default function InterviewEditor(props: any) {
   };
 
   const deleteQuestion = async (index: number) => {
-    await requestDeleteQuestion(interview.questions[index].id, interview.id);
+    await requestDeleteQuestion(questions[index].id, interview.id);
     await props.mutate();
     setQuestions(questions.filter((_: any, i: any) => i !== index));
   };
