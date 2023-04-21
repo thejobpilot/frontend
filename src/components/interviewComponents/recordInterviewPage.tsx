@@ -52,13 +52,14 @@ const RecordedInterviewPage = (props: any) => {
       window.alert("You cannot submit without recording a video!");
       return;
     }
+    console.log("blob", blob)
     let response = await requestSubmitTextInterview(
       props.interview.id,
       props.user.email
     );
     let payload = await response.json();
     for (const question of questions) {
-      await requestUploadVideoResponse(payload.id, question.id, blob!!);
+      await requestUploadVideoResponse(payload.id, question.id, blob);
     }
     await router.push(`/applicant/summary/${props.interview.id}`);
   };

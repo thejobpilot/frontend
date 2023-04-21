@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import {
-    PlayCircle,
+  PlayCircle,
   RadioButtonChecked,
   RestartAlt,
   StopCircle,
@@ -24,6 +24,7 @@ const VideoRecorder: React.FC<VideoRecorderProps> = ({
   );
   const [attempts, setAttempts] = useState(0);
   const maxAttempts = 3;
+  const chunks: Blob[] = [];
 
   const initMediaRecorder = async () => {
     if (videoRef.current && !mediaRecorder) {
@@ -66,8 +67,6 @@ const VideoRecorder: React.FC<VideoRecorderProps> = ({
 
   useEffect(() => {
     if (mediaRecorder) {
-      const chunks: Blob[] = [];
-
       mediaRecorder.ondataavailable = (event) => {
         if (event.data.size > 0) {
           chunks.push(event.data);
@@ -79,8 +78,7 @@ const VideoRecorder: React.FC<VideoRecorderProps> = ({
       };
 
       mediaRecorder.onstop = () => {
-        const blob = new Blob(chunks, { type: "video/webm" });
-        onRecordingComplete(blob);
+        console.log("chunks", chunks);
         console.log("Updating");
         if (videoRef.current) {
           videoRef.current.srcObject = null;
@@ -120,6 +118,8 @@ const VideoRecorder: React.FC<VideoRecorderProps> = ({
   const handleStopRecording = () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
+      const blob = new Blob(chunks, { type: "video/webm" });
+      onRecordingComplete(blob);
     }
   };
 
