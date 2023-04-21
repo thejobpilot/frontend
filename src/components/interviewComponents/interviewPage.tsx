@@ -55,14 +55,12 @@ export default function InterviewPage(props: any) {
   };
 
   const handleSubmit = async () => {
-    // Save the answer
-    let response = await requestSubmitTextInterview(
-      props.interview.id,
-      props.user.email
-    );
-    let payload = await response.json();
     for (const question of questions) {
-      await requestAddTextResponse(payload.id, question.id, question.answer);
+      await requestAddTextResponse(
+        props.response.id,
+        question.id,
+        question.answer
+      );
     }
     requestEndResponse(props.user.email, props.response);
     router.push(`/applicant/summary/${props.interview.id}`);
