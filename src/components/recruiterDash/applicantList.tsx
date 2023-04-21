@@ -5,6 +5,7 @@ import {
   ListItem,
   ListItemText,
   Chip,
+  Button,
 } from "@mui/material";
 import requestAssignInterview from "../db/requestAssignInterview";
 import requestRemoveInterview from "../db/requestRemoveInterview";
@@ -32,6 +33,30 @@ export default function ApplicantList(props: any) {
     }
   };
 
+  const handleAssignAll = async () => {
+    const ok = confirm("Warning: Assign all will assign all listed applicants to this interview. Do you want to proceed?")
+    if (!ok) return;
+    for (const i in applicants) {
+      await requestAssignInterview(
+        applicants[i].email,
+        props.selected.interviewId
+      );
+    }
+    await mutate();
+  }
+
+  const handleRemoveAll = async () => {
+    const ok = confirm("Warning: Remove all will dismiss all listed applicants from this interview. Do you want to proceed?")
+    if (!ok) return;
+    for (const i in applicants) {
+      await requestRemoveInterview(
+        applicants[i].email,
+        props.selected.interviewId
+      );
+    }
+    await mutate();
+  }
+
   return (
     <Box
       sx={{
@@ -51,6 +76,22 @@ export default function ApplicantList(props: any) {
       >
         Applicant List
       </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          mb: 2,
+          mt: 2,
+          mx: "auto",
+        }}
+      >
+        <Button variant="outlined" sx={{ mr: 4 }} onClick={handleAssignAll}>
+          Assign all
+        </Button>
+        <Button color="error" variant="outlined" onClick={handleRemoveAll}>
+          Remove all
+        </Button>
+      </Box>
       <List style={{ maxHeight: "90%", overflow: "auto" }}>
         {applicants.length > 0 ? (
           applicants

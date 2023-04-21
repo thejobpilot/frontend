@@ -215,20 +215,38 @@ export default function InterviewEditor(props: any) {
                   inputProps={{ type: "string" }}
                   required
                 />
+                {interview.prepTime == 0 && (
+                  <Typography
+                    variant="h6"
+                    fontSize={"12px"}
+                    color="#b23c17"
+                  >
+                    NO TIME LIMIT
+                  </Typography>
+                )}
                 <TextField
                   label="Preparation Time"
                   variant="outlined"
                   name="prepTime"
-                  value={interview.prepTime || ""}
+                  value={interview.prepTime}
                   onChange={(e) => updateField(e)}
                   inputProps={{ type: "number", min: 0, max: 999 }}
                   required
                 />
+                {interview.interviewLength == 0 && (
+                  <Typography
+                    variant="h6"
+                    fontSize={"12px"}
+                    color="#b23c17"
+                  >
+                    NO TIME LIMIT
+                  </Typography>
+                )}
                 <TextField
                   label="Interview Time"
                   variant="outlined"
                   name="interviewLength"
-                  value={interview.interviewLength || ""}
+                  value={interview.interviewLength}
                   onChange={(e) => updateField(e)}
                   inputProps={{ type: "number", min: 0, max: 999 }}
                   required
